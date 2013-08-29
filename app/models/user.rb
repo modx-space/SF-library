@@ -1,4 +1,10 @@
 class User < ActiveRecord::Base
+  
+  has_many :borrows
+  has_many :books, through: :borrows
+  has_many :orders
+  has_many :books, through: :orders
+  
   before_create :create_remember_token
   before_save { self.email = email.downcase }
   
