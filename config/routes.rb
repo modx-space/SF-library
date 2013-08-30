@@ -5,7 +5,8 @@ LibraryApp::Application.routes.draw do
   
   resources :book
   
-  match '/signout', to:'user#destroy', via:'delete'
+  match '/newhot', to: 'book#new_hot', via: 'get'
+  match '/signout', to: 'user#destroy', via: 'delete'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -1,7 +1,16 @@
 <div class="span3">
 	<div class="well sidebar-nav">
 		<ul class="nav nav-list">
-			<li class="active"><a href="#">首页</a></li>
+			<li class="active">
+				<%= link_to newhot_path do %>
+					<i class="icon-home"></i>首页
+				<% end %>
+			</li>
+			<li>
+				<%= link_to book_index_path do %>
+					<i class="icon-book"></i>图书
+				<% end %>
+			</li>
 			<li class="nav-header">借阅</li>
 			<li><a href="#">当前借阅</a></li>
 			<li><a href="#">借阅历史</a></li>
