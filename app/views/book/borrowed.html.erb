@@ -1,4 +1,4 @@
-<%= will_paginate @borrowing %>
+<%= will_paginate @borrowed %>
 <div class="book container-fluid">
 	<table class="table  table-hover">
 		<thead>
@@ -7,24 +7,20 @@
 				<th>书名</th>
 				<th>ISBN</th>
 				<th>借书日期</th>
-				<th>应还日期</th>
-				<th>超期</th>
-				<th>状态</th>
+				<th>归还日期</th>
 			</tr>
 		</thead>
 		<tbody>
-			<% @borrowing.each do |book| %>
+			<% @borrowed.each do |book| %>
 			<tr>
 				<td></td>
 				<td><%= book[:name] %></td>
 				<td><%= book[:isbn] %></td>
 				<td><%= book[:created_at] %></td>
-				<td><%= book[:should_return_date] %></td>
-				<td><%=  book[:is_expired] == 1 ? "是" : "否" %></td>
-				<td><%= book[:status] %></td>
+				<td><%= book[:updated_at] %></td>
 			</tr>
 			<% end %>
 		</tbody>
 	</table>
 </div>
-<%= will_paginate @borrowing %>
+<%= will_paginate @borrowed %>

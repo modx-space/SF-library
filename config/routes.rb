@@ -7,6 +7,7 @@ LibraryApp::Application.routes.draw do
   
   match '/newhot', to: 'book#new_hot', via: 'get'
   match '/borrowing', to: 'book#borrow_current', via: 'get'
+  match '/borrowed', to: 'book#borrow_history', via: 'get'
   match '/signout', to: 'user#destroy', via: 'delete'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
