@@ -12,13 +12,33 @@
 				<% end %>
 			</li>
 			<li class="nav-header">借阅</li>
-			<li><a href="#">当前借阅</a></li>
-			<li><a href="#">借阅历史</a></li>
+			<li>
+				<%= link_to borrowing_path do %>
+					<i class="icon-eye-open"></i>当前借阅
+				<% end %>
+			</li>
+			<li>
+				<%= link_to book_index_path do %>
+					<i class="icon-calendar"></i>借阅历史
+				<% end %>
+			</li>
 			<li class="nav-header">预定</li>
-			<li><a href="#">当前预定</a></li>
-			<li><a href="#">预定历史</a></li>
+			<li>
+				<%= link_to book_index_path do %>
+					<i class="icon-bell"></i>当前预定
+				<% end %>
+			</li>
+			<li>
+				<%= link_to book_index_path do %>
+					<i class="icon-calendar"></i>预定历史
+				<% end %>
+			</li>
 			<li class="nav-header">推荐</li>
-			<li><a href="#">推荐列表</a></li>
+			<li>
+				<%= link_to book_index_path do %>
+					<i class="icon-heart"></i>推荐列表
+				<% end %>
+			</li>
 		</ul>
 	</div>
 </div>
