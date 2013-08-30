@@ -3,6 +3,8 @@ namespace :db do
   task populate: :environment do
     make_user
     make_books
+    
+    make_borrows
   end
 end
 
@@ -47,4 +49,17 @@ end
 
 # generate borrows
 def make_borrows
+  5.times do |n|
+    srtime = Time.new
+    status = '使用中'
+    flag = 1
+    book_id = n+1
+    user_id = 1
+    
+    Borrow.create!(user_id: user_id,
+                   book_id: book_id,
+                   should_return_date: srtime,
+                   status: status,
+                   is_expired: flag)
+  end
 end
