@@ -1,9 +1,18 @@
 <!-- Main hero unit for a primary marketing message or call to action -->
 <div class="hero-unit">
-	<h2>新书推荐</h2>
-	<p>图书信息展示</p>
+	<p>新书推荐</p>
+	<div class="row-fluid">
+		<ul class="thumbnails">
+			<% @books_new.each do |book| %>
+			<li class="span2">
+				<div class="thumbnail">
+					<img class="img-rounded" data-src="" style="width: 200px; height: 160px;"alt="封面">
+				</div>
+			</li>
+			<% end %>
+		</ul>
+	</div>
 </div>
-
 
 <!-- some tips-->
 <div class="row">

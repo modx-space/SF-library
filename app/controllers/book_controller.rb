@@ -2,7 +2,7 @@ class BookController < ApplicationController
   
   before_action :signed_in_user, only: [:index]
   
-  def index
+  def new_hot
     books = Book.all
     @books_new = books[0..5]
     @books_hot = books[5...8]
@@ -10,13 +10,14 @@ class BookController < ApplicationController
     render 'book_home'
   end
   
-  def show
+  def index
     @books = Book.paginate(page: params[:page], per_page:10)
-    @page = params[:page]
+    if params[:page]
+      @page = params[:page]
+    else
+      @page = 1
+    end
     render 'index'
   end
   
-  def create
-    @hi = "Hi"
-  end
 end
