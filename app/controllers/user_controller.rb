@@ -2,7 +2,7 @@ class UserController < ApplicationController
   
   def create
     user = User.find_by(email: params[:user][:email].downcase)
-    if user
+    if user && user.authenticate(params[:user][:password])
       sign_in user
       redirect_to book_index_path
     else
@@ -17,5 +17,3 @@ class UserController < ApplicationController
   end
   
 end
-
-# && user.authenticate(params[:user][:password])
