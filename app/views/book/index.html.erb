@@ -1,0 +1,36 @@
+<%= will_paginate @books %>
+<div class="book container-fluid">
+	<table class="table  table-hover">
+		<thead>
+			<tr>
+				<th>序号</td>
+				<th>封面</th>
+				<th>书名</th>
+				<th>作者</th>
+				<th>ISBN</th>
+				<th>语言</th>
+				<th>类别</th>
+				<th>总数</th>
+				<th>库存</th>
+				<th>可借</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @books.each_with_index do |book,index| %>
+			<tr>
+				<td><%= (index+1)+(@page.to_i-1)*10 %></td>
+				<td></td>
+				<td><%= book.name %></td>
+				<td><%= book.author %></td>
+				<td><%= book.isbn %></td>
+				<td></td>
+				<td></td>
+				<td><%= book.total %></td>
+				<td><%= book.store %></td>
+				<td><%= book.available %></td>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>
+<%= will_paginate @books %>

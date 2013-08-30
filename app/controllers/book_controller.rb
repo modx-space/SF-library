@@ -10,6 +10,12 @@ class BookController < ApplicationController
     render 'book_home'
   end
   
+  def show
+    @books = Book.paginate(page: params[:page], per_page:10)
+    @page = params[:page]
+    render 'index'
+  end
+  
   def create
     @hi = "Hi"
   end
