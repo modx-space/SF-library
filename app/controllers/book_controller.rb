@@ -1,6 +1,6 @@
 class BookController < ApplicationController
   
-  before_action :signed_in_user, only: [:index,:borrow_current,:borrow_history]
+  before_action :signed_in_user, only: [:index,:borrow_current,:borrow_history,:order_current,:order_history]
   
   def new_hot
     books = Book.all
@@ -42,6 +42,28 @@ class BookController < ApplicationController
             |
     @borrowed = Borrow.paginate_by_sql(sql,page: params[:page], per_page:3)
     render 'borrowed'
+  end
+  
+  def order_current
+    sql = %Q| select picture,name,isbn,orders.created_at,status
+                    from orders,books
+                    where orders.book_id = books.id
+                          and
+                          orders.user_id = 1
+            |
+    @ordering = Order.paginate_by_sql(sql,page: params[:page], per_page:3)
+    render 'ordering'
+  end
+  
+  def order_history
+    sql = %Q| select picture,name,isbn,orders.created_at,orders.updated_at
+                    from orders,books
+                    where orders.book_id = books.id
+                          and
+                          orders.user_id = 1
+            |
+    @ordered = Order.paginate_by_sql(sql,page: params[:page], per_page:3)
+    render 'ordered'
   end
   
 end
