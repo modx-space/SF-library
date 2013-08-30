@@ -9,6 +9,9 @@ gem 'sqlite3'
 # Use bcrypt to encrypt passcode
 gem 'bcrypt-ruby'
 
+# generates fake data
+gem 'faker', '1.2.0'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 

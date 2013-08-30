@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20130829095508) do
     t.string   "picture"
     t.text     "intro"
     t.string   "author"
-    t.string   "ISBN"
+    t.string   "isbn"
     t.string   "press"
     t.date     "publish_date"
     t.float    "price"
