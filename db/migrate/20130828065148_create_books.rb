@@ -5,7 +5,7 @@ class CreateBooks < ActiveRecord::Migration
       t.string :picture
       t.text :intro
       t.string :author
-      t.string :ISBN
+      t.string :isbn
       t.string :press
       t.date :publish_date
       t.float :price
