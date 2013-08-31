@@ -1,6 +1,6 @@
 class BookController < ApplicationController
   
-  before_action :signed_in_user, only: [:index,:borrow_current,:borrow_history,:order_current,:order_history]
+  before_action :signed_in_user, only: [:new_hot,:index,:borrow_current,:borrow_history,:order_current,:order_history]
   
   def new_hot
     books = Book.all

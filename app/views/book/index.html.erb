@@ -17,7 +17,7 @@
 		</thead>
 		<tbody>
 			<% @books.each_with_index do |book,index| %>
-			<tr>
+			<tr onclick="show(<%= book.to_json %>)">
 				<td><%= (index+1)+(@page.to_i-1)*10 %></td>
 				<td></td>
 				<td><%= book.name %></td>
@@ -34,3 +34,54 @@
 	</table>
 </div>
 <%= will_paginate @books %>
+
+<!-- Modal for Book-infor-->
+<div id="bookinfor" class="modal hide fade" role="dialog" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3>图书信息</h3>
+	</div>
+	<div class="modal-body">
+		<center>
+			<div class="input-prepend">
+			  <span class="add-on">书名:</span>
+			  <input class="span2" type="text" disabled id="name">
+			</div>
+			<div class="input-prepend">
+			  <span class="add-on">ISBN:</span>
+			  <input class="span2" type="text" disabled id="isbn">
+			</div>
+			<div class="input-prepend">
+			  <span class="add-on">作者:</span>
+			  <input class="span2" type="text" disabled id="author">
+			</div>
+			<div class="input-prepend">
+			  <span class="add-on">出版 :</span>
+			  <input class="span2" type="text" disabled id="press">
+			</div>
+			<div>
+			  <span>简介 :</span><br>
+			  <textarea class="span5" rows="10" disabled id="intro"></textarea>
+		  </div>
+		</center>
+	</div>
+	<div class="modal-footer">
+		<input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="关闭" />
+		<input type="button" class="btn btn-primary" id="borrow" value="借阅" />
+	</div>
+</div>
+
+<script>
+function show(book){
+	// set value
+	$('#name').val(book.name);
+	$('#isbn').val(book.isbn);
+	$('#author').val(book.author);
+	$('#press').val(book.press);
+	$('#intro').val(book.intro);
+	if(book.available < 1)
+		$('#borrow').val('预定');
+	// show modal
+	$('#bookinfor').modal('show');
+}
+</script>

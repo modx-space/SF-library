@@ -5,7 +5,7 @@
 				<% if signed_in? %>
 					<ul class="nav pull-right">
 						<li class="active divider-vertical"><a class="brand"><%= say_hello %></a></li>
-						<li class="active divider-vertical"><a><i class="icon-white icon-user"></i>
+						<li class="active divider-vertical"><a data-target="#userinfor" data-toggle="modal"><i class="icon-white icon-user"></i>
 							<%= current_user.name %></a>
 						</li>
 						<li class="active divider-vertical">
@@ -20,7 +20,7 @@
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-envelope"></i></span>
-								<%= f.text_field :email, placeholder: "邮箱", class: "span2" %>
+								<%= f.text_field :email, placeholder: "邮箱", class: "span3" %>
 							</div>
 					    	<div class="input-prepend">
 								<span class="add-on"><i class="icon-certificate"></i></span>
@@ -37,4 +37,35 @@
 	</div>
 </div>
 
+<!-- Modal for User-infor-->
+<% if !current_user.nil? %>
+<div id="userinfor" class="modal hide fade" role="dialog" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3>用户信息</h3>
+	</div>
+	<div class="modal-body">
+		<center>
+			<div class="input-prepend">
+			  <span class="add-on">姓名:</span>
+			  <input class="span2" type="text" disabled value="<%= current_user.name %>">
+			</div>
+			<br>
+			<div class="input-prepend">
+			  <span class="add-on">邮箱:</span>
+			  <input class="span3" type="text" disabled value="<%= current_user.email %>">
+			</div>
+			<br>
+			<div class="input-prepend">
+			  <span class="add-on">团队:</span>
+			  <input class="span2" type="text" disabled value="">
+			</div>
+		</center>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+		<button class="btn btn-primary">保存</button>
+	</div>
+</div>
+<% end %>
 					
