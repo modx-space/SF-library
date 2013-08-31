@@ -7,11 +7,13 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-	<%= render 'layouts/header' %>
 	<% if signed_in? %>
 		<%= render 'layouts/sidebar' %>
 	<% end %>
+	
 	<div class="container">
+		<%= render 'layouts/header' %>
+		
 		<% flash.each do |key, value| %>
 		<div class="alert alert-<%= key %>">
 			<%= value %>
