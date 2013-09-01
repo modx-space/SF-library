@@ -17,7 +17,7 @@
 				<td><%= book[:name] %></td>
 				<td><%= book[:isbn] %></td>
 				<td><%= book[:created_at] %></td>
-				<td><%= book[:status] %></td>
+				<td><%= book[:status] %>，前方有<%= -book[:store]-1 %>人</td>
 			</tr>
 			<% end %>
 		</tbody>
