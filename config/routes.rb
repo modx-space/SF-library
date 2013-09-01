@@ -6,8 +6,12 @@ LibraryApp::Application.routes.draw do
   resources :book
   
   match '/newhot', to: 'book#new_hot', via: 'get'
+  
+  match '/borrow', to: 'book#borrow', via: 'post'
   match '/borrowing', to: 'book#borrow_current', via: 'get'
   match '/borrowed', to: 'book#borrow_history', via: 'get'
+  
+  match '/order', to: 'book#order', via: 'post'
   match '/ordering', to: 'book#order_current', via: 'get'
   match '/ordered', to: 'book#order_history', via: 'get'
   

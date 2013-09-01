@@ -4,7 +4,7 @@ namespace :db do
     make_user
     make_books
     
-    make_borrows
+    # make_borrows
   end
 end
 
