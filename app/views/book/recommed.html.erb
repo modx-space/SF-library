@@ -1,0 +1,80 @@
+<%= will_paginate @recommed %>
+<div class="book container-fluid">
+	<table class="table  table-hover">
+		<caption>推荐列表</caption>
+		<thead>
+			<tr>
+				<th>封面</th>
+				<th>书名</th>
+				<th>ISBN</th>
+				<th>作者</th>
+				<th>推荐人</th>
+				<th>投票数</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @recommed.each do |book| %>
+			<tr onclick="show(<%= book.to_json %>)">
+				<td></td>
+				<td><%= book[:name] %></td>
+				<td><%= book[:isbn] %></td>
+				<td><%= book[:author] %></td>
+				<td><%= book[:recommender] %></td>
+				<td><%= book[:point] %></td>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>
+<%= will_paginate @recommed %>
+
+<!-- Modal for Book-infor-->
+<div id="bookinfor" class="modal hide fade" role="dialog" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3>图书信息</h3>
+	</div>
+	<div class="modal-body">
+		<center>
+			<div class="input-prepend">
+			  <span class="add-on">书名:</span>
+			  <input class="span2" type="text" disabled id="name">
+			</div>
+			<div class="input-prepend">
+			  <span class="add-on">ISBN:</span>
+			  <input class="span2" type="text" disabled id="isbn">
+			</div>
+			<div class="input-prepend">
+			  <span class="add-on">作者:</span>
+			  <input class="span2" type="text" disabled id="author">
+			</div>
+			<div class="input-prepend">
+			  <span class="add-on">出版 :</span>
+			  <input class="span2" type="text" disabled id="press">
+			</div>
+			<div>
+			  <span>简介 :</span><br>
+			  <textarea class="span5" rows="10" disabled id="intro"></textarea>
+		  </div>
+		</center>
+	</div>
+	<div class="modal-footer">
+		<input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="关闭" />
+		<%= link_to "+1", vote_path, method:"post", id: "vote", class:"btn btn-primary", remote: true %>
+	</div>
+</div>
+
+<script>
+function show(book){
+	// set value
+	$('#name').val(book.name);
+	$('#isbn').val(book.isbn);
+	$('#author').val(book.author);
+	$('#press').val(book.press);
+	$('#intro').val(book.intro);
+	$('#vote').attr('href',$('#vote').attr('href')+"?book_id="+book.id);
+	
+	// show modal
+	$('#bookinfor').modal('show');
+}
+</script>

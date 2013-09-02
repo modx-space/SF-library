@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130829095508) do
+ActiveRecord::Schema.define(version: 20130902145318) do
 
   create_table "books", force: true do |t|
     t.string   "name"
@@ -24,8 +24,10 @@ ActiveRecord::Schema.define(version: 20130829095508) do
     t.float    "price"
     t.integer  "total"
     t.integer  "store"
-    t.integer  "available"
+    t.integer  "point"
+    t.string   "recommender"
     t.string   "provider"
+    t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -53,6 +55,13 @@ ActiveRecord::Schema.define(version: 20130829095508) do
     t.string   "email"
     t.string   "password_digest"
     t.string   "remember_token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "votes", force: true do |t|
+    t.integer  "user_id"
+    t.string   "book_ids"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
