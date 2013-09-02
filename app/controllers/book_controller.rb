@@ -8,7 +8,7 @@ class BookController < ApplicationController
     @books_new = books[0..5]
     @books_hot = books[5...8]
     @books_rec = books[9..11]
-    render 'book_home'
+    render 'new_hot'
   end
   
   def index
