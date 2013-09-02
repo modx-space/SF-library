@@ -3,8 +3,6 @@ namespace :db do
   task populate: :environment do
     make_user
     make_books
-    
-    # make_borrows
   end
 end
 
@@ -29,7 +27,7 @@ def make_books
     price = Faker::Number.digit
     total = 1
     store = 1
-    available = 1
+    status = "已买"
     provider = Faker::Name.name
     
     Book.create!(name: name,
@@ -42,24 +40,36 @@ def make_books
                  price: price,
                  total: total,
                  store: store,
-                 available: available,
+                 status: status,
                  provider: provider)
   end
-end
-
-# generate borrows
-def make_borrows
-  5.times do |n|
-    srtime = Time.new
-    status = '使用中'
-    flag = 1
-    book_id = n+1
-    user_id = 1
+  8.times do
+    name  = Faker::Name.name
+    picture = Faker::Internet.url
+    intro = Faker::Lorem.characters
+    author = Faker::Name.name
+    isbn = Faker::Number.number(5)
+    press = Faker::Name.name
+    publish_date = Time.new
+    price = Faker::Number.digit
+    total = 0
+    store = 0
+    point = 0
+    status = "推荐"
+    recommender = Faker::Name.name
     
-    Borrow.create!(user_id: user_id,
-                   book_id: book_id,
-                   should_return_date: srtime,
-                   status: status,
-                   is_expired: flag)
+    Book.create!(name: name,
+                 picture: picture,
+                 intro: intro,
+                 author: author,
+                 isbn: isbn,
+                 press: press,
+                 publish_date: publish_date,
+                 price: price,
+                 total: total,
+                 store: store,
+                 point: point,
+                 status: status,
+                 recommender: recommender)
   end
 end

@@ -11,8 +11,10 @@ class CreateBooks < ActiveRecord::Migration
       t.float :price
       t.integer :total
       t.integer :store
-      t.integer :available
+      t.integer :point
+      t.string :recommender
       t.string :provider
+      t.string :status
 
       t.timestamps
     end
