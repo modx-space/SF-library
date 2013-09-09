@@ -1,9 +1,12 @@
 LibraryApp::Application.routes.draw do
   root to: 'default#home'
   
-  resources :user
-  
   resources :book
+  
+  match '/users', to: 'user#index', via: 'get'
+  match '/add_user', to: 'user#create', via: 'post'
+  match '/delete_user', to: 'user#delete', via: 'post'
+  match '/modify_user', to: 'user#modify', via: 'post'
   
   match '/newhot', to: 'book#new_hot', via: 'get'
   
@@ -18,6 +21,7 @@ LibraryApp::Application.routes.draw do
   match '/recommend', to: 'book#recommed', via: 'get'
   match '/vote', to: 'book#vote', via: 'post'
   
+  match '/login', to: 'user#login', via: 'get'
   match '/signout', to: 'user#destroy', via: 'delete'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

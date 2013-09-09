@@ -81,8 +81,8 @@ function show(book){
 	$('#author').val(book.author);
 	$('#press').val(book.press);
 	$('#intro').val(book.intro);
-	$('#borrow').attr('href',$('#borrow').attr('href')+"?book_id="+book.id);
-	$('#order').attr('href',$('#order').attr('href')+"?book_id="+book.id);
+	$('#borrow').attr('href',$('#borrow').attr('href').split("?")[0]+"?book_id="+book.id);
+	$('#order').attr('href',$('#order').attr('href').split("?")[0]+"?book_id="+book.id);
 	// show borrow or order button according to book.available
 	if(book.store < 1){
 		$('#borrow').hide();

@@ -21,7 +21,7 @@ body {
 	margin-bottom: -10px;
 }
 
-.book{
+.book,.user{
 	border-width:2px;
 	border-color:silver;
 	border-style:solid;
@@ -33,4 +33,12 @@ body {
 }
 textarea{
 	resize: none;
+}
+
+.user_add{
+	margin-top:75px;
+	border-width:2px;
+	border-color:silver;
+	border-style:solid;
+	padding:10px;
 }

@@ -15,7 +15,7 @@
 						</li>
 					</ul>
 				<% else %>
-					<%= form_for(:user, url: user_index_path, html: {class: "navbar-form pull-right"} ) do |f| %>
+					<%= form_for(:user, url: login_path, method: 'get', html: {class: "navbar-form pull-right"} ) do |f| %>
 					<div class="control-group">
 						<div class="controls">
 							<div class="input-prepend">
@@ -58,7 +58,7 @@
 			<br>
 			<div class="input-prepend">
 			  <span class="add-on">团队:</span>
-			  <input class="span2" type="text" disabled value="">
+			  <input class="span2" type="text" disabled value="<%= current_user.team %>">
 			</div>
 		</center>
 	</div>
