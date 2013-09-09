@@ -18,7 +18,9 @@ LibraryApp::Application.routes.draw do
   match '/ordering', to: 'book#order_current', via: 'get'
   match '/ordered', to: 'book#order_history', via: 'get'
   
-  match '/recommend', to: 'book#recommed', via: 'get'
+  match '/recommend_list', to: 'book#recommed_list', via: 'get'
+  match '/recommend', to: 'book#recommend', via: 'post'
+  match '/recbook', to: 'book#recbook', via: 'get'
   match '/vote', to: 'book#vote', via: 'post'
   
   match '/login', to: 'user#login', via: 'get'

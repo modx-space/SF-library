@@ -159,13 +159,20 @@ class BookController < ApplicationController
     render 'ordered'
   end
   
-  def recommed
+  def recommed_list
     sql = %Q| select id,picture,name,isbn,press,author,recommender,point
                     from books
                     where status = "推荐"
             |
     @recommed = Book.paginate_by_sql(sql,page: params[:page], per_page:10)
-    render 'recommed'
+    render 'recommeds'
+  end
+  
+  def recbook
+    render 'recbook'
+  end
+  def recommed
+    # render 'recbook'
   end
   
   def vote
