@@ -1,0 +1,34 @@
+<input class="btn btn-info" type="button" value="新增用户" data-target="#user" data-toggle="modal">
+<!-- Modal for User-detail-->
+<div id="user" class="modal hide fade" role="dialog" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3>用户信息</h3>
+	</div>
+	<div class="modal-body">
+		<center>
+			<div class="input-prepend">
+			  <span class="add-on">姓名:</span>
+			  <input class="span2" type="text" disabled id="name">
+			</div>
+			<div class="input-prepend">
+			  <span class="add-on">类型:</span>
+			  <input class="span2" type="text" disabled id="cate">
+			</div>
+			<div class="input-prepend">
+			  <span class="add-on">邮箱:</span>
+			  <input class="span4" type="text" disabled id="email">
+			</div>
+			<br>
+			<div class="input-prepend">
+			  <span class="add-on">团队:</span>
+			  <input class="span2" type="text" disabled id="team">
+			</div>
+			
+		</center>
+	</div>
+	<div class="modal-footer">
+		<%= link_to "删除", delete_user_path, method:"post", id: "delete", class:"btn btn-danger", remote: true %>
+		<%= link_to "修改", modify_user_path, method:"post", id: "modify", class:"btn btn-info", remote: true %>
+	</div>
+</div>

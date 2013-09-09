@@ -72,7 +72,7 @@ function show(book){
 	$('#author').val(book.author);
 	$('#press').val(book.press);
 	$('#intro').val(book.intro);
-	$('#vote').attr('href',$('#vote').attr('href')+"?book_id="+book.id);
+	$('#vote').attr('href',$('#vote').attr('href').split("?")[0]+"?book_id="+book.id);
 	
 	// show modal
 	$('#bookinfor').modal('show');

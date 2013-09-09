@@ -5,13 +5,21 @@ class BookController < ApplicationController
   def new_hot
     books = Book.all
     @books_new = Book.order("created_at DESC")[0..5]
+    
     sql = %Q| select picture,name,author
                 from borrows,books
                 where borrows.book_id = books.id
                 group by book_id
             |
     @books_hot = Borrow.find_by_sql(sql)[0..2]
-    @books_rec = books[9..11]
+    
+    sql = %Q| select id,picture,name,isbn,press,author,recommender,point
+                    from books
+                    where status = "推荐"
+                    order by created_at DESC
+            |
+    @books_rec = Book.find_by_sql(sql)[0..2]
+    
     render 'new_hot'
   end
   

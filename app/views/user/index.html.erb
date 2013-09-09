@@ -1,0 +1,101 @@
+<div class="row span12">
+	<div class="span6">
+		<%= will_paginate @users %>
+		<div class="user container-fluid">
+			<table class="table  table-hover">
+				<caption>用户列表</caption>
+				<thead>
+					<tr>
+						<th>姓名</th>
+						<th>团队</th>
+						<th>类型</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @users.each do |user| %>
+					<tr onclick="show(<%= user.to_json %>)">
+						<td><%= user.name %></td>
+						<td><%= user.team %></td>
+						<td><%= user.cate %></td>
+					</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+		<%= will_paginate @users %>
+	</div>
+	<div class="user_add offset2 span3">
+		<%= form_for(:user, url: add_user_path ) do |f| %>
+		    <label class="control-label" for="uname">姓名:</label>
+		    <div class="controls">
+				<%= f.text_field :name %>
+		    </div>
+		    <label class="control-label" for="uemail">邮箱:</label>
+		    <div class="controls">
+		      <%= f.text_field :email %>
+		    </div>
+		    <label class="control-label" for="uteam">团队:</label>
+		    <div class="controls">
+		      <%= f.text_field :team %>
+		    </div>
+		    <label class="control-label" for="ucate">类型:</label>
+		    <div class="controls">
+		      <%= f.text_field :cate %>
+		    </div>
+		  <div class="control-group">
+		    <div class="controls pull-right">
+				<%= f.submit "提交", class: "btn" %>
+		    </div>
+		  </div>
+		<% end %>
+	</div>
+</div>
+
+<!-- Modal for User-detail-->
+<div id="userdetail" class="modal hide fade" role="dialog" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3>用户信息</h3>
+	</div>
+	<div class="modal-body">
+		<center>
+			<div class="input-prepend">
+			  <span class="add-on">姓名:</span>
+			  <input class="span2" type="text" disabled id="name">
+			</div>
+			<div class="input-prepend">
+			  <span class="add-on">类型:</span>
+			  <input class="span2" type="text" disabled id="cate">
+			</div>
+			<div class="input-prepend">
+			  <span class="add-on">邮箱:</span>
+			  <input class="span4" type="text" disabled id="email">
+			</div>
+			<br>
+			<div class="input-prepend">
+			  <span class="add-on">团队:</span>
+			  <input class="span2" type="text" disabled id="team">
+			</div>
+			
+		</center>
+	</div>
+	<div class="modal-footer">
+		<%= link_to "删除", delete_user_path, method:"post", id: "delete", class:"btn btn-danger", remote: true %>
+		<%= link_to "修改", modify_user_path, method:"post", id: "modify", class:"btn btn-info", remote: true %>
+	</div>
+</div>
+
+<script>
+function show(user){
+	// set value
+	$('#name').val(user.name);
+	$('#email').val(user.email);
+	$('#team').val(user.team);
+	$('#cate').val(user.cate);
+	$('#delete').attr('href',$('#delete').attr('href').split("?")[0]+"?user_id="+user.id);
+	$('#modify').attr('href',$('#modify').attr('href').split("?")[0]+"?user_id="+user.id);
+
+	// show modal
+	$('#userdetail').modal('show');
+}
+</script>
