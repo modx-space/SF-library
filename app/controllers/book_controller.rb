@@ -1,6 +1,8 @@
+require "open-uri"
+require "json"
 class BookController < ApplicationController
   
-  before_action :signed_in_user, only: [:new_hot,:index,:borrow,:borrow_current,:borrow_history,:order_current,:order_history]
+  before_action :signed_in_user
   
   def new_hot
     books = Book.all
@@ -171,8 +173,36 @@ class BookController < ApplicationController
   def recbook
     render 'recbook'
   end
-  def recommed
+  
+  def fetch
+    respond_to do |format|
+      uri = URI('https://api.douban.com/v2/book/isbn/'+params[:isbn]);
+      begin
+        open(uri) do |http|
+          response = JSON.parse(http.read)
+          @book = {}
+          @book[:isbn] = response["isbn13"]
+          @book[:name] = response["title"]
+          @book[:author] = response["author"].to_s.delete("[]\"")
+          @book[:language] = response["translator"].length > 0 ? "中文" : "英文"
+          @book[:press] = response["publisher"]
+          @book[:publish_date] = response["pubdate"]
+          @book[:price] = response["price"]
+          @book[:intro] = response["summary"].delete("\n")[0,200]+"......"
+        end
+      rescue 
+        @book = {}
+        flash[:error] = "请核实ISBN!"
+      end
+      format.js
+    end
+  end
+  
+  def recommend
     # render 'recbook'
+    
+    
+    render 'test'
   end
   
   def vote

@@ -9,7 +9,7 @@
 		<div class="input-prepend">
 		  <span class="add-on">ISBN:</span>
 		  <%= f.text_field :isbn, class: "span2" %>
-		  <%= f.submit "查询", class: "btn btn-info" %>
+		  <%= link_to "查询", fetch_path, method:"get", class:"btn btn-info",id:"fetch", onclick: "fetch()",remote: true %>
 		</div>
 		<div class="input-prepend">
 			<%= f.submit "推荐", class: "btn btn-info", disabled: true %>
@@ -17,12 +17,12 @@
 		<br>
 		<div class="input-prepend">
 		  <span class="add-on">书名:</span>
-		  <%= f.text_field :name, class: "span2", disabled: true %>
+		  <%= f.text_field :name, class: "span3", disabled: true %>
 		</div>
 		
 		<div class="input-prepend">
 		  <span class="add-on">作者:</span>
-		  <%= f.text_field :author, class: "span2", disabled: true %>
+		  <%= f.text_field :author, class: "span3", disabled: true %>
 		</div>
 		<br>
 		<div class="input-prepend">
@@ -36,12 +36,12 @@
 		<br>
 		<div class="input-prepend">
 		  <span class="add-on">出版社:</span>
-		  <%= f.text_field :press, class: "span2", disabled: true %>
+		  <%= f.text_field :press, class: "span3", disabled: true %>
 		</div>
 		<br>
 		<div class="input-prepend">
 		  <span class="add-on">出版时间:</span>
-		  <%= f.text_field :publish_date, class: "span2", disabled: true %>
+		  <%= f.text_field :publish_date, class: "span3", disabled: true %>
 		</div>
 		<br>
 		<div>
@@ -52,3 +52,10 @@
 	
 </div>
 <% end %>
+
+<script>
+function fetch(){
+	isbn = $("#book_isbn").val();
+	$("#fetch").attr('href',$('#fetch').attr('href').split("?")[0]+"?isbn="+isbn);
+}
+</script>

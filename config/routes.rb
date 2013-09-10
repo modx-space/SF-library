@@ -21,6 +21,7 @@ LibraryApp::Application.routes.draw do
   match '/recommend_list', to: 'book#recommed_list', via: 'get'
   match '/recommend', to: 'book#recommend', via: 'post'
   match '/recbook', to: 'book#recbook', via: 'get'
+  match '/fetch', to: 'book#fetch', via: 'get'
   match '/vote', to: 'book#vote', via: 'post'
   
   match '/login', to: 'user#login', via: 'get'
