@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 20130902145318) do
     t.string   "isbn"
     t.string   "press"
     t.date     "publish_date"
+    t.string   "language"
+    t.string   "cate"
     t.float    "price"
     t.integer  "total"
     t.integer  "store"

@@ -9,6 +9,7 @@ class CreateBooks < ActiveRecord::Migration
       t.string :press
       t.date :publish_date
       t.string :language
+      t.string :cate
       t.float :price
       t.integer :total
       t.integer :store

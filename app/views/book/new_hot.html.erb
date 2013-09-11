@@ -8,11 +8,7 @@
 						<% @books_new.each do |book| %>
 						<li class="span2">
 							<div class="thumbnail">
-								<img class="img-rounded" data-src="" alt="封面">
-								<div class="caption">
-									<h5><%= book.name %></h5>
-									<p><%= book.author %></p>
-								</div>
+								<img class="img-rounded" src="<%= book.picture %>" alt="封面" style="width: 180px; height: 180px;">
 							</div>
 						</li>
 						<% end %>
@@ -27,11 +23,7 @@
 						<ul class="thumbnails">
 							<li class="span12">
 								<div class="thumbnail">
-									<img class="img-rounded" data-src="" alt="封面">
-									<div class="caption">
-										<h6><%= book.name %></h6>
-										<p><%= book.author %></p>
-									</div>
+									<img class="img-rounded" src="<%= book.picture %>" alt="封面" style="width: 180px; height: 180px;">
 								</div>
 							</li>
 						</ul>
@@ -43,13 +35,9 @@
 					<div class="row-fluid">
 						<% @books_rec.each do |book| %>
 						<ul class="thumbnails">
-							<li class="span12">
+							<li class="span4">
 								<div class="thumbnail">
-									<img class="img-rounded" data-src="" alt="封面">
-									<div class="caption">
-										<h6><%= book.name %></h6>
-										<p><%= book.author %></p>
-									</div>
+									<img class="img-rounded" src="<%= book.picture %>" alt="封面" style="width: 180px; height: 180px;">
 								</div>
 							</li>
 						</ul>
