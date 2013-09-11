@@ -163,7 +163,7 @@ class BookController < ApplicationController
   end
   
   def recommed_list
-    sql = %Q| select id,picture,name,isbn,press,author,recommender,point
+    sql = %Q| select id,picture,name,isbn,press,author,recommender,point,intro
                     from books
                     where status = "推荐"
             |
@@ -202,22 +202,27 @@ class BookController < ApplicationController
   end
   
   def recommend
-    book = Book.new
-    book.name = params[:book][:name]
-    book.picture = params[:book][:picture]
-    book.intro = params[:book][:intro]
-    book.author = params[:book][:author]
-    book.isbn = params[:book][:isbn]
-    book.press = params[:book][:press]
-    book.publish_date = params[:book][:publish_date]
-    book.language = params[:book][:language]
-    book.cate = params[:book][:cate]
-    book.price = params[:book][:price]
-    book.total = 0
-    book.store = 0
-    book.status = "推荐"
-    book.save
-    
+    if Book.find_by(isbn: params[:book][:isbn])
+      flash.now[:warn] = "此书已被推荐!请搜索投票"
+    else
+      book = Book.new
+      book.name = params[:book][:name]
+      book.picture = params[:book][:picture]
+      book.intro = params[:book][:intro]
+      book.author = params[:book][:author]
+      book.isbn = params[:book][:isbn]
+      book.press = params[:book][:press]
+      book.publish_date = params[:book][:publish_date]
+      book.language = params[:book][:language]
+      book.cate = params[:book][:cate]
+      book.price = params[:book][:price]
+      book.total = 0
+      book.store = 0
+      book.point = 0
+      book.status = "推荐"
+      book.recommender = current_user.name
+      book.save
+    end
     index 
   end
   
