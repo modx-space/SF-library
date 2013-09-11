@@ -2,6 +2,7 @@
 <div class="modal-header">
 	<center>
 		<h4>图书信息</h4>
+		<img id="img" class="img-rounded" src="" alt="封面" style="width: 100px; height: 140px;display: none;">
 	</center>
 </div>
 <div class="modal-body">
@@ -12,7 +13,7 @@
 		  <%= link_to "查询", fetch_path, method:"get", class:"btn btn-info",id:"fetch", onclick: "fetch()",remote: true %>
 		</div>
 		<div class="input-prepend">
-			<%= f.submit "推荐", class: "btn btn-info", disabled: true %>
+			<%= f.submit "推荐", class: "btn btn-success", id: "rec", disabled: true %>
 		</div>
 		<br>
 		<div class="input-prepend">
@@ -46,7 +47,7 @@
 		<br>
 		<div>
 		  <span>简介 :</span><br>
-		  <%= f.text_area :intro, size: "10x8", class: "span5", disabled: true %>
+		  <%= f.text_area :intro, size: "10x6", class: "span5", disabled: true %>
 	  </div>
 	</center>
 	

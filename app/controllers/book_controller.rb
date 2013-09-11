@@ -181,6 +181,7 @@ class BookController < ApplicationController
         open(uri) do |http|
           response = JSON.parse(http.read)
           @book = {}
+          @book[:picture] = response["images"]["large"]
           @book[:isbn] = response["isbn13"]
           @book[:name] = response["title"]
           @book[:author] = response["author"].to_s.delete("[]\"")
@@ -188,7 +189,7 @@ class BookController < ApplicationController
           @book[:press] = response["publisher"]
           @book[:publish_date] = response["pubdate"]
           @book[:price] = response["price"]
-          @book[:intro] = response["summary"].delete("\n")[0,200]+"......"
+          @book[:intro] = response["summary"].delete("\n")[0,150]+"......"
         end
       rescue 
         @book = {}
