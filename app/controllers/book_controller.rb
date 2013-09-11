@@ -26,7 +26,8 @@ class BookController < ApplicationController
   end
   
   def index
-    sql = %Q| select * from books where status = "已买" |
+    # sql = %Q| select * from books where status = "已买" |
+    sql = %Q| select * from books |
     @books = Book.paginate_by_sql(sql,page: params[:page], per_page:10)
     if params[:page]
       @page = params[:page]
@@ -185,7 +186,8 @@ class BookController < ApplicationController
           @book[:isbn] = response["isbn13"]
           @book[:name] = response["title"]
           @book[:author] = response["author"].to_s.delete("[]\"")
-          @book[:language] = response["translator"].length > 0 ? "中文" : "英文"
+          @book[:language] = response["translator"].length > 0 ? "外文" : "中文"
+          @book[:cate] = response["tags"][0]["name"]
           @book[:press] = response["publisher"]
           @book[:publish_date] = response["pubdate"]
           @book[:price] = response["price"]
@@ -200,10 +202,23 @@ class BookController < ApplicationController
   end
   
   def recommend
-    # render 'recbook'
+    book = Book.new
+    book.name = params[:book][:name]
+    book.picture = params[:book][:picture]
+    book.intro = params[:book][:intro]
+    book.author = params[:book][:author]
+    book.isbn = params[:book][:isbn]
+    book.press = params[:book][:press]
+    book.publish_date = params[:book][:publish_date]
+    book.language = params[:book][:language]
+    book.cate = params[:book][:cate]
+    book.price = params[:book][:price]
+    book.total = 0
+    book.store = 0
+    book.status = "推荐"
+    book.save
     
-    
-    render 'test'
+    index 
   end
   
   def vote

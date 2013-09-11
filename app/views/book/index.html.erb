@@ -20,12 +20,12 @@
 			<% @books.each_with_index do |book,index| %>
 			<tr onclick="show(<%= book.to_json %>)">
 				<td><%= (index+1)+(@page.to_i-1)*10 %></td>
-				<td></td>
+				<td><img class="img-rounded" src="<%= book.picture %>" alt="封面" style="width: 40px; height: 50px;"></td>
 				<td><%= book.name %></td>
 				<td><%= book.author %></td>
 				<td><%= book.isbn %></td>
-				<td></td>
-				<td></td>
+				<td><%= book.language %></td>
+				<td><%= book.cate %></td>
 				<td><%= book.total %></td>
 				<td><%= book.store > 0 ? book.store : 0 %></td>
 				<td><%= book.store < 0 ? -book.store : 0 %>人</td>
