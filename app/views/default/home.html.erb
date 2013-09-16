@@ -1,7 +1,7 @@
 <!-- Main hero unit for a primary marketing message or call to action -->
 <div class="hero-unit">
 	<p>新书推荐</p>
-	<div class="row-fluid">
+	<div class="row">
 		<ul class="thumbnails">
 			<% @books_new.each do |book| %>
 			<li class="span2">
@@ -17,14 +17,14 @@
 <!-- some tips-->
 <div class="row">
 	<div class="span4">
-		<h4><span class="btn btn-info">应用下载</span></h4>
+		<h4 class="offset3"><span class="btn btn-info">应用下载</span></h4>
 		<ul class="inline">
 		  <li><%= link_to image_tag("libmobile_icon.png", alt: "app-link", size: "100"), '#' %></li>
 		  <li><%= image_tag("libmobile_qrcode.png", alt: "app-qrcode", size: "100") %></li>
 	  	</ul>
 	</div>
 	<div class="span4">
-		<h4><span class="btn btn-success">管理员</span></h4>
+		<h4 class="offset3"><span class="btn btn-success">管理员</span></h4>
 		<dl>
 			<dt>Megan Wang</dt>
 			<dd>meganwang@successfactors.com</dd>
@@ -35,7 +35,7 @@
 		</dl>
 	</div>
 	<div class="span4">
-		<h4><span class="btn btn-primary">关于</span></h4>
+		<h4 class="offset3"><span class="btn btn-primary">关于</span></h4>
 		<ol>
 			<li>本系统为SuccessFactors内部使用</li>
 			<li>账号为公司邮箱;默认密码为sf123</li>
