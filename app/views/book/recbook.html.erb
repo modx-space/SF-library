@@ -1,3 +1,4 @@
+<div class="book container-fluid">
 <%= form_for(:book, url: recommend_path, method: 'post') do |f| %>
 <div class="modal-header">
 	<center>
@@ -14,7 +15,7 @@
 		  <%= link_to "查询", fetch_path, method:"get", class:"btn btn-info",id:"fetch", onclick: "fetch()",remote: true %>
 		</div>
 		<div class="input-prepend">
-			<%= f.submit "推荐", class: "btn btn-success", id: "rec", readonly: true %>
+			<%= f.submit "推荐", class: "btn btn-success", id: "rec", disabled: true %>
 		</div>
 		<br>
 		<div class="input-prepend">
@@ -58,7 +59,7 @@
 	
 </div>
 <% end %>
-
+</div>
 <script>
 function fetch(){
 	isbn = $("#book_isbn").val();
