@@ -1,64 +1,62 @@
 <div class="book container-fluid">
-<%= form_for(:book, url: recommend_path, method: 'post') do |f| %>
-<div class="modal-header">
-	<center>
-		<h4>图书信息</h4>
-		<img id="img" class="img-rounded" src="" alt="封面" style="width: 100px; height: 140px;display: none;">
-		<%= f.text_field :picture, class: "span3" %>
-	</center>
-</div>
-<div class="modal-body">
-	<center>
-		<div class="input-prepend">
-		  <span class="add-on">ISBN:</span>
-		  <%= f.text_field :isbn, class: "span2" %>
-		  <%= link_to "查询", fetch_path, method:"get", class:"btn btn-info",id:"fetch", onclick: "fetch()",remote: true %>
-		</div>
-		<div class="input-prepend">
-			<%= f.submit "推荐", class: "btn btn-success", id: "rec", disabled: true %>
-		</div>
-		<br>
-		<div class="input-prepend">
-		  <span class="add-on">书名:</span>
-		  <%= f.text_field :name, class: "span3", readonly: true %>
-		</div>
+	<%= form_for(:book, url: recommend_path, method: 'post') do |f| %>
+	<div class="modal-header">
+		<center>
+			<h4>图书信息</h4>
+			<img id="img" class="img-rounded" src="" alt="封面" style="width: 100px; height: 140px;display: none;">
+			<%= f.text_field :picture, class: "span3" %>
+		</center>
+	</div>
+	<div class="modal-body">
+		<center>
+			<div class="input-prepend">
+			  <span class="add-on">ISBN:</span>
+			  <%= f.text_field :isbn, class: "span6" %>
+			  <%= link_to "查询", fetch_path, method:"get", class:"btn btn-info",id:"fetch", onclick: "fetch()",remote: true %>
+			  <%= f.submit "推荐", class: "btn btn-success", id: "rec", disabled: true %>
+			</div>
+			<br>
+			<div class="input-prepend">
+			  <span class="add-on">书名:</span>
+			  <%= f.text_field :name, class: "span6", readonly: true %>
+			</div>
 		
-		<div class="input-prepend">
-		  <span class="add-on">作者:</span>
-		  <%= f.text_field :author, class: "span3", readonly: true %>
-		</div>
-		<br>
-		<div class="input-prepend">
-		  <span class="add-on">语言:</span>
-		  <%= f.text_field :language, class: "span1", readonly: true %>
-		</div>
-		<div class="input-prepend">
-		  <span class="add-on">类别:</span>
-		  <%= f.text_field :cate, class: "span1", readonly: true %>
-		</div>
-		<div class="input-prepend">
-		  <span class="add-on">价格:</span>
-		  <%= f.text_field :price, class: "span1", readonly: true %>
-		</div>
-		<br>
-		<div class="input-prepend">
-		  <span class="add-on">出版社:</span>
-		  <%= f.text_field :press, class: "span3", readonly: true %>
-		</div>
-		<br>
-		<div class="input-prepend">
-		  <span class="add-on">出版时间:</span>
-		  <%= f.text_field :publish_date, class: "span3", readonly: true %>
-		</div>
-		<br>
-		<div>
-		  <span>简介 :</span><br>
-		  <%= f.text_area :intro, size: "10x6", class: "span5", readonly: true %>
-	  </div>
-	</center>
+			<div class="input-prepend">
+			  <span class="add-on">作者:</span>
+			  <%= f.text_field :author, class: "span6", readonly: true %>
+			</div>
+			<br>
+			<div class="input-prepend">
+			  <span class="add-on">语言:</span>
+			  <%= f.text_field :language, class: "span4", readonly: true %>
+			</div>
+			<div class="input-prepend">
+			  <span class="add-on">类别:</span>
+			  <%= f.text_field :cate, class: "span4", readonly: true %>
+			</div>
+			<div class="input-prepend">
+			  <span class="add-on">价格:</span>
+			  <%= f.text_field :price, class: "span4", readonly: true %>
+			</div>
+			<br>
+			<div class="input-prepend">
+			  <span class="add-on">出版社:</span>
+			  <%= f.text_field :press, class: "span8", readonly: true %>
+			</div>
+			<br>
+			<div class="input-prepend">
+			  <span class="add-on">出版时间:</span>
+			  <%= f.text_field :publish_date, class: "span8", readonly: true %>
+			</div>
+			<br>
+			<div>
+			  <span>简介 :</span><br>
+			  <%= f.text_area :intro, size: "10x6", class: "span8", readonly: true %>
+		  </div>
+		</center>
 	
-</div>
-<% end %>
+	</div>
+	<% end %>
 </div>
 <script>
 function fetch(){
