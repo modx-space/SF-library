@@ -3,7 +3,9 @@
 	  <li class="active">
 	    <a data-target="#user" data-toggle="tab">读者</a>
 	  </li>
-	  <li><a data-target="#admin" data-toggle="tab">管理员</a></li>
+	  <% if admin? %>
+		  <li><a data-target="#admin" data-toggle="tab">管理员</a></li>
+	  <% end %>
 	</ul>
 	<div class="tab-content">
 		<div id="user" class="well sidebar-nav tab-pane fade active in">

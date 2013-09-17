@@ -18,13 +18,38 @@ class UserController < ApplicationController
   end
   
   def create
-    user = User.new(params[:user])
-    # user.name = params[:user][:name]
-   #  user.email = params[:user][:email]
-   #  user.team = params[:user][:team]
-   #  user.cate = params[:user][:cate]
-   #  user.name = params[:user][:name]
-   
+    user = User.new
+    user.name = params[:user][:name]
+    user.email = params[:user][:email]
+    user.team = params[:user][:team]
+    user.cate = params[:user][:cate]
+    user.password = 'sf1234'
+    user.password_confirmation = 'sf1234'
+    if user.save
+      flash[:success] = '用户创建成功!'
+    else
+      flash[:error] = '用户创建失败!'
+    end
+    redirect_to users_path
+  end
+  
+  def modify
+    user = User.find(params[:user][:id])
+    if user and user.update(name: params[:user][:name], email: params[:user][:email], cate: params[:user][:cate], team: params[:user][:team])
+      flash[:success] = "数据更新成功!"
+    else
+      flash[:error] = '数据更新失败!'
+    end
+    redirect_to users_path
+  end
+  
+  def delete
+    if User.delete(params[:user_id])
+      flash[:success] = '用户删除成功!'
+    else
+      flash[:error] = '用户删除失败!'
+    end
+    redirect_to users_path
   end
   
   def destroy
