@@ -27,7 +27,7 @@ module UserHelper
     	@current_user ||= User.find_by(remember_token:remember_token)
     end
     
-    def admin?
+    def is_admin?
       current_user.cate.eql?("管理员")
     end
 

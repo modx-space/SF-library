@@ -3,7 +3,7 @@
 	  <li class="active">
 	    <a data-target="#user" data-toggle="tab">读者</a>
 	  </li>
-	  <% if admin? %>
+	  <% if is_admin? %>
 		  <li><a data-target="#admin" data-toggle="tab">管理员</a></li>
 	  <% end %>
 	</ul>
@@ -78,7 +78,7 @@
 					<% end %>
 				</li>
 				<li id="ali_5">
-					<%= link_to ordering_path, remote: true do %>
+					<%= link_to recommend_list_path, remote: true do %>
 						<i class="icon-bell"></i>推荐管理
 					<% end %>
 				</li>
