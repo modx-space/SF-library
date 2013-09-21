@@ -1,1 +1,2 @@
-window.location.reload();
+$("#notice").html("<%= escape_javascript(render 'layouts/notice') %>");
+$( "#content" ).html( "<%= escape_javascript( render 'recommeds' ) %>" );
