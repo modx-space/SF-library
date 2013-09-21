@@ -171,6 +171,7 @@ class BookController < ApplicationController
     sql = %Q| select id,picture,name,isbn,press,author,recommender,point,intro
                     from books
                     where status = "推荐"
+                    order by point DESC
             |
     @recommed = Book.paginate_by_sql(sql,page: params[:page], per_page:10)
     
