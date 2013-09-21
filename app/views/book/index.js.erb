@@ -1,2 +1,3 @@
 $("#notice").html("<%= escape_javascript(render 'layouts/notice') %>");
 $( "#content" ).html( "<%= escape_javascript( render 'index' ) %>" );
+$('.pagination a').attr('data-remote', 'true');

@@ -65,6 +65,9 @@
 </div>
 
 <script>
+$("#vote").click(function(){
+	$('#bookinfor').modal('hide');
+});
 function show(book){
 	// set value
 	$('#name').val(book.name);

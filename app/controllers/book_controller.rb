@@ -245,33 +245,28 @@ class BookController < ApplicationController
     book = Book.find_by(id: params[:book_id])
     record = Vote.find_by(user_id: current_user.id)
     
-    respond_to do |format|
-      if record
-        # 有投票记录
-        if record.book_ids.split(",").include?("#{book.id}")
-          flash[:info] = "你已为本书投过票,(ˇˍˇ)"
-          format.js
-        else
-          record.update_attribute(:book_ids, "#{record.book_ids},#{book.id}")
-          book.update_attribute(:point, book.point+1)
-          flash[:success] = "你已投出神圣且重要的一票! O(∩_∩)O"
-          format.js
-        end
+    if record
+      # 有投票记录
+      if record.book_ids.split(",").include?("#{book.id}")
+        flash.now[:info] = "你已为本书投过票,(ˇˍˇ)"
       else
-        # 没有投票记录
-        vote = Vote.new
-        vote.user_id = current_user.id
-        vote.book_ids = book.id
-        if vote.save
-          book.update_attribute(:point, book.point+1)
-          flash[:success] = "你已投出神圣且重要的一票! O(∩_∩)O"
-          format.js
-        else
-          flash[:error] = "投票失败!(⊙o⊙)…"
-          format.js
-        end
+        record.update_attribute(:book_ids, "#{record.book_ids},#{book.id}")
+        book.update_attribute(:point, book.point+1)
+        flash.now[:success] = "你已投出神圣且重要的一票! O(∩_∩)O"
+      end
+    else
+      # 没有投票记录
+      vote = Vote.new
+      vote.user_id = current_user.id
+      vote.book_ids = book.id
+      if vote.save
+        book.update_attribute(:point, book.point+1)
+        flash.now[:success] = "你已投出神圣且重要的一票! O(∩_∩)O"
+      else
+        flash.now[:error] = "投票失败!(⊙o⊙)…"
       end
     end
+    recommed_list
   end
   
 end
