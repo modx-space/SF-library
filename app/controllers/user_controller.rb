@@ -4,13 +4,18 @@ class UserController < ApplicationController
   
   def index
     @users = User.paginate(page: params[:page], per_page:10)
+    
+    respond_to do |format|
+      format.js { render 'index.js.erb' }
+    end
+    
   end
   
   def login
     user = User.find_by(email: params[:user][:email].downcase)
     if user && user.authenticate(params[:user][:password])
       sign_in user
-      redirect_to newhot_path
+      redirect_to library_path
     else
       flash[:error] = 'Email或密码有误!'
       redirect_to root_path
@@ -26,11 +31,12 @@ class UserController < ApplicationController
     user.password = 'sf1234'
     user.password_confirmation = 'sf1234'
     if user.save
-      flash[:success] = '用户创建成功!'
+      flash.now[:success] = '用户创建成功!'
     else
-      flash[:error] = '用户创建失败!'
+      flash.now[:error] = '用户创建失败!'
     end
-    redirect_to users_path
+    index
+    
   end
   
   def modify
@@ -45,11 +51,13 @@ class UserController < ApplicationController
   
   def delete
     if User.delete(params[:user_id])
-      flash[:success] = '用户删除成功!'
+      flash.now[:success] = '用户删除成功!'
     else
-      flash[:error] = '用户删除失败!'
+      flash.now[:error] = '用户删除失败!'
     end
-    redirect_to users_path
+    
+    index
+    
   end
   
   def destroy

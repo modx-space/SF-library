@@ -16,14 +16,14 @@
 			</div>
 			<div class="span8">
 				<%= render 'layouts/header' %>
-
-				<% flash.each do |key, value| %>
-					<div class="alert alert-<%= key %>">
-						<%= value %>
-					</div>
-				<% end %>
-
-				<%= yield %>
+				
+				<div id="notice">
+				<%= render 'layouts/notice' %>
+			</div>
+				
+				<div id="content">
+					<%= yield %>
+				</div>
 
 			</div>
 		</div>

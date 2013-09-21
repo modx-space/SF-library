@@ -23,8 +23,8 @@
 				</table>
 			<%= will_paginate @users %>
 		</div>
-		<div class="user_add offset2 span3">
-			<%= form_for(:user, url: add_user_path ) do |f| %>
+		<div class="offset2 span3">
+			<%= form_for(:user, url: add_user_path,remote: true ) do |f| %>
 			    <label class="control-label" for="uname">姓名:</label>
 			    <div class="controls">
 					<%= f.text_field :name %>
@@ -79,7 +79,7 @@
 		</center>
 	</div>
 	<div class="modal-footer">
-		<%= link_to "删除", delete_user_path, method:"post", id: "delete", class:"btn btn-danger" %>
+		<%= link_to "删除", delete_user_path, method:"post", remote: true, id: "delete", class:"btn btn-danger" %>
 		<%= f.submit "修改", class: "btn btn-info" %>
 	</div>
 	<% end %>
@@ -98,4 +98,8 @@ function show(user){
 	// show modal
 	$('#userdetail').modal('show');
 }
+
+$('#delete').click(function(){
+	$('#userdetail').modal('hide');
+})
 </script>

@@ -22,7 +22,6 @@ class BookController < ApplicationController
             |
     @books_rec = Book.find_by_sql(sql)[0..2]
     
-    render 'new_hot'
   end
   
   def index
@@ -34,44 +33,41 @@ class BookController < ApplicationController
     else
       @page = 1
     end
-    render 'index'
+    
+    respond_to do |format|
+      format.js { render 'index.js.erb' }
+    end
+    
   end
   
   def borrow
     book = Book.find_by(id: params[:book_id])
     record = Borrow.find_by(user_id: current_user.id, book_id: params[:book_id], status: "使用中")
-    
-    respond_to do |format|
-      if record
-        # 已在使用，不可多借
-        flash[:info] = "你已在使用本书，不可多占资源哦..."
-        format.js
-      else
-        if book.store > 0
-          borrow = Borrow.new
-          borrow.user_id = current_user.id
-          borrow.book_id = params[:book_id]
-          borrow.should_return_date = Time.new + 2.weeks
-          borrow.status = '使用中'
-          borrow.is_expired = 0;
-        
-          if borrow.save
-            book.update_attribute(:store, book.store-1)
-            flash[:success] = "借阅成功!"
-            format.js
-          else
-            # 借阅失败
-            flash[:error] = "借阅失败!"
-            format.js
-          end
+    if record
+      # 已在使用，不可多借
+      flash.now[:info] = "你已在使用本书，不可多占资源哦..."
+    else
+      if book.store > 0
+        borrow = Borrow.new
+        borrow.user_id = current_user.id
+        borrow.book_id = params[:book_id]
+        borrow.should_return_date = Time.new + 2.weeks
+        borrow.status = '使用中'
+        borrow.is_expired = 0;
+      
+        if borrow.save
+          book.update_attribute(:store, book.store-1)
+          flash.now[:success] = "借阅成功!"
         else
-          # 无库存，可预订
-          flash[:notice] = "无库存,可预订!"
-          format.js
+          # 借阅失败
+          flash.now[:error] = "借阅失败!"
         end
+      else
+        # 无库存，可预订
+        flash.now[:notice] = "无库存,可预订!"
       end
     end
-    
+    index
   end
   
   def borrow_current
@@ -83,7 +79,11 @@ class BookController < ApplicationController
                           borrows.user_id = #{current_user.id}
             |
     @borrowing = Borrow.paginate_by_sql(sql,page: params[:page], per_page:10)
-    render 'borrowing'
+    
+    respond_to do |format|
+      format.js {render 'borrowing.js.erb'}
+    end
+    
   end
   
   def borrow_history
@@ -97,43 +97,40 @@ class BookController < ApplicationController
                           borrows.status = "已归还"
             |
     @borrowed = Borrow.paginate_by_sql(sql,page: params[:page], per_page:10)
-    render 'borrowed'
+    
+    respond_to do |format|
+      format.js {render 'borrowed.js.erb'}
+    end
+    
   end
   
   def order
     book = Book.find_by(id: params[:book_id])
     record = Borrow.find_by(user_id: current_user.id, book_id: params[:book_id], status: "使用中")
-    
-    respond_to do |format|
-      if record
-        # 已在使用，无需预订
-        flash[:info] = "你已在使用本书，不必预订..."
-        format.js
+    if record
+      # 已在使用，无需预订
+      flash.now[:info] = "你已在使用本书，不必预订..."
+    else
+      ordered = Order.find_by(user_id: current_user.id, book_id: params[:book_id], status: "排队中")
+      if ordered
+        # 已预订，无需再次预订
+        flash.now[:info] = "你已预订过本书，请耐心等候..."
       else
-        ordered = Order.find_by(user_id: current_user.id, book_id: params[:book_id], status: "排队中")
-        if ordered
-          # 已预订，无需再次预订
-          flash[:info] = "你已预订过本书，请耐心等候..."
-          format.js
+        order = Order.new
+        order.user_id = current_user.id
+        order.book_id = params[:book_id]
+        order.status = '排队中'
+        records = Order.find(:all,conditions:{book_id: params[:book_id], status: "排队中"})
+        if order.save
+          book.update_attribute(:store, book.store-1)
+          flash.now[:success] = "预订成功! 你的服务序号为: #{records.count+1} (^_^)"
         else
-          order = Order.new
-          order.user_id = current_user.id
-          order.book_id = params[:book_id]
-          order.status = '排队中'
-          records = Order.find(:all,conditions:{book_id: params[:book_id], status: "排队中"})
-          if order.save
-            book.update_attribute(:store, book.store-1)
-            flash[:success] = "预订成功! 你的服务序号为: #{records.count+1} (^_^)"
-            format.js
-          else
-            # 预订失败
-            flash[:error] = "预订失败!"
-            format.js
-          end
+          # 预订失败
+          flash.now[:error] = "预订失败!"
         end
       end
     end
-    
+    index
   end
   
   def order_current
@@ -146,7 +143,11 @@ class BookController < ApplicationController
                           orders.status = "排队中"
             |
     @ordering = Order.paginate_by_sql(sql,page: params[:page], per_page:10)
-    render 'ordering'
+    
+    respond_to do |format|
+      format.js {render 'ordering.js.erb'}
+    end
+    
   end
   
   def order_history
@@ -159,7 +160,11 @@ class BookController < ApplicationController
                           orders.status = "已处理"
             |
     @ordered = Order.paginate_by_sql(sql,page: params[:page], per_page:10)
-    render 'ordered'
+    
+    respond_to do |format|
+      format.js {render 'ordered.js.erb'}
+    end
+    
   end
   
   def recommed_list
@@ -168,11 +173,17 @@ class BookController < ApplicationController
                     where status = "推荐"
             |
     @recommed = Book.paginate_by_sql(sql,page: params[:page], per_page:10)
-    render 'recommeds'
+    
+    respond_to do |format|
+      format.js { render 'reclist.js.erb' }
+    end
+    
   end
   
   def recbook
-    render 'recbook'
+    respond_to do |format|
+      format.js
+    end
   end
   
   def fetch
@@ -221,9 +232,13 @@ class BookController < ApplicationController
       book.point = 0
       book.status = "推荐"
       book.recommender = current_user.name
-      book.save
+      if book.save
+        flash.now[:success] = "推荐成功! O(∩_∩)O"
+      else
+        flash.now[:error] = "推荐失败! (⊙o⊙)"
+      end
     end
-    index 
+    recommed_list 
   end
   
   def vote
