@@ -74,6 +74,10 @@
 </div>
 
 <script>
+$("#order,#borrow").click(function(){
+	$('#bookinfor').modal('hide');
+});
+
 function show(book){
 	// set value
 	$('#name').val(book.name);

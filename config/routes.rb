@@ -8,7 +8,7 @@ LibraryApp::Application.routes.draw do
   match '/delete_user', to: 'user#delete', via: 'post'
   match '/modify_user', to: 'user#modify', via: 'post'
   
-  match '/newhot', to: 'book#new_hot', via: 'get'
+  match '/library', to: 'book#new_hot', via: 'get'
   
   match '/borrow', to: 'book#borrow', via: 'post'
   match '/borrowing', to: 'book#borrow_current', via: 'get'

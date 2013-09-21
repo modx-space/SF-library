@@ -10,46 +10,46 @@
 	<div class="tab-content">
 		<div id="user" class="well sidebar-nav tab-pane fade active in">
 			<ul class="nav nav-list">
-				<li>
-					<%= link_to newhot_path do %>
+				<li id="uli_1" class="active">
+					<%= link_to library_path do %>
 						<i class="icon-home"></i>首页
 					<% end %>
 				</li>
-				<li>
-					<%= link_to book_index_path do %>
+				<li id="uli_2">
+					<%= link_to book_index_path, remote: true do %>
 						<i class="icon-book"></i>图书
 					<% end %>
 				</li>
 				<li class="nav-header">借阅</li>
-				<li>
-					<%= link_to borrowing_path do %>
+				<li id="uli_3">
+					<%= link_to borrowing_path, remote: true do %>
 						<i class="icon-eye-open"></i>当前借阅
 					<% end %>
 				</li>
-				<li>
-					<%= link_to borrowed_path do %>
+				<li id="uli_4">
+					<%= link_to borrowed_path, remote: true do %>
 						<i class="icon-calendar"></i>借阅历史
 					<% end %>
 				</li>
 				<li class="nav-header">预定</li>
-				<li>
-					<%= link_to ordering_path do %>
+				<li id="uli_5">
+					<%= link_to ordering_path, remote: true do %>
 						<i class="icon-bell"></i>当前预定
 					<% end %>
 				</li>
-				<li>
-					<%= link_to ordered_path do %>
+				<li id="uli_6">
+					<%= link_to ordered_path, remote: true do %>
 						<i class="icon-calendar"></i>预定历史
 					<% end %>
 				</li>
 				<li class="nav-header">推荐</li>
-				<li>
-					<%= link_to recbook_path do %>
+				<li id="uli_7">
+					<%= link_to recbook_path, remote: true do %>
 						<i class="icon-heart"></i>我要推荐
 					<% end %>
 				</li>
-				<li>
-					<%= link_to recommend_list_path do %>
+				<li id="uli_8">
+					<%= link_to recommend_list_path, remote: true do %>
 						<i class="icon-star"></i>推荐列表
 					<% end %>
 				</li>
@@ -57,33 +57,33 @@
 		</div>
 		<div id="admin" class="well sidebar-nav tab-pane fade in">
 			<ul class="nav nav-list">
-				<li>
-					<%= link_to users_path do %>
+				<li id="ali_1">
+					<%= link_to users_path, remote: true do %>
 						<i class="icon-user"></i>用户管理
 					<% end %>
 				</li>
-				<li>
-					<%= link_to book_index_path do %>
+				<li id="ali_2">
+					<%= link_to book_index_path, remote: true do %>
 						<i class="icon-book"></i>图书管理
 					<% end %>
 				</li>
-				<li>
-					<%= link_to borrowing_path do %>
+				<li id="ali_3">
+					<%= link_to borrowing_path, remote: true do %>
 						<i class="icon-eye-open"></i>借阅管理
 					<% end %>
 				</li>
-				<li>
-					<%= link_to borrowed_path do %>
+				<li id="ali_4">
+					<%= link_to borrowed_path, remote: true do %>
 						<i class="icon-calendar"></i>预定管理
 					<% end %>
 				</li>
-				<li>
-					<%= link_to ordering_path do %>
+				<li id="ali_5">
+					<%= link_to ordering_path, remote: true do %>
 						<i class="icon-bell"></i>推荐管理
 					<% end %>
 				</li>
-				<li>
-					<%= link_to ordered_path do %>
+				<li id="ali_6">
+					<%= link_to ordered_path, remote: true do %>
 						<i class="icon-calendar"></i>预定历史
 					<% end %>
 				</li>
@@ -91,3 +91,16 @@
 		</div>
 	</div>
 </div>
+
+<script>
+var id = "#uli_1";
+$('ul li').each(function(){
+  $(this).click(function(){
+	  if($(this).attr("id")){
+	    $(id).removeAttr("class");
+	    id = "#"+$(this).attr('id');
+	    $(this).addClass("active");
+		}
+	});
+});
+</script>
