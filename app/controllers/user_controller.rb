@@ -1,3 +1,4 @@
+# encoding: utf-8
 class UserController < ApplicationController
   
   before_action :signed_in_user, only: [:index]

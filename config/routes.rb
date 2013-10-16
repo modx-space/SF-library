@@ -1,3 +1,4 @@
+# encoding: utf-8
 LibraryApp::Application.routes.draw do
   root to: 'default#home'
   
