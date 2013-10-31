@@ -31,11 +31,17 @@ class UserController < ApplicationController
     user.cate = params[:user][:cate]
     user.password = 'sf1234'
     user.password_confirmation = 'sf1234'
-    if user.save
-      flash.now[:success] = '用户创建成功!'
+    user_temp = User.find_by(email: params[:user][:email])
+    if user_temp
+      flash.now[:error] = '用户已存在！'
     else
-      flash.now[:error] = '用户创建失败!'
+      if user.save
+        flash.now[:success] = '用户创建成功!'
+      else
+        flash.now[:error] = '用户创建失败!'
+      end
     end
+
     index
     
   end
