@@ -15,6 +15,7 @@
 /log
 /tmp
 
+/config/database.yml
 /test
 
 /.DS_Store
