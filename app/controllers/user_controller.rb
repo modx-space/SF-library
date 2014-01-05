@@ -4,7 +4,12 @@ class UserController < ApplicationController
   before_action :signed_in_user, only: [:index]
   
   def index
-    @users = User.paginate(page: params[:page], per_page:10)
+    #@users = User.paginate(page: params[:page], per_page:10)
+    
+    @users = User.paginate :page => params[:page],
+    :per_page => 10,
+    :conditions => ["name like ?", "%#{params[:search]}%"]
+    
     
     respond_to do |format|
       format.js { render 'index.js.erb' }
