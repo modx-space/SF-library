@@ -1,4 +1,12 @@
 # encoding: utf-8
+<div id="search">
+	<%=form_tag book_index_path,:remote=>'true', :method => 'post' do %>
+	<p>
+	<%= text_field_tag :search, params[:tag] %>
+	<%= submit_tag "查找", :name => nil , :class => "btn" %>
+	</p>
+	<% end %>
+</div>
 <%= will_paginate @books %>
 <div class="book container-fluid">
 	<table class="table  table-hover">

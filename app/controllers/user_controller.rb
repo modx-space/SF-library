@@ -6,10 +6,17 @@ class UserController < ApplicationController
   def index
     #@users = User.paginate(page: params[:page], per_page:10)
     
-    @users = User.paginate :page => params[:page],
-    :per_page => 10,
-    :conditions => ["name like ?", "%#{params[:search]}%"]
+    if params[:page]
+      @page = params[:page]
+    else
+      @page = 1
+    end
     
+    if params[:tag] != nil
+      @users = User.search_by_tag(params[:tag], params[:page]||1)
+    else
+      @users = User.search(params[:page]||1)
+    end
     
     respond_to do |format|
       format.js { render 'index.js.erb' }
