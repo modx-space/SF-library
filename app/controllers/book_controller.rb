@@ -28,9 +28,14 @@ class BookController < ApplicationController
   def index
     # sql = %Q| select * from books where status = "已买" |
     sql = %Q| select * from books |
-    @books = Book.paginate_by_sql(sql,page: params[:page], per_page:10,
-                                          :conditions => ["name like ?", "%#{params[:search]}%"])
 
+    if params[:tag] != nil
+      @books = Book.search_by_tag(params[:tag], params[:page]||1)
+    else
+      @books = User.search(params[:page]||1)
+    end
+    
+    
     if params[:page]
       @page = params[:page]
     else
@@ -38,6 +43,7 @@ class BookController < ApplicationController
     end
     
     respond_to do |format|
+      format.html {render '_index.html.erb'}
       format.js { render 'index.js.erb' }
     end
     
