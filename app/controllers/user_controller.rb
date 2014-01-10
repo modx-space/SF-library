@@ -19,6 +19,7 @@ class UserController < ApplicationController
     end
     
     respond_to do |format|
+      format.html {render '_index.html.erb'}
       format.js { render 'index.js.erb' }
     end
     
