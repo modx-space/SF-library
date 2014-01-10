@@ -28,7 +28,9 @@ class BookController < ApplicationController
   def index
     # sql = %Q| select * from books where status = "已买" |
     sql = %Q| select * from books |
-    @books = Book.paginate_by_sql(sql,page: params[:page], per_page:10)
+    @books = Book.paginate_by_sql(sql,page: params[:page], per_page:10,
+                                          :conditions => ["name like ?", "%#{params[:search]}%"])
+
     if params[:page]
       @page = params[:page]
     else

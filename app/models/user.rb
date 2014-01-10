@@ -24,6 +24,16 @@ class User < ActiveRecord::Base
 		Digest::SHA1.hexdigest(token.to_s)
 	end
 
+	def self.search_by_tag(search, page)
+            paginate :per_page => 10, :page => page,   
+                       :conditions => ['tag like ?', "%#{search}%"]
+	end
+  
+	def self.search(page)
+	  paginate :per_page => 10, :page => page
+	end
+	
+	
 	private
 		def create_token
 			self.remember_token = User.encrypt(User.new_remember_token)
