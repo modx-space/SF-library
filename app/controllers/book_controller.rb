@@ -26,16 +26,14 @@ class BookController < ApplicationController
   end
   
   def index
-    # sql = %Q| select * from books where status = "已买" |
-    sql = %Q| select * from books |
-
+    sql = %Q| select * from books where status = "已买" |
     if params[:tag] != nil
       @books = Book.search_by_tag(params[:tag], params[:page]||1)
     else
-      @books = User.search(params[:page]||1)
+      @books = Book.search(params[:page]||1)
     end
-    
-    
+
+
     if params[:page]
       @page = params[:page]
     else
@@ -183,7 +181,6 @@ class BookController < ApplicationController
                     order by point DESC
             |
     @recommed = Book.paginate_by_sql(sql,page: params[:page], per_page:10)
-    
     respond_to do |format|
       format.js { render 'reclist.js.erb' }
     end
@@ -277,6 +274,42 @@ class BookController < ApplicationController
       end
     end
     recommed_list
+  end
+
+  def new
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def create
+    book = nil
+    if book = Book.find_by(isbn: params[:book][:isbn])
+      book.store = book.store + params[:book][:total]
+      book.total = book.total + params[:book][:total]
+    else
+      book = Book.new()
+      book.name = params[:book][:name]
+      book.picture = params[:book][:picture]
+      book.intro = params[:book][:intro]
+      book.author = params[:book][:author]
+      book.isbn = params[:book][:isbn]
+      book.press = params[:book][:press]
+      book.publish_date = params[:book][:publish_date]
+      book.language = params[:book][:language]
+      book.cate = params[:book][:cate]
+      book.price = params[:book][:price]
+      book.total = params[:book][:total]
+      book.store = book.total
+      book.point = 0
+    end
+    book.status = "已买"
+    if book.save
+        flash[:success] = '入库成功 O(∩_∩)O'
+    else    
+         flash[:error] = '入库失败! (⊙o⊙)'
+    end
+    index
   end
   
 end
