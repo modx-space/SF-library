@@ -6,8 +6,9 @@ class Book < ActiveRecord::Base
   has_many :orders
   has_many :user, through: :orders
   
+  validates :store, numericality: { only_integer: true }
   
-  	def self.search_by_tag(search, page)
+  def self.search_by_tag(search, page)
             paginate :per_page => 10, :page => page,   
                        :conditions => ['tag like ?', "%#{search}%"]
 	end

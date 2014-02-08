@@ -1,6 +1,7 @@
 # encoding: utf-8
 <div class="book container-fluid">
-	<%= form_for(:book, url: recommend_path, method: 'post', remote: true) do |f| %>
+	<% _action_path = params[:action] == 'recbook' ? recommend_path : book_index_path %>
+	<%= form_for(:book, url: _action_path, method: 'post', remote: true) do |f| %>
 	<div class="modal-header">
 		<center>
 			<h4>图书信息</h4>
@@ -14,9 +15,15 @@
 			  <span class="add-on">ISBN:</span>
 			  <%= f.text_field :isbn, class: "span6" %>
 			  <%= link_to "查询", fetch_path, method:"get", class:"btn btn-info",id:"fetch", onclick: "fetch()",remote: true %>
-			  <%= f.submit "推荐", class: "btn btn-success", id: "rec", disabled: true %>
+			  <% _btn_label = params[:action]=="recbook" ? "推荐" : "添加" %>
+			  <%= f.submit _btn_label, class: "btn btn-success", id: "rec", disabled: true %>
 			</div>
 			<br>
+				<div class="input-prepend">
+			  	<span class="add-on">数量:</span>
+			  <%= f.text_field :total, class: "span8", value: 1 %>
+				</div>
+			</br>
 			<div class="input-prepend">
 			  <span class="add-on">书名:</span>
 			  <%= f.text_field :name, class: "span5", readonly: true %>
