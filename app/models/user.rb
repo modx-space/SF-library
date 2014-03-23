@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
 
 	def self.search_by_tag(search, page)
             paginate :per_page => 10, :page => page,   
-                       :conditions => ['tag like ?', "%#{search}%"]
+                       :conditions => ['name like ?', "%#{search}%"]
 	end
   
 	def self.search(page)
