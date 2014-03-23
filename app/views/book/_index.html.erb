@@ -1,9 +1,9 @@
 # encoding: utf-8
 <div class="row-fluid">
 	<div id="search" class="span6">
-		<%=form_tag book_index_path,:remote=>'true', :method => 'post' do %>
+		<%=form_tag book_index_path,:remote=>'true', :method => 'get' do %>
 		<p>
-		<%= text_field_tag :search, params[:tag] %>
+		<%= text_field_tag :tag, params[:tag] %>
 		<%= submit_tag "查找", :name => nil , :class => "btn" %>
 		</p>
 		<% end %>

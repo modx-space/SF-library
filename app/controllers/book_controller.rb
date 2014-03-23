@@ -40,6 +40,12 @@ class BookController < ApplicationController
       @page = 1
     end
     
+    if params[:tag] != nil
+      @users = Book.search_by_tag(params[:tag], params[:page]||2)
+    else
+      @users = Book.search(params[:page]||1)
+    end
+    
     respond_to do |format|
       format.html {render '_index.html.erb'}
       format.js { render 'index.js.erb' }
