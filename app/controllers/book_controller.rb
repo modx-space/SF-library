@@ -26,29 +26,17 @@ class BookController < ApplicationController
   end
   
   def index
+    page = params[:page] || 1
     sql = %Q| select * from books where status = "已买" |
     if params[:tag] != nil
-      @books = Book.search_by_tag(params[:tag], params[:page]||1)
+      @books = Book.search_by_tag(params[:tag], page).paginate(page: page, per_page: 10)
     else
-      @books = Book.search(params[:page]||1)
+      @books = Book.search(page).paginate(page: page, per_page: 10)
     end
 
-
-    if params[:page]
-      @page = params[:page]
-    else
-      @page = 1
-    end
-    
-    if params[:tag] != nil
-      @users = Book.search_by_tag(params[:tag], params[:page]||2)
-    else
-      @users = Book.search(params[:page]||1)
-    end
-    
     respond_to do |format|
-      format.html {render '_index.html.erb'}
-      format.js { render 'index.js.erb' }
+      format.html# {render '_index.html.erb'}
+      #format.js { render 'index.js.erb' }
     end
     
   end
@@ -94,6 +82,7 @@ class BookController < ApplicationController
     @borrowing = Borrow.paginate_by_sql(sql,page: params[:page], per_page:10)
     
     respond_to do |format|
+      format.html {render '_borrowing.html.erb'}
       format.js {render 'borrowing.js.erb'}
     end
     
@@ -195,6 +184,7 @@ class BookController < ApplicationController
   
   def recbook
     respond_to do |format|
+      format.html {render '_recbook.html.erb'}
       format.js
     end
   end
@@ -311,11 +301,11 @@ class BookController < ApplicationController
     end
     book.status = "已买"
     if book.save
-        flash[:success] = '入库成功 O(∩_∩)O'
+        redirect_to book_index_path, success: '入库成功 O(∩_∩)O'
     else    
          flash[:error] = '入库失败! (⊙o⊙)'
     end
-    index
+    #index
   end
   
 end
