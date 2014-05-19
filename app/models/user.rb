@@ -10,11 +10,15 @@ class User < ActiveRecord::Base
   before_save { self.email = email.downcase }
   
   has_secure_password
+
   
   validates :email, presence: true
   validates :name, presence: true
   validates :cate, presence: true
   # validates :pwd, length:{ minimum: 6}
+
+  DEFAULT_PASSWORD = '123456'
+  self.per_page = 10
   
 	def User.new_remember_token
 		SecureRandom.urlsafe_base64

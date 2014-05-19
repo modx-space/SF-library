@@ -2,31 +2,42 @@
 LibraryApp::Application.routes.draw do
   root to: 'default#home'
   
-  resources :book
+  resources :books do
+    collection do
+      get 'library'
+    end
+    member do
+      post 'borrow'
+    end
+  end
+
+
+  resources :users do   
+    collection do
+      delete 'logout'
+      get 'login'
+    end
+    member do
+      get 'reset'
+    end
+  end
   
-  match '/users', to: 'user#index', via: 'get'
-  match '/add_user', to: 'user#create', via: 'post'
-  match '/delete_user', to: 'user#delete', via: 'post'
-  match '/modify_user', to: 'user#modify', via: 'post'
+  match '/library', to: 'books#new_hot', via: 'get'
   
-  match '/library', to: 'book#new_hot', via: 'get'
+  match '/borrow', to: 'books#borrow', via: 'post'
+  match '/borrowing', to: 'books#borrow_current', via: 'get'
+  match '/borrowed', to: 'books#borrow_history', via: 'get'
   
-  match '/borrow', to: 'book#borrow', via: 'post'
-  match '/borrowing', to: 'book#borrow_current', via: 'get'
-  match '/borrowed', to: 'book#borrow_history', via: 'get'
+  match '/order', to: 'books#order', via: 'post'
+  match '/ordering', to: 'books#order_current', via: 'get'
+  match '/ordered', to: 'books#order_history', via: 'get'
   
-  match '/order', to: 'book#order', via: 'post'
-  match '/ordering', to: 'book#order_current', via: 'get'
-  match '/ordered', to: 'book#order_history', via: 'get'
+  match '/recommend_list', to: 'books#recommed_list', via: 'get'
+  match '/recommend', to: 'books#recommend', via: 'post'
+  match '/recbook', to: 'books#recbook', via: 'get'
+  match '/fetch', to: 'books#fetch', via: 'get'
+  match '/vote', to: 'books#vote', via: 'post'
   
-  match '/recommend_list', to: 'book#recommed_list', via: 'get'
-  match '/recommend', to: 'book#recommend', via: 'post'
-  match '/recbook', to: 'book#recbook', via: 'get'
-  match '/fetch', to: 'book#fetch', via: 'get'
-  match '/vote', to: 'book#vote', via: 'post'
-  
-  match '/login', to: 'user#login', via: 'get'
-  match '/signout', to: 'user#destroy', via: 'delete'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
