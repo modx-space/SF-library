@@ -9,31 +9,41 @@
 </head>
 <body>
 	<div class="container-fluid">
-		<div class="row-fluid">
-			<div class="span2">
-				<% if signed_in? %>
-					<%= render 'layouts/sidebar' %>
-				<% end %>
-			</div>
-			<div class="span8">
-				<%= render 'layouts/header' %>
-				
-				<div id="notice">
+		<% if params[:controller] == 'users' && params[:action] == 'edit' %>
+			<div id="notice">
 				<%= render 'layouts/notice' %>
 			</div>
-				
-				<div id="content">
-					<%= yield %>
-				</div>
-
+			<div id="content">
+						<%= yield %>
 			</div>
-		</div>
-		<%= render 'layouts/footer' %>
+		<% else %>
+			<div class="row-fluid">
+				<div class="span2">
+					<% if signed_in? %>
+						<%= render 'layouts/sidebar' %>
+					<% end %>
+				</div>
+				<div class="span8">
+					<%= render 'layouts/header' %>
+					
+					<div id="notice">
+					<%= render 'layouts/notice' %>
+				</div>
+					
+					<div id="content">
+						<%= yield %>
+					</div>
+
+				</div>
+			</div>
+		<% end %>
+			<%= render 'layouts/footer' %>
 		<%= debug(params) if Rails.env.development? %>
 	</div>
 </body>
 </html>
 <script>
-$(document).ready(function() {
-    $('.pagination a').attr('data-remote', 'true');
-});</script>
+// $(document).ready(function() {
+//     $('.pagination a').attr('data-remote', 'true');
+// });
+</script>

@@ -10,13 +10,13 @@
 							<%= current_user.name %></a>
 						</li>
 						<li class="active divider-vertical">
-							<%= link_to signout_path, method: "delete" do %>
+							<%= link_to logout_users_path, method: "delete" do %>
 							<i class="icon-white icon-off"></i>注销
 							<% end %>
 						</li>
 					</ul>
 				<% else %>
-					<%= form_for(:user, url: login_path, method: 'get', html: {class: "navbar-form pull-right"} ) do |f| %>
+					<%= form_for(:user, url: login_users_path, method: 'get', html: {class: "navbar-form pull-right"} ) do |f| %>
 					<div class="control-group">
 						<!-- <div class="controls"> -->
 							<div class="input-prepend">

@@ -1,7 +1,7 @@
 # encoding: utf-8
 require "open-uri"
 require "json"
-class BookController < ApplicationController
+class BooksController < ApplicationController
   
   before_action :signed_in_user
   
@@ -42,6 +42,7 @@ class BookController < ApplicationController
   end
   
   def borrow
+    binding.pry
     book = Book.find_by(id: params[:book_id])
     record = Borrow.find_by(user_id: current_user.id, book_id: params[:book_id], status: "使用中")
     if record
@@ -301,7 +302,7 @@ class BookController < ApplicationController
     end
     book.status = "已买"
     if book.save
-        redirect_to book_index_path, success: '入库成功 O(∩_∩)O'
+        redirect_to books_index_path, success: '入库成功 O(∩_∩)O'
     else    
          flash[:error] = '入库失败! (⊙o⊙)'
     end
