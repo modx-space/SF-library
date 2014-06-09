@@ -12,7 +12,6 @@
 		<%= link_to '添加图书', new_book_path, remote: 'true', class: "btn" %>
 	</div>
 </div>
-</div><button id="test3" class="button">运行上述例子</button>
 
 <%= will_paginate @books, remote: false %>
 <div class="book container-fluid">
@@ -20,7 +19,7 @@
 		<caption>图书列表</caption>
 		<thead>
 			<tr>
-				<th>序号</td>
+				<!-- <th>序号</th> -->
 				<th>封面</th>
 				<th>书名</th>
 				<th>作者</th>
@@ -34,8 +33,8 @@
 		</thead>
 		<tbody>
 			<% @books.each_with_index do |book,index| %>
-			<tr onclick="show(<%= book.to_json %>)">
-				<td><%= (index+1)+(@page.to_i-1)*10 %></td>
+			<tr onclick="show('<%= edit_book_path(book.id) %>')" style="cursor: pointer;">
+				<!-- <td><%#= (index+1)+(@page.to_i-1)*10 %></td> -->
 				<td><img class="img-rounded" src="<%= book.picture %>" alt="封面" style="width: 40px; height: 50px;"></td>
 				<td><%= book.name %></td>
 				<td><%= book.author %></td>
@@ -84,8 +83,8 @@
 	</div>
 	<div class="modal-footer">
 		<input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="关闭" />
-		<%= link_to "借阅", borrow_path, method:"post", id: "borrow", class:"btn btn-primary", remote: true %>
-		<%= link_to "预订", order_path, method:"post", id: "order", class:"btn btn-info", remote: true %>
+		<%#= link_to "借阅", borrow_path, method:"post", id: "borrow", class:"btn btn-primary", remote: true %>
+		<%#= link_to "预订", order_path, method:"post", id: "order", class:"btn btn-info", remote: true %>
 	</div>
 </div>
 
@@ -93,8 +92,10 @@
 $("#order,#borrow").click(function(){
 	$('#bookinfor').modal('hide');
 });
-
-function show(book){
+function show(path){
+   popWin.showWin("700","400","图书信息", path);
+}
+function show1(book){
 	// set value
 	$('#name').val(book.name);
 	$('#isbn').val(book.isbn);

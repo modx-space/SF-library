@@ -5,7 +5,8 @@ class BooksController < ApplicationController
   
   before_action :signed_in_user
   
-  def new_hot
+  #new_hot
+  def library
     books = Book.all
     @books_new = Book.order("created_at DESC")[0..5]
     
@@ -41,6 +42,10 @@ class BooksController < ApplicationController
     
   end
   
+  def edit
+    @book = Book.find(params[:id])
+  end
+
   def borrow
     binding.pry
     book = Book.find_by(id: params[:book_id])

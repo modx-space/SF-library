@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if user && user.authenticate(params[:user][:password])
         sign_in user
-        format.html { redirect_to library_path }
+        format.html { redirect_to library_books_path }
       else
         flash[:error] = 'Email或密码有误!'
         format.html { redirect_to root_path }

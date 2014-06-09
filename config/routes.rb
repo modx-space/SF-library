@@ -8,6 +8,7 @@ LibraryApp::Application.routes.draw do
     end
     member do
       post 'borrow'
+      post 'order'
     end
   end
 
@@ -22,9 +23,9 @@ LibraryApp::Application.routes.draw do
     end
   end
   
-  match '/library', to: 'books#new_hot', via: 'get'
+  #match '/library', to: 'books#new_hot', via: 'get'
   
-  match '/borrow', to: 'books#borrow', via: 'post'
+  #match '/borrow', to: 'books#borrow', via: 'post'
   match '/borrowing', to: 'books#borrow_current', via: 'get'
   match '/borrowed', to: 'books#borrow_history', via: 'get'
   
