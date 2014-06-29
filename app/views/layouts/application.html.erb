@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div class="container-fluid">
-		<% if params[:controller] == 'users' && params[:action] == 'edit' %>
+		<% if (params[:controller] == 'users' || params[:controller] == 'books') && params[:action] == 'edit' %>
 			<div id="notice">
 				<%= render 'layouts/notice' %>
 			</div>

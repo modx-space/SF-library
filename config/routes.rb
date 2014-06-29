@@ -29,7 +29,7 @@ LibraryApp::Application.routes.draw do
   match '/borrowing', to: 'books#borrow_current', via: 'get'
   match '/borrowed', to: 'books#borrow_history', via: 'get'
   
-  match '/order', to: 'books#order', via: 'post'
+  #match '/order', to: 'books#order', via: 'post'
   match '/ordering', to: 'books#order_current', via: 'get'
   match '/ordered', to: 'books#order_history', via: 'get'
   

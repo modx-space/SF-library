@@ -8,34 +8,35 @@
 		<center>
 			<div class="input-prepend">
 			  <span class="add-on">书名:</span>
-			  <%= f.text_field :name, id: "name", class: "span8" %>
+			  <%= f.text_field :name, id: "name", class: "span7" %>
 			  <!-- <input class="span8" type="text" disabled id="name"> -->
 			</div>
 			<div class="input-prepend">
 			  <span class="add-on">ISBN:</span>
-			  <%= f.text_field :isbn, id: "isbn", class: "span8" %>
+			  <%= f.text_field :isbn, id: "isbn", class: "span7" %>
 			  <!-- <input class="span8" type="text" disabled id="isbn"> -->
 			</div>
 			<div class="input-prepend">
 			  <span class="add-on">作者:</span>
-			  <%= f.text_field :author, id: "author", class: "span8" %>
+			  <%= f.text_field :author, id: "author", class: "span7" %>
 			  <!-- <input class="span8" type="text" disabled id="author"> -->
 			</div>
 			<div class="input-prepend">
 			  <span class="add-on">出版 :</span>
-			  <%= f.text_field :press, id: "press", class: "span8" %>
+			  <%= f.text_field :press, id: "press", class: "span7" %>
 			  <!-- <input class="span8" type="text" disabled id="press"> -->
 			</div>
 			<div>
 			  <span>简介 :</span><br>
-			  <%= f.text_area :intro, id: "intro", rows: 5, class: "span9" %>
+			  <%= f.text_area :intro, id: "intro", rows: 5, class: "span8" %>
 			  <!-- <textarea class="span9" rows="10" disabled id="intro"></textarea> -->
 		  </div>
 		</center>
 	</div>
 	<div class="modal-footer">
-		<input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="关闭" />
+		<!-- <input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="关闭" /> -->
 		<%= link_to "借阅", borrow_book_path(@book.id), method:"post", id: "borrow", class:"btn btn-primary", remote: true %>
-		<%= link_to "预订", order_path, method:"post", id: "order", class:"btn btn-info", remote: true %>
+		<%= link_to "预订", order_book_path(@book.id), method:"post", id: "order", class:"btn btn-info", remote: true %>
 	</div>
+	<% end %>
 </div>

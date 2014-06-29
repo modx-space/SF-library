@@ -47,12 +47,12 @@ class BooksController < ApplicationController
   end
 
   def borrow
-    binding.pry
-    book = Book.find_by(id: params[:book_id])
-    record = Borrow.find_by(user_id: current_user.id, book_id: params[:book_id], status: "使用中")
+    #binding.pry
+    book = Book.find(params[:id])
+    record = Borrow.find_by(user_id: current_user.id, book_id: params[:id], status: "使用中")
     if record
       # 已在使用，不可多借
-      flash.now[:info] = "你已在使用本书，不可多占资源哦..."
+      flash[:info] = "你已在使用本书，不可多占资源哦..."
     else
       if book.store > 0
         borrow = Borrow.new
@@ -67,14 +67,16 @@ class BooksController < ApplicationController
           flash.now[:success] = "借阅成功!"
         else
           # 借阅失败
-          flash.now[:error] = "借阅失败!"
+          flash[:error] = "借阅失败!"
         end
       else
         # 无库存，可预订
-        flash.now[:notice] = "无库存,可预订!"
+        flash[:notice] = "无库存,可预订!"
       end
     end
-    index
+    respond_to do |format|
+      format.html { redirect_to edit_book_path(book.id) }
+    end
   end
   
   def borrow_current
@@ -113,8 +115,8 @@ class BooksController < ApplicationController
   end
   
   def order
-    book = Book.find_by(id: params[:book_id])
-    record = Borrow.find_by(user_id: current_user.id, book_id: params[:book_id], status: "使用中")
+    book = Book.find_by(id: params[:id])
+    record = Borrow.find_by(user_id: current_user.id, book_id: params[:id], status: "使用中")
     if record
       # 已在使用，无需预订
       flash.now[:info] = "你已在使用本书，不必预订..."
