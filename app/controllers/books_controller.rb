@@ -7,6 +7,7 @@ class BooksController < ApplicationController
   
   #new_hot
   def library
+    binding.pry
     books = Book.all
     @books_new = Book.order("created_at DESC")[0..5]
     
@@ -19,7 +20,7 @@ class BooksController < ApplicationController
     
     sql = %Q| select id,picture,name,isbn,press,author,recommender,point
                     from books
-                    where status = "推荐"
+                    where status = '#{Book::REC}'
                     order by created_at DESC
             |
     @books_rec = Book.find_by_sql(sql)[0..2]
@@ -64,7 +65,7 @@ class BooksController < ApplicationController
       
         if borrow.save
           book.update_attribute(:store, book.store-1)
-          flash.now[:success] = "借阅成功!"
+          flash[:success] = "借阅成功!"
         else
           # 借阅失败
           flash[:error] = "借阅失败!"
@@ -75,7 +76,7 @@ class BooksController < ApplicationController
       end
     end
     respond_to do |format|
-      format.html { redirect_to edit_book_path(book.id) }
+       format.html { redirect_to edit_book_path(book.id) } 
     end
   end
   
@@ -119,28 +120,30 @@ class BooksController < ApplicationController
     record = Borrow.find_by(user_id: current_user.id, book_id: params[:id], status: "使用中")
     if record
       # 已在使用，无需预订
-      flash.now[:info] = "你已在使用本书，不必预订..."
+      flash[:info] = "你已在使用本书，不必预订..."
     else
-      ordered = Order.find_by(user_id: current_user.id, book_id: params[:book_id], status: "排队中")
+      ordered = Order.find_by(user_id: current_user.id, book_id: params[:id], status: "排队中")
       if ordered
         # 已预订，无需再次预订
-        flash.now[:info] = "你已预订过本书，请耐心等候..."
+        flash[:info] = "你已预订过本书，请耐心等候..."
       else
         order = Order.new
         order.user_id = current_user.id
         order.book_id = params[:book_id]
         order.status = '排队中'
-        records = Order.find(:all,conditions:{book_id: params[:book_id], status: "排队中"})
+        records = Order.find(:all,conditions:{book_id: params[:id], status: "排队中"})
         if order.save
           book.update_attribute(:store, book.store-1)
-          flash.now[:success] = "预订成功! 你的服务序号为: #{records.count+1} (^_^)"
+          flash[:success] = "预订成功! 你的服务序号为: #{records.count+1} "
         else
           # 预订失败
-          flash.now[:error] = "预订失败!"
+          flash[:error] = "预订失败!"
         end
       end
     end
-    index
+    respond_to do |format|
+       format.html { redirect_to edit_book_path(book.id) } 
+    end
   end
   
   def order_current
