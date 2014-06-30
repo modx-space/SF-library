@@ -35,8 +35,8 @@
 	</div>
 	<div class="modal-footer">
 		<!-- <input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="关闭" /> -->
-		<%= link_to "借阅", borrow_book_path(@book.id), method:"post", id: "borrow", class:"btn btn-primary", remote: true %>
-		<%= link_to "预订", order_book_path(@book.id), method:"post", id: "order", class:"btn btn-info", remote: true %>
+		<%= link_to "借阅", borrow_book_path(@book.id), method:"post", id: "borrow", class:"btn btn-primary"%>
+		<%= link_to "预订", order_book_path(@book.id), method:"post", id: "order", class:"btn btn-info"%>
 	</div>
 	<% end %>
 </div>

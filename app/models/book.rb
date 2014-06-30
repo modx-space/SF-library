@@ -15,6 +15,19 @@ class Book < ActiveRecord::Base
   def self.search(page)
     paginate :per_page => 10, :page => page
   end
-  
-  
+
+  #book status
+  REC = 0
+  IN = 1
+  OUT =2
+
+  STATUSES = {
+    REC => '推荐',
+    IN => '库中',
+    OUT => '借出'
+  }
+
+  def status_name
+    STATUSES[status]
+  end
 end

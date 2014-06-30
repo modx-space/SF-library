@@ -51,8 +51,8 @@
 </div>
 <%#= will_paginate @books %>
 
-<!-- Modal for Book-infor-->
-<div id="bookinfor" class="modal hide fade" role="dialog" aria-hidden="true">
+ <!-- Modal for Book-infor-->
+<!--<div id="bookinfor" class="modal hide fade" role="dialog" aria-hidden="true">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 		<h3>图书信息</h3>
@@ -86,14 +86,14 @@
 		<%#= link_to "借阅", borrow_path, method:"post", id: "borrow", class:"btn btn-primary", remote: true %>
 		<%#= link_to "预订", order_path, method:"post", id: "order", class:"btn btn-info", remote: true %>
 	</div>
-</div>
+</div> -->
 
 <script>
 $("#order,#borrow").click(function(){
 	$('#bookinfor').modal('hide');
 });
 function show(path){
-   popWin.showWin("700","400","图书信息", path);
+   popWin.showWin("700","600","图书信息", path);
 }
 function show1(book){
 	// set value
