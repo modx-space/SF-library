@@ -23,8 +23,7 @@ class Book < ActiveRecord::Base
 
   STATUSES = {
     REC => '推荐',
-    IN => '库中',
-    OUT => '借出'
+    IN => '已买',
   }
 
   def status_name
