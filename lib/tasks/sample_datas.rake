@@ -73,7 +73,7 @@ def make_books
     total = 0
     store = 0
     point = 0
-    status = "推荐"
+    status = Book::REC
     recommender = Faker::Name.name
     
     Book.create!(name: name,

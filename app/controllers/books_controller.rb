@@ -7,7 +7,6 @@ class BooksController < ApplicationController
   
   #new_hot
   def library
-    binding.pry
     books = Book.all
     @books_new = Book.order("created_at DESC")[0..5]
     
@@ -183,7 +182,7 @@ class BooksController < ApplicationController
   def recommed_list
     sql = %Q| select id,picture,name,isbn,press,author,recommender,point,intro
                     from books
-                    where status = "推荐"
+                    where status = '#{Book::REC}'
                     order by point DESC
             |
     @recommed = Book.paginate_by_sql(sql,page: params[:page], per_page:10)
@@ -244,7 +243,7 @@ class BooksController < ApplicationController
       book.total = 0
       book.store = 0
       book.point = 0
-      book.status = "推荐"
+      book.status = Book::REC
       book.recommender = current_user.name
       if book.save
         flash.now[:success] = "推荐成功! O(∩_∩)O"
