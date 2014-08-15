@@ -27,10 +27,6 @@ module UserHelper
     	remember_token = User.encrypt(cookies[:remember_token])
     	@current_user ||= User.find_by(remember_token:remember_token)
     end
-    
-    def is_admin?
-      current_user.cate.eql?("管理员")
-    end
 
     def signed_in?
       !current_user.nil?

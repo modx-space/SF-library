@@ -9,24 +9,19 @@ class Book < ActiveRecord::Base
   validates :store, numericality: { only_integer: true }
   
   def self.search_by_tag(search, page)
-            paginate :per_page => 10, :page => page,   
+            paginate :per_page => BOOK_PER_PAGE, :page => page,   
                        :conditions => ['name like ?', "%#{search}%"]
   end
   def self.search(page)
-    paginate :per_page => 10, :page => page
+    paginate :per_page => BOOK_PER_PAGE, :page => page
   end
 
-  #book status
-  REC = 0
-  IN = 1
-  OUT =2
+  # STATUSES = {
+  #   REC => '推荐',
+  #   IN => '已买',
+  # }
 
-  STATUSES = {
-    REC => '推荐',
-    IN => '已买',
-  }
-
-  def status_name
-    STATUSES[status]
-  end
+  # def status_name
+  #   STATUSES[status]
+  # end
 end

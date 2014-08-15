@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130902145318) do
+ActiveRecord::Schema.define(version: 20140814091046) do
 
   create_table "books", force: true do |t|
     t.string   "name"
@@ -22,16 +22,15 @@ ActiveRecord::Schema.define(version: 20130902145318) do
     t.string   "press"
     t.date     "publish_date"
     t.string   "language"
-    t.string   "cate"
+    t.string   "category"
     t.float    "price"
     t.integer  "total"
     t.integer  "store"
     t.integer  "point"
-    t.string   "recommender"
     t.string   "provider"
-    t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.date     "store_date"
   end
 
   create_table "borrows", force: true do |t|
@@ -56,7 +55,7 @@ ActiveRecord::Schema.define(version: 20130902145318) do
     t.string   "name"
     t.string   "email"
     t.string   "team"
-    t.string   "cate"
+    t.integer  "role"
     t.string   "password_digest"
     t.string   "remember_token"
     t.datetime "created_at"

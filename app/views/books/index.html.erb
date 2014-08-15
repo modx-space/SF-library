@@ -9,7 +9,8 @@
 		<% end %>
 	</div>
 	<div class="span3 offset3">
-		<%= link_to '添加图书', new_book_path, remote: 'true', class: "btn" %>
+		<button onclick="add('<%= new_book_path %>')" class="btn">添加图书</button>
+		<%#= link_to '添加图书', new_book_path, onclick: 'add("df")', class: "btn"%>
 	</div>
 </div>
 
@@ -40,7 +41,7 @@
 				<td><%= book.author %></td>
 				<td><%= book.isbn %></td>
 				<td><%= book.language %></td>
-				<td><%= book.cate %></td>
+				<td><%= book.category %></td>
 				<td><%= book.total %></td>
 				<td><%= book.store > 0 ? book.store : 0 %></td>
 				<td><%= book.store < 0 ? -book.store : 0 %>人</td>
@@ -93,28 +94,31 @@ $("#order,#borrow").click(function(){
 	$('#bookinfor').modal('hide');
 });
 function show(path){
-   popWin.showWin("700","600","图书信息", path);
-}
-function show1(book){
-	// set value
-	$('#name').val(book.name);
-	$('#isbn').val(book.isbn);
-	$('#author').val(book.author);
-	$('#press').val(book.press);
-	$('#intro').val(book.intro);
-	$('#borrow').attr('href',$('#borrow').attr('href').split("?")[0]+"?book_id="+book.id);
-	$('#order').attr('href',$('#order').attr('href').split("?")[0]+"?book_id="+book.id);
-	// show borrow or order button according to book.available
-	if(book.store < 1){
-		$('#borrow').hide();
-		$('#order').show();
-	}
-	else{
-		$('#order').hide();
-		$('#borrow').show();
-	}
-	// show modal
-	$('#bookinfor').modal('show');
-}
+	popWin.showWin("700","600","图书信息", path);
+};
+function add(path){
+	popWin.showWin("850","800","添加图书", path);
+};
+// function show1(book){
+// 	// set value
+// 	$('#name').val(book.name);
+// 	$('#isbn').val(book.isbn);
+// 	$('#author').val(book.author);
+// 	$('#press').val(book.press);
+// 	$('#intro').val(book.intro);
+// 	$('#borrow').attr('href',$('#borrow').attr('href').split("?")[0]+"?book_id="+book.id);
+// 	$('#order').attr('href',$('#order').attr('href').split("?")[0]+"?book_id="+book.id);
+// 	// show borrow or order button according to book.available
+// 	if(book.store < 1){
+// 		$('#borrow').hide();
+// 		$('#order').show();
+// 	}
+// 	else{
+// 		$('#order').hide();
+// 		$('#borrow').show();
+// 	}
+// 	// show modal
+// 	$('#bookinfor').modal('show');
+// }
 
 </script>
