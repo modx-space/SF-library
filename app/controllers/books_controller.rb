@@ -4,6 +4,7 @@ require "json"
 class BooksController < ApplicationController
   
   before_action :signed_in_user
+  load_and_authorize_resource
   
   #new_hot
   def library
@@ -17,9 +18,8 @@ class BooksController < ApplicationController
             |
     @books_hot = Borrow.find_by_sql(sql)[0..2]
     
-    sql = %Q| select id,picture,name,isbn,press,author,recommender,point
+    sql = %Q| select id,picture,name,isbn,press,author,point
                     from books
-                    where status = '#{Book::REC}'
                     order by created_at DESC
             |
     @books_rec = Book.find_by_sql(sql)[0..2]
@@ -30,9 +30,9 @@ class BooksController < ApplicationController
     page = params[:page] || 1
     sql = %Q| select * from books where status = "已买" |
     if params[:tag] != nil
-      @books = Book.search_by_tag(params[:tag], page).paginate(page: page, per_page: 10)
+      @books = Book.search_by_tag(params[:tag], page).paginate(page: page, per_page: BOOK_PER_PAGE)
     else
-      @books = Book.search(page).paginate(page: page, per_page: 10)
+      @books = Book.search(page).paginate(page: page, per_page: BOOK_PER_PAGE)
     end
 
     respond_to do |format|
@@ -45,39 +45,6 @@ class BooksController < ApplicationController
   def edit
     @book = Book.find(params[:id])
   end
-
-  def borrow
-    #binding.pry
-    book = Book.find(params[:id])
-    record = Borrow.find_by(user_id: current_user.id, book_id: params[:id], status: "使用中")
-    if record
-      # 已在使用，不可多借
-      flash[:info] = "你已在使用本书，不可多占资源哦..."
-    else
-      if book.store > 0
-        borrow = Borrow.new
-        borrow.user_id = current_user.id
-        borrow.book_id = params[:book_id]
-        borrow.should_return_date = Time.new + 2.weeks
-        borrow.status = '使用中'
-        borrow.is_expired = 0;
-      
-        if borrow.save
-          book.update_attribute(:store, book.store-1)
-          flash[:success] = "借阅成功!"
-        else
-          # 借阅失败
-          flash[:error] = "借阅失败!"
-        end
-      else
-        # 无库存，可预订
-        flash[:notice] = "无库存,可预订!"
-      end
-    end
-    respond_to do |format|
-       format.html { redirect_to edit_book_path(book.id) } 
-    end
-  end
   
   def borrow_current
     sql = %Q| select picture,name,isbn,borrows.created_at,
@@ -87,7 +54,7 @@ class BooksController < ApplicationController
                           and
                           borrows.user_id = #{current_user.id}
             |
-    @borrowing = Borrow.paginate_by_sql(sql,page: params[:page], per_page:10)
+    @borrowing = Borrow.paginate_by_sql(sql,page: params[:page], per_page: BOOK_PER_PAGE)
     
     respond_to do |format|
       format.html {render '_borrowing.html.erb'}
@@ -106,7 +73,7 @@ class BooksController < ApplicationController
                           and
                           borrows.status = "已归还"
             |
-    @borrowed = Borrow.paginate_by_sql(sql,page: params[:page], per_page:10)
+    @borrowed = Borrow.paginate_by_sql(sql,page: params[:page], per_page: BOOK_PER_PAGE)
     
     respond_to do |format|
       format.js {render 'borrowed.js.erb'}
@@ -154,7 +121,7 @@ class BooksController < ApplicationController
                           and
                           orders.status = "排队中"
             |
-    @ordering = Order.paginate_by_sql(sql,page: params[:page], per_page:10)
+    @ordering = Order.paginate_by_sql(sql,page: params[:page], per_page: BOOK_PER_PAGE)
     
     respond_to do |format|
       format.js {render 'ordering.js.erb'}
@@ -171,7 +138,7 @@ class BooksController < ApplicationController
                           and
                           orders.status = "已处理"
             |
-    @ordered = Order.paginate_by_sql(sql,page: params[:page], per_page:10)
+    @ordered = Order.paginate_by_sql(sql,page: params[:page], per_page: BOOK_PER_PAGE)
     
     respond_to do |format|
       format.js {render 'ordered.js.erb'}
@@ -185,7 +152,7 @@ class BooksController < ApplicationController
                     where status = '#{Book::REC}'
                     order by point DESC
             |
-    @recommed = Book.paginate_by_sql(sql,page: params[:page], per_page:10)
+    @recommed = Book.paginate_by_sql(sql,page: params[:page], per_page: BOOK_PER_PAGE)
     respond_to do |format|
       format.js { render 'reclist.js.erb' }
     end
@@ -205,13 +172,14 @@ class BooksController < ApplicationController
       begin
         open(uri) do |http|
           response = JSON.parse(http.read)
+          binding.pry
           @book = {}
           @book[:picture] = response["images"]["large"]
           @book[:isbn] = response["isbn13"]
           @book[:name] = response["title"]
           @book[:author] = response["author"].to_s.delete("[]\"")
           @book[:language] = response["translator"].length > 0 ? "外文" : "中文"
-          @book[:cate] = response["tags"][0]["name"]
+          @book[:category] = response["tags"][0]["name"]
           @book[:press] = response["publisher"]
           @book[:publish_date] = response["pubdate"]
           @book[:price] = response["price"]
@@ -238,7 +206,7 @@ class BooksController < ApplicationController
       book.press = params[:book][:press]
       book.publish_date = params[:book][:publish_date]
       book.language = params[:book][:language]
-      book.cate = params[:book][:cate]
+      book.category = params[:book][:category]
       book.price = params[:book][:price]
       book.total = 0
       book.store = 0
@@ -284,7 +252,7 @@ class BooksController < ApplicationController
 
   def new
     respond_to do |format|
-      format.js
+      format.html
     end
   end
 
@@ -303,7 +271,7 @@ class BooksController < ApplicationController
       book.press = params[:book][:press]
       book.publish_date = params[:book][:publish_date]
       book.language = params[:book][:language]
-      book.cate = params[:book][:cate]
+      book.category = params[:book][:category]
       book.price = params[:book][:price]
       book.total = params[:book][:total]
       book.store = book.total

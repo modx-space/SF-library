@@ -2,6 +2,7 @@
 class UsersController < ApplicationController
   
   before_action :signed_in_user, only: [:index]
+  load_and_authorize_resource
   
   def index
     @users = User.order('name').
@@ -19,27 +20,14 @@ class UsersController < ApplicationController
     
   end
   
-  def login
-    user = User.find_by(email: params[:user][:email].downcase)
-    respond_to do |format|
-      if user && user.authenticate(params[:user][:password])
-        sign_in user
-        format.html { redirect_to library_books_path }
-      else
-        flash[:error] = 'Email或密码有误!'
-        format.html { redirect_to root_path }
-      end
-    end  
-  end
-  
   def create
     user = User.new
     user.name = params[:user][:name]
     user.email = params[:user][:email]
     user.team = params[:user][:team]
-    user.cate = params[:user][:cate]
-    user.password = User::DEFAULT_PASSWORD
-    user.password_confirmation = User::DEFAULT_PASSWORD
+    user.role = params[:user][:role]
+    user.password = DEFAULT_PASSWORD
+    user.password_confirmation = DEFAULT_PASSWORD
 
     user_temp = User.find_by(email: params[:user][:email])
     if user_temp
@@ -58,6 +46,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    binding.pry
     @user = User.find(params[:id])
     respond_to do |format|
       format.html 
@@ -93,15 +82,11 @@ class UsersController < ApplicationController
     end
   end
   
-  def logout
-    sign_out
-    redirect_to root_path
-  end
 
   def reset
     @user = User.find(params[:id])
-    @user.password = User::DEFAULT_PASSWORD
-    @user.password_confirmation = User::DEFAULT_PASSWORD
+    @user.password = DEFAULT_PASSWORD
+    @user.password_confirmation = DEFAULT_PASSWORD
     if @user.save 
       flash[:success] = '密码重置成功'
     else
@@ -118,6 +103,6 @@ class UsersController < ApplicationController
     # list between create and update. Also, you can specialize this method
     # with per-user checking of permissible attributes.
     def user_params
-      params.require(:user).permit(:email, :name, :cate, :team)
+      params.require(:user).permit(:email, :name, :role, :team, :password, :password_confirmation)
     end
 end

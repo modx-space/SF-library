@@ -11,20 +11,20 @@ end
 def make_user
   me = User.create!(name: "zxiao",
                     email: "zxiao@successfactors.com",
-                    cate: "管理员",
+                    role: "1",
                     team: "Mobile",
                     password: "sf1234",
                     password_confirmation: "sf1234")
   12.times do
     name  = Faker::Name.name
     email = Faker::Name.name+"@successfactors.com"
-    cate = "读者"
+    role = "0"
     team = Faker::Name.name
     pwd = "sf1234"
     
     User.create!(name: name,
                         email: email,
-                        cate: cate,
+                        role: cate,
                         team: team,
                         password: pwd,
                         password_confirmation: pwd)

@@ -2,17 +2,17 @@
 <div class="well sidebar-nav">
 	<ul class="nav nav-tabs">
 	  <li class="active">
-	    <a data-target="#user" data-toggle="tab">读者</a>
+	    <a data-target="#user" data-toggle="tab" style="cursor: pointer;">读者</a>
 	  </li>
-	  <% if is_admin? %>
-		  <li><a data-target="#admin" data-toggle="tab">管理员</a></li>
+	  <% if current_user.is_admin? %>
+		  <li><a data-target="#admin" data-toggle="tab" style="cursor: pointer;">管理员</a></li>
 	  <% end %>
 	</ul>
 	<div class="tab-content">
 		<div id="user" class="well sidebar-nav tab-pane fade active in">
 			<ul class="nav nav-list">
 				<li id="uli_1" class="active">
-					<%= link_to library_books_path do %>
+					<%= link_to library_path do %>
 						<i class="icon-home"></i>首页
 					<% end %>
 				</li>

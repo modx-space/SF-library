@@ -3,9 +3,6 @@ LibraryApp::Application.routes.draw do
   root to: 'default#home'
   
   resources :books do
-    collection do
-      get 'library'
-    end
     member do
       post 'borrow'
       post 'order'
@@ -15,15 +12,23 @@ LibraryApp::Application.routes.draw do
 
   resources :users do   
     collection do
-      delete 'logout'
-      get 'login'
+      #delete 'logout'
+      #post 'login'
     end
     member do
       get 'reset'
     end
   end
+
+  resources :borrows
+
+  resources :sessions do
+    collection do
+      delete 'delete'
+    end
+  end
   
-  #match '/library', to: 'books#new_hot', via: 'get'
+  match '/library', to: 'books#library', via: 'get'
   
   #match '/borrow', to: 'books#borrow', via: 'post'
   match '/borrowing', to: 'books#borrow_current', via: 'get'

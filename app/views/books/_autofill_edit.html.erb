@@ -1,6 +1,6 @@
 # encoding: utf-8
 <div class="book container-fluid">
-	<% _action_path = params[:action] == 'recbook' ? recommend_path : book_index_path %>
+	<% _action_path = params[:action] == 'recbook' ? recommend_path : books_path %>
 	<%= form_for(:book, url: _action_path, method: 'post', remote: true) do |f| %>
 	<div class="modal-header">
 		<center>
@@ -35,7 +35,7 @@
 			  <span class="add-on">语言:</span>
 			  <%= f.text_field :language, class: "span2", readonly: true %>
 			  <span class="add-on">类别:</span>
-			  <%= f.text_field :cate, class: "span2" %>
+			  <%= f.text_field :category, class: "span2" %>
 			  <span class="add-on">价格:</span>
 			  <%= f.text_field :price, class: "span2", readonly: true %>
 			</div>
