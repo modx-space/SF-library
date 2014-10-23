@@ -18,7 +18,7 @@
 /config/database.yml
 /test
 
-/.DS_Store
+.DS_Store
 
 # Ignore tmp file
 *~
