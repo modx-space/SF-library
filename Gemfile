@@ -54,6 +54,13 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+group :debugging do
+  gem 'debugger', '1.6.8', :platforms => :ruby_19
+  gem 'pry', :platforms => :ruby_19
+  gem 'byebug' if RUBY_VERSION =~ /^2/ #, :platforms => :ruby_20
+  gem 'pry-byebug' if RUBY_VERSION =~ /^2/ #, :platforms => :ruby_20
+end
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -62,8 +69,4 @@ end
 
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]
-gem 'pry', group: [:development, :test]
-gem 'pry-debugger', group: [:development, :test]
+ 

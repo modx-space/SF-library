@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
   validates :role, presence: true
   # validates :pwd, length:{ minimum: 6}
 
+  scope :admin, where(role: 'admin')
+
   def is_admin?
     role == nil ? false : role.to_sym == :admin
   end

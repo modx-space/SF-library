@@ -18,6 +18,7 @@ class BorrowsController < ApplicationController
         if @borrow.save
             book.update_attribute(:store, book.store-1)
             flash[:success] = "借阅成功!"
+            BorrowMailer.borrow_notification_to_admin(@borrow).deliver
         else
             # 借阅失败
             flash[:error] = "借阅失败!"
