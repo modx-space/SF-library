@@ -46,40 +46,7 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
   end
   
-  def borrow_current
-    sql = %Q| select picture,name,isbn,borrows.created_at,
-                    should_return_date,is_expired,borrows.status
-                    from borrows,books
-                    where borrows.book_id = books.id
-                          and
-                          borrows.user_id = #{current_user.id}
-            |
-    @borrowing = Borrow.paginate_by_sql(sql,page: params[:page], per_page: BOOK_PER_PAGE)
-    
-    respond_to do |format|
-      format.html {render '_borrowing.html.erb'}
-      format.js {render 'borrowing.js.erb'}
-    end
-    
-  end
-  
-  def borrow_history
-    sql = %Q| select picture,name,isbn,borrows.created_at,
-                    borrows.updated_at
-                    from borrows,books
-                    where borrows.book_id = books.id
-                          and
-                          borrows.user_id = #{current_user.id}
-                          and
-                          borrows.status = "已归还"
-            |
-    @borrowed = Borrow.paginate_by_sql(sql,page: params[:page], per_page: BOOK_PER_PAGE)
-    
-    respond_to do |format|
-      format.js {render 'borrowed.js.erb'}
-    end
-    
-  end
+
   
   def order
     book = Book.find_by(id: params[:id])

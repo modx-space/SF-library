@@ -31,8 +31,8 @@ LibraryApp::Application.routes.draw do
   match '/library', to: 'books#library', via: 'get'
   
   #match '/borrow', to: 'books#borrow', via: 'post'
-  match '/borrowing', to: 'books#borrow_current', via: 'get'
-  match '/borrowed', to: 'books#borrow_history', via: 'get'
+  match '/borrowing', to: 'borrows#borrow_current', via: 'get'
+  match '/borrowed', to: 'borrows#borrow_history', via: 'get'
   
   #match '/order', to: 'books#order', via: 'post'
   match '/ordering', to: 'books#order_current', via: 'get'
