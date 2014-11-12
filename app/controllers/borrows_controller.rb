@@ -13,7 +13,7 @@ class BorrowsController < ApplicationController
       	@borrow = current_user.borrows.new
       	@borrow.book_id = params[:book_id]
         @borrow.should_return_date = Time.new + 2.weeks
-        @borrow.status = BORROW_STATUS.index('未出库')
+        @borrow.status = BORROW_STATUES.index('未出库')
         @borrow.is_expired = 0
         if @borrow.save
             book.update_attribute(:store, book.store-1)
@@ -46,7 +46,7 @@ class BorrowsController < ApplicationController
     
     respond_to do |format|
       format.html {render '_borrowing.html.erb'}
-      format.js {render 'borrowing.js.erb'}
+
     end
     
   end
@@ -61,7 +61,7 @@ class BorrowsController < ApplicationController
                           and
                           borrows.user_id = #{current_user.id}
                           and
-                          borrows.status = #{BORROW_STATUS.index('未出库')}
+                          borrows.status = #{BORROW_STATUSES.index('已归还')}
             |
     @borrowed = Borrow.paginate_by_sql(sql,page: params[:page], per_page: BOOK_PER_PAGE)
     

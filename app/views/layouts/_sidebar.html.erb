@@ -11,7 +11,7 @@
 	<div class="tab-content">
 		<div id="user" class="well sidebar-nav tab-pane fade active in">
 			<ul class="nav nav-list">
-				<li id="uli_1" class="active">
+				<li id="uli_1">
 					<%= link_to library_path do %>
 						<i class="icon-home"></i>首页
 					<% end %>
@@ -28,18 +28,18 @@
 					<% end %>
 				</li>
 				<li id="uli_4">
-					<%= link_to borrowed_path, remote: true do %>
+					<%= link_to borrowed_path do %>
 						<i class="icon-calendar"></i>借阅历史
 					<% end %>
 				</li>
 				<li class="nav-header">预定</li>
 				<li id="uli_5">
-					<%= link_to ordering_path, remote: true  do %>
+					<%= link_to ordering_path  do %>
 						<i class="icon-bell"></i>当前预定
 					<% end %>
 				</li>
 				<li id="uli_6">
-					<%= link_to ordered_path, remote: true  do %>
+					<%= link_to ordered_path  do %>
 						<i class="icon-calendar"></i>预定历史
 					<% end %>
 				</li>
@@ -50,7 +50,7 @@
 					<% end %>
 				</li>
 				<li id="uli_8">
-					<%= link_to recommend_list_path , remote: true do %>
+					<%= link_to recommend_list_path  do %>
 						<i class="icon-star"></i>推荐列表
 					<% end %>
 				</li>
@@ -69,22 +69,22 @@
 					<% end %>
 				</li>
 				<li id="ali_3">
-					<%= link_to borrowing_path , remote: true do %>
+					<%= link_to borrowing_path  do %>
 						<i class="icon-eye-open"></i>借阅管理
 					<% end %>
 				</li>
 				<li id="ali_4">
-					<%= link_to borrowed_path , remote: true do %>
+					<%= link_to borrowed_path  do %>
 						<i class="icon-calendar"></i>预定管理
 					<% end %>
 				</li>
 				<li id="ali_5">
-					<%= link_to recommend_list_path, remote: true  do %>
+					<%= link_to recommend_list_path  do %>
 						<i class="icon-bell"></i>推荐管理
 					<% end %>
 				</li>
 				<li id="ali_6">
-					<%= link_to ordered_path, remote: true  do %>
+					<%= link_to ordered_path  do %>
 						<i class="icon-calendar"></i>预定历史
 					<% end %>
 				</li>
