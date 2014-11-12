@@ -43,74 +43,8 @@ class BooksController < ApplicationController
   end
   
   def edit
+    @order_number = Order.count(conditions: "status = '#{ORDER_STATUSES.index('排队中')}' and book_id = #{params[:id]}")
     @book = Book.find(params[:id])
-  end
-  
-
-  
-  def order
-    book = Book.find_by(id: params[:id])
-    record = Borrow.find_by(user_id: current_user.id, book_id: params[:id], status: "使用中")
-    if record
-      # 已在使用，无需预订
-      flash[:info] = "你已在使用本书，不必预订..."
-    else
-      ordered = Order.find_by(user_id: current_user.id, book_id: params[:id], status: "排队中")
-      if ordered
-        # 已预订，无需再次预订
-        flash[:info] = "你已预订过本书，请耐心等候..."
-      else
-        order = Order.new
-        order.user_id = current_user.id
-        order.book_id = params[:book_id]
-        order.status = '排队中'
-        records = Order.find(:all,conditions:{book_id: params[:id], status: "排队中"})
-        if order.save
-          book.update_attribute(:store, book.store-1)
-          flash[:success] = "预订成功! 你的服务序号为: #{records.count+1} "
-        else
-          # 预订失败
-          flash[:error] = "预订失败!"
-        end
-      end
-    end
-    respond_to do |format|
-       format.html { redirect_to edit_book_path(book.id) } 
-    end
-  end
-  
-  def order_current
-    sql = %Q| select picture,name,isbn,orders.created_at,orders.status,store
-                    from orders,books
-                    where orders.book_id = books.id
-                          and
-                          orders.user_id = #{current_user.id}
-                          and
-                          orders.status = "排队中"
-            |
-    @ordering = Order.paginate_by_sql(sql,page: params[:page], per_page: BOOK_PER_PAGE)
-    
-    respond_to do |format|
-      format.js {render 'ordering.js.erb'}
-    end
-    
-  end
-  
-  def order_history
-    sql = %Q| select picture,name,isbn,orders.created_at,orders.updated_at
-                    from orders,books
-                    where orders.book_id = books.id
-                          and
-                          orders.user_id = #{current_user.id}
-                          and
-                          orders.status = "已处理"
-            |
-    @ordered = Order.paginate_by_sql(sql,page: params[:page], per_page: BOOK_PER_PAGE)
-    
-    respond_to do |format|
-      format.js {render 'ordered.js.erb'}
-    end
-    
   end
   
   def recommed_list

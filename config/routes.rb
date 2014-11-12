@@ -3,11 +3,9 @@ LibraryApp::Application.routes.draw do
   root to: 'default#home'
   
   resources :books do
-    member do
-      post 'borrow'
-      post 'order'
-    end
   end
+
+
 
 
   resources :users do   
@@ -22,6 +20,8 @@ LibraryApp::Application.routes.draw do
 
   resources :borrows
 
+  resources :orders
+
   resources :sessions do
     collection do
       delete 'delete'
@@ -35,8 +35,8 @@ LibraryApp::Application.routes.draw do
   match '/borrowed', to: 'borrows#borrow_history', via: 'get'
   
   #match '/order', to: 'books#order', via: 'post'
-  match '/ordering', to: 'books#order_current', via: 'get'
-  match '/ordered', to: 'books#order_history', via: 'get'
+  match '/ordering', to: 'orders#order_current', via: 'get'
+  match '/ordered', to: 'orders#order_history', via: 'get'
   
   match '/recommend_list', to: 'books#recommed_list', via: 'get'
   match '/recommend', to: 'books#recommend', via: 'post'
