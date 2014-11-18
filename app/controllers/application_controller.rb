@@ -1,3 +1,4 @@
+#encoding: utf-8
 class ApplicationController < ActionController::Base
   include UserHelper
   # Prevent CSRF attacks by raising an exception.

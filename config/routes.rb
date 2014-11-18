@@ -29,7 +29,9 @@ LibraryApp::Application.routes.draw do
   end
   
   match '/library', to: 'books#library', via: 'get'
-  
+  match '/searchBooks', to: 'books#index', via: 'get'
+
+
   #match '/borrow', to: 'books#borrow', via: 'post'
   match '/borrowing', to: 'borrows#borrow_current', via: 'get'
   match '/borrowed', to: 'borrows#borrow_history', via: 'get'

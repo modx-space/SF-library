@@ -1,3 +1,4 @@
+#encoding: utf-8
 class BorrowsController < ApplicationController
 
   before_action :signed_in_user
