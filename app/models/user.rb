@@ -1,7 +1,5 @@
 # encoding: utf-8
 class User < ActiveRecord::Base
-  DAYS_OVERDUE = 20
-
   has_many :borrows
   has_many :books, through: :borrows
   has_many :orders
@@ -30,7 +28,7 @@ class User < ActiveRecord::Base
   end
 
   def overdue_books
-    self.borrows.where("updated_at < ?", Time.now - DAYS_OVERDUE.day)
+    self.borrows.where("should_return_date < ?", Time.now)
   end
   
   def User.new_remember_token
