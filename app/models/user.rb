@@ -1,6 +1,7 @@
 # encoding: utf-8
 class User < ActiveRecord::Base
-  
+  DAYS_OVERDUE = 20
+
   has_many :borrows
   has_many :books, through: :borrows
   has_many :orders
@@ -26,6 +27,10 @@ class User < ActiveRecord::Base
   def role_name(role)
   	hash = {:admin => '管理员', :reader => '用户'}
   	hash[role.to_sym]
+  end
+
+  def overdue_books
+    self.borrows.where("updated_at < ?", Time.now - DAYS_OVERDUE.day)
   end
   
   def User.new_remember_token
