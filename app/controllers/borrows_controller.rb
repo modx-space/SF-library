@@ -12,13 +12,10 @@ class BorrowsController < ApplicationController
       if book.store > 0
         @borrow = current_user.borrows.new
         @borrow.book_id = params[:book_id]
-        @borrow.should_return_date = Time.new + 2.weeks
         @borrow.status = BORROW_STATUES.index('未出库')
         @borrow.is_expired = 0
         if @borrow.save
-          book.update_attribute(:store, book.store-1)
           flash[:success] = "借阅成功!"
-          BorrowMailer.borrow_notification_to_admin(@borrow).deliver
         else
           # 借阅失败
           flash[:error] = "借阅失败!"
