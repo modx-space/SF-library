@@ -2,7 +2,11 @@
 <%= will_paginate @orders %>
 <div class="book container-fluid">
 	<table class="table  table-hover">
-		<caption>当前预订</caption>
+		<% if params[:action] == 'order_current' %>
+			<caption>当前预订</caption>
+		<% elsif params[:action] == 'order_history' %>
+			<caption>预订历史</caption>
+		<% end %>
 		<thead>
 			<tr>
 				<th>封面</th>
