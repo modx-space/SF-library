@@ -11,10 +11,9 @@ class BooksController < ApplicationController
     books = Book.all
     @books_new = Book.order("created_at DESC")[0..5]
     
-    sql = %Q| select picture,name,author
-                from borrows,books
-                where borrows.book_id = books.id
+    sql = %Q| select * from borrows
                 group by book_id
+                order by count(1)
             |
     @books_hot = Borrow.find_by_sql(sql)[0..2]
     
@@ -30,9 +29,9 @@ class BooksController < ApplicationController
     page = params[:page] || 1
     sql = %Q| select * from books where status = "已买" |
     if params[:tag] != nil
-      @books = Book.search_by_tag(params[:tag], page).paginate(page: page, per_page: BOOK_PER_PAGE)
+      @books = Book.search_by_tag(params[:tag], page)
     else
-      @books = Book.search(page).paginate(page: page, per_page: BOOK_PER_PAGE)
+      @books = Book.search(page)
     end
 
     respond_to do |format|
