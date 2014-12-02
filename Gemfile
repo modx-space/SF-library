@@ -49,6 +49,8 @@ gem 'jbuilder', '~> 1.2'
 
 gem 'cancancan'
 
+gem 'delayed_job_active_record', '4.0.2'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
@@ -66,5 +68,4 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 gem 'pry', group: [:development, :test]
-gem 'pry-debugger', group: [:development, :test]
  

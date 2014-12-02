@@ -1,6 +1,5 @@
 # encoding: utf-8
 class User < ActiveRecord::Base
-  
   has_many :borrows
   has_many :books, through: :borrows
   has_many :orders
@@ -26,6 +25,10 @@ class User < ActiveRecord::Base
   def role_name(role)
   	hash = {:admin => '管理员', :reader => '用户'}
   	hash[role.to_sym]
+  end
+
+  def overdue_books
+    self.borrows.where("should_return_date < ?", Time.now)
   end
   
   def User.new_remember_token
