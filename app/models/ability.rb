@@ -31,9 +31,11 @@ class Ability
     user ||= User.new # guest user (not logged in)
     if user.is_admin?
       can :manage, :all 
+      can :read, :all
     else
-      can :read, Book
-      can [:library], Book
+      can [:read, :library, :edit], Book
+      can [:borrow_current, :borrow_history, :create], Borrow
+      can [:order_current, :order_history, :create], Order
     end
   end
 end

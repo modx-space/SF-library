@@ -18,7 +18,16 @@ LibraryApp::Application.routes.draw do
     end
   end
 
-  resources :borrows
+  resources :borrows do
+    member do
+      post 'deliver'
+      post 'return'
+    end
+    collection do
+      get 'admin_current'
+      get 'admin_history'
+    end
+  end
 
   resources :orders
 
@@ -37,6 +46,8 @@ LibraryApp::Application.routes.draw do
   #match '/order', to: 'books#order', via: 'post'
   match '/ordering', to: 'orders#order_current', via: 'get'
   match '/ordered', to: 'orders#order_history', via: 'get'
+  match '/admin_ordering', to: 'orders#admin_current', via: 'get'
+  match '/admin_ordered', to: 'orders#admin_history', via: 'get'
   
   match '/recommend_list', to: 'books#recommed_list', via: 'get'
   match '/recommend', to: 'books#recommend', via: 'post'

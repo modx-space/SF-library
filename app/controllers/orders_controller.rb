@@ -20,7 +20,6 @@ class OrdersController < ApplicationController
         order.status = ORDER_STATUSES.index('排队中')
         record_count = Order.count(conditions: "status = '#{ORDER_STATUSES.index('排队中')}'")
         if order.save
-          book.update_attribute(:store, book.store-1)
           flash[:success] = "预订成功! 你的服务序号为: #{record_count+1} "
         else
           # 预订失败
