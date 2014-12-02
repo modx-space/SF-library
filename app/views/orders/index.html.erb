@@ -23,14 +23,15 @@
 		<tbody>
 			<% @orders.each do |order| %>
 			<tr>
-				<td><img class="img-rounded" src="<%= order.book.picture %>" alt="封面" style="width: 40px; height: 50px;"></td>
-				<td><%= order.book.name %></td>
-				<td><%= order.book.isbn %></td>
+				<% book = order.book%>
+				<td><img class="img-rounded" src="<%= book.picture %>" alt="封面" style="width: 40px; height: 50px;"></td>
+				<td><%= book.name %></td>
+				<td><%= book.isbn %></td>
 				<td><%= order.created_at.localtime.to_formatted_s(:Y_m_D) %></td>
 				<% if params[:action] == 'order_current' %>
 					<td><%= ORDER_STATUSES[order.status.to_i] %>，前方有<%= -order.book.store-1 %>人</td>
 				<% elsif params[:action] == 'order_history' %>	
-					<td><%= order.book[:updated_at].localtime.to_formatted_s(:Y_m_D) %></td>
+					<td><%= order.book[:updated_at].to_formatted_s(:Y_m_D) %></td>
 				<% end %>
 			</tr>
 			<% end %>
