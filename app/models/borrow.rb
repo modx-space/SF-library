@@ -5,7 +5,7 @@ class Borrow < ActiveRecord::Base
   belongs_to :user
   belongs_to :book
 
-  validates :validate_book_store
+  validate :validate_book_store
 
   before_create :count_return_date
 
