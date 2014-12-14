@@ -13,7 +13,7 @@ class BorrowsController < ApplicationController
       if book.store > 0
       	@borrow = current_user.borrows.new
       	@borrow.book_id = params[:book_id]
-        @borrow.should_return_date = Time.new + 2.weeks
+        @borrow.should_return_date = Time.new + BORROW_PERIOD
         @borrow.status = BORROW_STATUSES.index('未出库')
         @borrow.is_expired = 0
 
@@ -25,9 +25,10 @@ class BorrowsController < ApplicationController
           end
           flash[:success] = "借阅成功!"
           BorrowMailer.borrow_notification_to_admin(@borrow).deliver
+          BorrowMailer.five_days_left_remind(@borrow).deliver
         rescue Exception => ex
-          puts "*** transaction abored!"
-          puts "*** errors: #{ex.message}"
+          logger.error "*** transaction abored!"
+          logger.error "*** errors: #{ex.message}"
           flash[:error] = "借阅失败!"
         end
 
@@ -46,6 +47,7 @@ class BorrowsController < ApplicationController
     if borrow.update(status: BORROW_STATUSES.index('借阅中'))
       flash[:success] = "出库成功!" 
     else
+      logger.error borrow.errors
       flash[:error] = "出库失败!!!!"
     end
 
@@ -66,8 +68,8 @@ class BorrowsController < ApplicationController
       end
       flash[:success] = "归还成功!"
     rescue Exception => ex
-      puts "*** transaction abored!"
-      puts "*** errors: #{ex.message}"
+      logger.error "*** transaction abored!"
+      logger.error "*** errors: #{ex.message}"
       flash[:error] = "归还失败!!!"
     end
 

@@ -48,18 +48,18 @@ mouseClose: function() {
 closeMask: function() {
         $("#popWinClose").on('click', 
         function() {
-            $("#maskTop").animate({height: 'toggle'}).fadeOut(function () {
-                $(this).remove();
-            });
-            $("#mask").fadeOut(function() {
-                $(this).remove();
-            });
-
+            // $("#maskTop").animate({height: 'toggle'}).fadeOut(function () {
+            //     $(this).remove();
+            // });
+            // $("#mask").fadeOut(function() {
+            //     $(this).remove();
+            // });
+            location.reload();
         });
 
         
 
-    }
+    },
 
 
 /*mouseDown : function(){
@@ -87,6 +87,6 @@ closeMask: function() {
                 $("#maskTop")[0].releaseCapture();
                 e.cancelBubble = true;
             })
-	},*/
+	}*/
 
 };

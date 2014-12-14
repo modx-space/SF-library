@@ -11,12 +11,12 @@ class BorrowMailer < ActionMailer::Base
   end
 
   def five_days_left_remind borrow
-    return if borrow.status != 1 # borrowed
+    return if borrow.status != BORROW_STATUSES.index('借阅中') # borrowed
 
     @borrow = borrow
     @receiver = borrow.user
     @subject = "Please return #{borrow.book.name} within 5 days"
     mail(to: @receiver.email, subject: @subject)
   end
-  handle_asynchronously :five_days_left_remind, :run_at => Proc.new { @borrow.should_return_date - 5.day }
+  handle_asynchronously :five_days_left_remind, :run_at => Proc.new { Time.now + BORROW_PERIOD - 3.day }
 end
