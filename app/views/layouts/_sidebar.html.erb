@@ -5,13 +5,13 @@
 	    <a data-target="#user" data-toggle="tab" style="cursor: pointer;">读者</a>
 	  </li>
 	  <% if current_user.is_admin? %>
-		  <li><a data-target="#admin" data-toggle="tab" style="cursor: pointer;">管理员</a></li>
+		  <li><a id="admin_tab" data-target="#admin" data-toggle="tab" style="cursor: pointer;">管理员</a></li>
 	  <% end %>
 	</ul>
 	<div class="tab-content">
 		<div id="user" class="well sidebar-nav tab-pane fade active in">
 			<ul class="nav nav-list">
-				<li id="uli_1">
+				<li id="uli_1" >
 					<%= link_to library_path do %>
 						<i class="icon-home"></i>首页
 					<% end %>
@@ -99,14 +99,20 @@
 </div>
 
 <script>
-var id = "#uli_1";
-$('ul li').each(function(){
-  $(this).click(function(){
-	  if($(this).attr("id")){
-	    $(id).removeAttr("class");
-	    id = "#"+$(this).attr('id');
-	    $(this).addClass("active");
-		}
-	});
+$("#side_bar").ready(function() {
+    switch(location.pathname){
+    	case "/library": $("#uli_1").addClass("active");break;
+    	case "/books": $("#uli_2").addClass("active");break;
+    	case "/borrowing": $("#uli_3").addClass("active");break;
+    	case "/borrowed": $("#uli_4").addClass("active");break;
+    	case "/ordering": $("#uli_5").addClass("active");break;
+    	case "/ordered": $("#uli_6").addClass("active");break;
+    	case "/users": $("#admin_tab").trigger("click");$("#ali_1").addClass("active");break;
+    	case "/books/admin_index": $("#admin_tab").trigger("click").addClass("active");break;
+    	case "/borrows/admin_current": $("#admin_tab").trigger("click");$("#ali_3").addClass("active");break;
+    	case "/borrows/admin_history": $("#admin_tab").trigger("click");$("#ali_4").addClass("active");break;
+    	case "/orders/admin_current": $("#admin_tab").trigger("click");$("#ali_5").addClass("active");break;
+    	case "/orders/admin_history": $("#admin_tab").trigger("click");$("#ali_6").addClass("active");break;
+    }
 });
 </script>
