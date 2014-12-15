@@ -1,0 +1,45 @@
+# encoding: utf-8
+
+<%= will_paginate @borrows %>
+<% is_admin_page = params[:action] == 'admin_current' %>
+<div class="book container-fluid">
+  <table class="table  table-hover">
+    <caption>当前借阅</caption>
+    <thead>
+      <tr>
+        <th>封面</th>
+        <th>书名</th>
+        <th>ISBN</th>
+        <th>借书日期</th>
+        <th>应还日期</th>
+        <th>超期</th>
+        <th>状态</th>
+        <% if is_admin_page %>
+          <th>操作</th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @borrows.each do |borrow| %>
+      <tr>
+        <% book = borrow.book %> 
+        <td><img class="img-rounded" src="<%= book.picture %>" alt="封面" style="width: 40px; height: 50px;"></td>
+        <td><%= book[:name] %></td>
+        <td><%= book[:isbn] %></td>
+        <td><%= borrow[:created_at].to_formatted_s(:Y_m_D) %></td>
+        <td><%= borrow[:should_return_date].to_formatted_s(:Y_m_D) %></td>
+        <td><%=  borrow[:should_return_date] < Time.now ? "是" : "否" %></td>
+        <td><%= BORROW_STATUSES[borrow[:status].to_i] %></td>
+        <% if is_admin_page %>
+          <% if borrow[:status].to_i == BORROW_STATUSES.index('未出库') %>
+            <td><%= link_to "出库", deliver_borrow_path(borrow[:id]), method: "post", class: "btn btn-primary", data: { confirm: '确定出库?'}%></td>
+          <% else %>
+            <td><%= link_to "归还", return_borrow_path(borrow[:id]), method: "post", class: "btn btn-default", data: { confirm: '确定归还?'}%></td>
+          <% end %>
+        <% end %>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<%= will_paginate @borrows %>

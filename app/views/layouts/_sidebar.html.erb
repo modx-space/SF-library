@@ -22,24 +22,24 @@
 					<% end %>
 				</li>
 				<li class="nav-header">借阅</li>
-				<li id="uli_3" data-location="/borrowing">
-					<%= link_to borrowing_path do %>
+				<li id="uli_3" data-location="/borrows/current_list">
+					<%= link_to current_list_borrows_path do %>
 						<i class="icon-eye-open"></i>当前借阅
 					<% end %>
 				</li>
-				<li id="uli_4" data-location="/borrowed">
-					<%= link_to borrowed_path do %>
+				<li id="uli_4" data-location="/borrows/history_list">
+					<%= link_to history_list_borrows_path do %>
 						<i class="icon-calendar"></i>借阅历史
 					<% end %>
 				</li>
 				<li class="nav-header">预定</li>
-				<li id="uli_5" data-location="/ordering">
-					<%= link_to ordering_path  do %>
+				<li id="uli_5" data-location="/orders/current_list">
+					<%= link_to current_list_orders_path  do %>
 						<i class="icon-bell"></i>当前预定
 					<% end %>
 				</li>
-				<li id="uli_6" data-location="/ordered">
-					<%= link_to ordered_path  do %>
+				<li id="uli_6" data-location="/orders/history_list">
+					<%= link_to history_list_orders_path  do %>
 						<i class="icon-calendar"></i>预定历史
 					<% end %>
 				</li>
@@ -100,23 +100,10 @@
 
 <script>
 $(document).ready(function() {
-	if(location.pathname.indexOf("/admin/")>=0){
-		$('#nav_tab a[data-target="#admin"]').tab('show');
-	}
-	$('#side_bar li[data-location="'+ location.pathname + '"]').addClass('active').siblings().removeClass('active');
-    // switch(location.pathname){
-    // 	case "/library": $("#uli_1").addClass("active");break;
-    // 	case "/books": $("#uli_2").addClass("active");break;
-    // 	case "/borrowing": $("#uli_3").addClass("active");break;
-    // 	case "/borrowed": $("#uli_4").addClass("active");break;
-    // 	case "/ordering": $("#uli_5").addClass("active");break;
-    // 	case "/ordered": $("#uli_6").addClass("active");break;
-    // 	case "/users": $("#admin_tab").trigger("click");$("#ali_1").addClass("active");break;
-    // 	case "/books/admin_index": $("#admin_tab").trigger("click").addClass("active");break;
-    // 	case "/borrows/admin_current": $('#nav_tab a[data-target="#admin"]').tab('show');$("#ali_3").addClass("active");break;
-    // 	case "/borrows/admin_history": $("#admin_tab").trigger("click");$("#ali_4").addClass("active");break;
-    // 	case "/orders/admin_current": $("#admin_tab").trigger("click");$("#ali_5").addClass("active");break;
-    // 	case "/orders/admin_history": $("#admin_tab").trigger("click");$("#ali_6").addClass("active");break;
-    // }
+  if(location.pathname.indexOf("/admin/")>=0){
+    $('#nav_tab a[data-target="#admin"]').tab('show');
+  }
+  $('#side_bar li[data-location="'+ location.pathname + '"]').addClass('active')
+  .siblings().removeClass('active');
 });
 </script>

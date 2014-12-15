@@ -24,12 +24,17 @@ LibraryApp::Application.routes.draw do
       post 'return'
     end
     collection do
-      get 'admin_current'
-      get 'admin_history'
+      get 'current_list'
+      get 'history_list'
     end
   end
 
-  resources :orders
+  resources :orders do
+    collection do
+      get 'current_list'
+      get 'history_list'
+    end
+  end
 
   resources :sessions do
     collection do
@@ -39,14 +44,6 @@ LibraryApp::Application.routes.draw do
   
   match '/library', to: 'books#library', via: 'get'
   match '/searchBooks', to: 'books#index', via: 'get'
-
-  #match '/borrow', to: 'books#borrow', via: 'post'
-  match '/borrowing', to: 'borrows#borrow_current', via: 'get'
-  match '/borrowed', to: 'borrows#borrow_history', via: 'get'
-  
-  #match '/order', to: 'books#order', via: 'post'
-  match '/ordering', to: 'orders#order_current', via: 'get'
-  match '/ordered', to: 'orders#order_history', via: 'get'
 
   #admin
   match '/admin/users', to: 'users#index', via: 'get'

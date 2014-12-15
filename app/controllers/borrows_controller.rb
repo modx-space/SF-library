@@ -15,8 +15,7 @@ class BorrowsController < ApplicationController
       	@borrow.book_id = params[:book_id]
         @borrow.should_return_date = Time.new + BORROW_PERIOD
         @borrow.status = BORROW_STATUSES.index('未出库')
-        @borrow.is_expired = 0
-
+       
         begin
           @borrow.transaction do
             @borrow.save!
@@ -59,6 +58,7 @@ class BorrowsController < ApplicationController
   def return
     borrow = Borrow.find(params[:id])
     borrow.status = BORROW_STATUSES.index('已归还')
+    borrow.return_date = Time.now
     book = borrow.book
     begin
       borrow.transaction do
@@ -78,46 +78,51 @@ class BorrowsController < ApplicationController
     end
   end
   
-  def borrow_current
+  def current_list
     page = params[:page] || 1
     @borrows =  Borrow.where("user_id = :user_id and status != ':status'", 
                       {user_id: current_user.id, status: BORROW_STATUSES.index('已归还')})
                       .paginate(page: page, per_page: BOOK_PER_PAGE)
     
-    respond_to do |format|
-      format.html {render 'index.html.erb'}
-
-    end
+    render_list_page('current_index.html.erb', @borrows.size)
 
   end
  
-  def borrow_history
+  def history_list
     page = params[:page] || 1
     @borrows = Borrow.where("user_id = :user_id and status = ':status'", 
                       {user_id: current_user.id, status: BORROW_STATUSES.index('已归还')})
                       .paginate(page: page, per_page: BOOK_PER_PAGE)
     
-    respond_to do |format|
-      format.html {render 'index.html.erb'}
-    end
+    render_list_page('history_index.html.erb', @borrows.size)
+
   end
 
   def admin_current
     page = params[:page] || 1
     @borrows = Borrow.where("status != ':status'", {status: BORROW_STATUSES.index('已归还')})
                       .paginate(page: page, per_page: BOOK_PER_PAGE)
-    respond_to do |format|
-      format.html {render 'admin_index.html.erb'}
-
-    end
+    
+    render_list_page('current_index.html.erb', @borrows.size)
   end
 
   def admin_history
     page = params[:page] || 1
     @borrows = Borrow.where("status = ':status'", {status: BORROW_STATUSES.index('已归还')})
                       .paginate(page: page, per_page: BOOK_PER_PAGE)
+    
+    render_list_page('history_index.html.erb', @borrows.size)
+  end
+
+  private 
+
+  def render_list_page (path, size)
     respond_to do |format|
-      format.html {render 'admin_index.html.erb'}
+      if size > 0  
+        format.html {render path} 
+      else
+        format.html {render 'helper/no_records.html.erb'}
+      end
     end
   end
 
