@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141126123621) do
+ActiveRecord::Schema.define(version: 20141215082132) do
 
   create_table "books", force: true do |t|
     t.string   "name"
@@ -38,9 +38,9 @@ ActiveRecord::Schema.define(version: 20141126123621) do
     t.integer  "book_id"
     t.datetime "should_return_date"
     t.string   "status"
-    t.integer  "is_expired"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.date     "return_date"
   end
 
   create_table "delayed_jobs", force: true do |t|

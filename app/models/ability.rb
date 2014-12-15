@@ -34,8 +34,8 @@ class Ability
       can :read, :all
     else
       can [:read, :library, :edit], Book
-      can [:borrow_current, :borrow_history, :create], Borrow
-      can [:order_current, :order_history, :create], Order
+      can [:current_list, :history_list, :create], Borrow
+      can [:current_list, :history_list, :create], Order
     end
   end
 end
