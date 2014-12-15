@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to users_path }
+      format.html { redirect_to admin_users_path }
     end   
   end
 
@@ -78,7 +78,7 @@ class UsersController < ApplicationController
       flash[:error] = '用户删除失败!'
     end
     respond_to do |format|
-      format.html { redirect_to users_path }
+      format.html { redirect_to admin_users_path }
     end
   end
   

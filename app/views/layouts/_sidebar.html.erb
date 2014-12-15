@@ -1,6 +1,6 @@
 # encoding: utf-8
 <div class="well sidebar-nav">
-	<ul class="nav nav-tabs">
+	<ul id="nav_tab" class="nav nav-tabs">
 	  <li class="active">
 	    <a data-target="#user" data-toggle="tab" style="cursor: pointer;">读者</a>
 	  </li>
@@ -9,36 +9,36 @@
 	  <% end %>
 	</ul>
 	<div class="tab-content">
-		<div id="user" class="well sidebar-nav tab-pane fade active in">
+		<div id="user" class="well sidebar-nav tab-pane active in">
 			<ul class="nav nav-list">
-				<li id="uli_1" >
+				<li id="uli_1" data-location="/library">
 					<%= link_to library_path do %>
 						<i class="icon-home"></i>首页
 					<% end %>
 				</li>
-				<li id="uli_2">
+				<li id="uli_2" data-location="/books">
 					<%= link_to books_path do %>
 						<i class="icon-book"></i>图书
 					<% end %>
 				</li>
 				<li class="nav-header">借阅</li>
-				<li id="uli_3">
+				<li id="uli_3" data-location="/borrowing">
 					<%= link_to borrowing_path do %>
 						<i class="icon-eye-open"></i>当前借阅
 					<% end %>
 				</li>
-				<li id="uli_4">
+				<li id="uli_4" data-location="/borrowed">
 					<%= link_to borrowed_path do %>
 						<i class="icon-calendar"></i>借阅历史
 					<% end %>
 				</li>
 				<li class="nav-header">预定</li>
-				<li id="uli_5">
+				<li id="uli_5" data-location="/ordering">
 					<%= link_to ordering_path  do %>
 						<i class="icon-bell"></i>当前预定
 					<% end %>
 				</li>
-				<li id="uli_6">
+				<li id="uli_6" data-location="/ordered">
 					<%= link_to ordered_path  do %>
 						<i class="icon-calendar"></i>预定历史
 					<% end %>
@@ -56,34 +56,34 @@
 				</li>
 			</ul>
 		</div>
-		<div id="admin" class="well sidebar-nav tab-pane fade in">
+		<div id="admin" class="well sidebar-nav tab-pane in">
 			<ul class="nav nav-list">
-				<li id="ali_1">
-					<%= link_to users_path do %>
+				<li id="ali_1" data-location="/admin/users">
+					<%= link_to admin_users_path do %>
 						<i class="icon-user"></i>用户管理
 					<% end %>
 				</li>
-				<li id="ali_2">
-					<%= link_to books_path do %>
+				<li id="ali_2" data-location="/admin/books">
+					<%= link_to admin_books_path do %>
 						<i class="icon-book"></i>图书管理
 					<% end %>
 				</li>
-				<li id="ali_3">
-					<%= link_to admin_current_borrows_path  do %>
+				<li id="ali_3" data-location="/admin/borrowing">
+					<%= link_to admin_borrowing_path  do %>
 						<i class="icon-eye-open"></i>借阅管理
 					<% end %>
 				</li>
-				<li id="ali_4">
+				<li id="ali_4" data-location="/admin/ordering">
 					<%= link_to admin_ordering_path  do %>
 						<i class="icon-calendar"></i>预定管理
 					<% end %>
 				</li>
-				<li id="ali_5">
-					<%= link_to admin_history_borrows_path  do %>
+				<li id="ali_5" data-location="/admin/borrowed">
+					<%= link_to admin_borrowed_path  do %>
 						<i class="icon-eye-open"></i>借阅历史
 					<% end %>
 				</li>
-				<li id="ali_6">
+				<li id="ali_6" data-location="/admin/ordered">
 					<%= link_to admin_ordered_path  do %>
 						<i class="icon-calendar"></i>预定历史
 					<% end %>
@@ -99,20 +99,24 @@
 </div>
 
 <script>
-$("#side_bar").ready(function() {
-    switch(location.pathname){
-    	case "/library": $("#uli_1").addClass("active");break;
-    	case "/books": $("#uli_2").addClass("active");break;
-    	case "/borrowing": $("#uli_3").addClass("active");break;
-    	case "/borrowed": $("#uli_4").addClass("active");break;
-    	case "/ordering": $("#uli_5").addClass("active");break;
-    	case "/ordered": $("#uli_6").addClass("active");break;
-    	case "/users": $("#admin_tab").trigger("click");$("#ali_1").addClass("active");break;
-    	case "/books/admin_index": $("#admin_tab").trigger("click").addClass("active");break;
-    	case "/borrows/admin_current": $("#admin_tab").trigger("click");$("#ali_3").addClass("active");break;
-    	case "/borrows/admin_history": $("#admin_tab").trigger("click");$("#ali_4").addClass("active");break;
-    	case "/orders/admin_current": $("#admin_tab").trigger("click");$("#ali_5").addClass("active");break;
-    	case "/orders/admin_history": $("#admin_tab").trigger("click");$("#ali_6").addClass("active");break;
-    }
+$(document).ready(function() {
+	if(location.pathname.indexOf("/admin/")>=0){
+		$('#nav_tab a[data-target="#admin"]').tab('show');
+	}
+	$('#side_bar li[data-location="'+ location.pathname + '"]').addClass('active').siblings().removeClass('active');
+    // switch(location.pathname){
+    // 	case "/library": $("#uli_1").addClass("active");break;
+    // 	case "/books": $("#uli_2").addClass("active");break;
+    // 	case "/borrowing": $("#uli_3").addClass("active");break;
+    // 	case "/borrowed": $("#uli_4").addClass("active");break;
+    // 	case "/ordering": $("#uli_5").addClass("active");break;
+    // 	case "/ordered": $("#uli_6").addClass("active");break;
+    // 	case "/users": $("#admin_tab").trigger("click");$("#ali_1").addClass("active");break;
+    // 	case "/books/admin_index": $("#admin_tab").trigger("click").addClass("active");break;
+    // 	case "/borrows/admin_current": $('#nav_tab a[data-target="#admin"]').tab('show');$("#ali_3").addClass("active");break;
+    // 	case "/borrows/admin_history": $("#admin_tab").trigger("click");$("#ali_4").addClass("active");break;
+    // 	case "/orders/admin_current": $("#admin_tab").trigger("click");$("#ali_5").addClass("active");break;
+    // 	case "/orders/admin_history": $("#admin_tab").trigger("click");$("#ali_6").addClass("active");break;
+    // }
 });
 </script>
