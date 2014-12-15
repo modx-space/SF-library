@@ -21,7 +21,7 @@ class BorrowsController < ApplicationController
             book.save!
           end
           flash[:success] = "借阅成功!"
-          BorrowMailer.borrow_notification_to_admin(@borrow).deliver
+          @borrow.send_borrow_notification_to_admin
         rescue Exception => ex
           logger.error "*** transaction abored!"
           logger.error "*** errors: #{ex.message}"
@@ -56,22 +56,12 @@ class BorrowsController < ApplicationController
 
   def return
     borrow = Borrow.find(params[:id])
-    borrow.status = BORROW_STATUSES.index('已归还')
-    borrow.return_date = Time.now
-    book = borrow.book
-    begin
-      borrow.transaction do
-        borrow.save!
-        book.store = book.store + 1
-        book.save!
-      end
-      flash[:success] = "归还成功!"
-    rescue Exception => ex
-      logger.error "*** transaction abored!"
-      logger.error "*** errors: #{ex.message}"
-      flash[:error] = "归还失败!!!"
+    result = borrow.return_and_shipout_order 
+    if result[:value]
+      flash[:success] = result[:message]
+    else
+      flash[:error] = result[:message]
     end
-
     respond_to do |format|
       format.html { redirect_to admin_borrowing_path }
     end
