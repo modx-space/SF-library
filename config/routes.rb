@@ -40,7 +40,6 @@ LibraryApp::Application.routes.draw do
   match '/library', to: 'books#library', via: 'get'
   match '/searchBooks', to: 'books#index', via: 'get'
 
-
   #match '/borrow', to: 'books#borrow', via: 'post'
   match '/borrowing', to: 'borrows#borrow_current', via: 'get'
   match '/borrowed', to: 'borrows#borrow_history', via: 'get'
@@ -48,8 +47,14 @@ LibraryApp::Application.routes.draw do
   #match '/order', to: 'books#order', via: 'post'
   match '/ordering', to: 'orders#order_current', via: 'get'
   match '/ordered', to: 'orders#order_history', via: 'get'
-  match '/admin_ordering', to: 'orders#admin_current', via: 'get'
-  match '/admin_ordered', to: 'orders#admin_history', via: 'get'
+
+  #admin
+  match '/admin/users', to: 'users#index', via: 'get'
+  match '/admin/books', to: 'books#index', via: 'get'
+  match '/admin/borrowing', to: 'borrows#admin_current', via: 'get'
+  match '/admin/borrowed', to: 'borrows#admin_history', via: 'get'
+  match '/admin/ordering', to: 'orders#admin_current', via: 'get'
+  match '/admin/ordered', to: 'orders#admin_history', via: 'get'
   
   match '/recommend_list', to: 'books#recommed_list', via: 'get'
   match '/recommend', to: 'books#recommend', via: 'post'

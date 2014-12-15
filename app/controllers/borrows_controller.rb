@@ -52,7 +52,7 @@ class BorrowsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to admin_current_borrows_path }
+      format.html { redirect_to admin_borrowing_path }
     end
   end
 
@@ -74,7 +74,7 @@ class BorrowsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to admin_current_borrows_path }
+      format.html { redirect_to admin_borrowing_path }
     end
   end
   
