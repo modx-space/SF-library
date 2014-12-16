@@ -15,6 +15,8 @@
         <th>超期</th>
         <th>状态</th>
         <% if is_admin_page %>
+          <th>用户</th>
+          <th>用户邮箱</th>
           <th>操作</th>
         <% end %>
       </tr>
@@ -31,6 +33,9 @@
         <td><%=  (borrow[:should_return_date].nil? || borrow[:should_return_date] >= Time.now) ? "否" : "是" %></td>
         <td><%= BORROW_STATUSES[borrow[:status].to_i] %></td>
         <% if is_admin_page %>
+          <% user = borrow.user %> 
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
           <% if borrow[:status].to_i == BORROW_STATUSES.index('未出库') %>
             <td><%= link_to "出库", deliver_borrow_path(borrow[:id]), method: "post", class: "btn btn-primary", data: { confirm: '确定出库?'}%></td>
           <% else %>

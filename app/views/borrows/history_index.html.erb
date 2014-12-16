@@ -1,5 +1,6 @@
 # encoding: utf-8
 <%= will_paginate @borrowing %>
+<% is_admin_page = params[:action] == 'admin_history' %>
 <div class="book container-fluid">
   <table class="table  table-hover">
     <caption>借阅历史</caption>
@@ -12,6 +13,10 @@
         <th>应还日期</th>
         <th>归还日期</th>
         <th>超期归还</th>
+        <% if is_admin_page %>
+          <th>用户</th>
+          <th>用户邮箱</th>
+        <% end %>
       </tr>
     </thead>
     <tbody>
@@ -25,6 +30,11 @@
         <td><%= borrow[:should_return_date].to_formatted_s(:Y_m_D) %></td>
         <td><%= borrow[:return_date].to_formatted_s(:Y_m_D) %></td>
         <td><%=  borrow[:should_return_date] <= borrow[:return_date] ? "是" : "否" %></td>
+        <% if is_admin_page %>
+          <% user = borrow.user %> 
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+        <% end %>
       </tr>
       <% end %>
     </tbody>
