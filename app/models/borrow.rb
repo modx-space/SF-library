@@ -25,9 +25,10 @@ class Borrow < ActiveRecord::Base
     BorrowMailer.borrow_notification_to_admin(self).deliver
   end
 
-  # def schedule_five_days_left_remind
-  #   BorrowMailer.five_days_left_remind(self).deliver
-  # end
+  def schedule_five_days_left_remind
+    BorrowMailer.five_days_left_remind(self).deliver
+  end
+  
   def return_and_shipout_order
     self.status = BORROW_STATUSES.index('已归还')
     self.return_date = Time.now

@@ -43,7 +43,7 @@ class BorrowsController < ApplicationController
     if borrow.update(status: BORROW_STATUSES.index('借阅中'), 
       should_return_date: Time.now + BORROW_PERIOD)
       flash[:success] = "出库成功!" 
-      BorrowMailer.five_days_left_remind(@borrow).deliver
+      borrow.schedule_five_days_left_remind
     else
       logger.error borrow.errors
       flash[:error] = "出库失败!!!!"
