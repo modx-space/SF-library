@@ -42,8 +42,8 @@ class BooksController < ApplicationController
   end
   
   def edit
-    @order_number = Order.count(conditions: "status = '#{ORDER_STATUSES.index('排队中')}' and book_id = #{params[:id]}")
     @book = Book.find(params[:id])
+    @order_number = @book.order_queue_count   
   end
   
   def recommed_list
