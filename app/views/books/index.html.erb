@@ -46,7 +46,7 @@
 				<td><%= book.category %></td>
 				<td><%= book.total %></td>
 				<td><%= book.store > 0 ? book.store : 0 %></td>
-				<td><%= book.store < 0 ? -book.store : 0 %>人</td>
+				<td><%= book.order_queue_count %>人</td>
 			</tr>
 			<% end %>
 		</tbody>

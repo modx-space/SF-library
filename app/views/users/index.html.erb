@@ -2,16 +2,7 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span7">
-<!--
-			<div id="search">
-			  <%=form_tag users_path,:remote=>'true', :method => 'get' do %>
-			  <p>
-			  <%= text_field_tag :tag, params[:tag] %>
-			  <%= submit_tag "查找", :name => nil , :class => "btn" %>
-			  </p>
-			  <% end %>
-			</div>
--->
+
 			<%= will_paginate @users %>
 				<table class="table  table-hover">
 					<!-- <caption>用户列表</caption> -->

@@ -17,6 +17,10 @@ class Book < ActiveRecord::Base
     paginate :per_page => BOOK_PER_PAGE, :page => page
   end
 
+  def order_queue_count
+    Order.count(conditions: "status = '#{ORDER_STATUSES.index('排队中')}' and book_id = #{self.id}")
+  end
+
   # STATUSES = {
   #   REC => '推荐',
   #   IN => '已买',

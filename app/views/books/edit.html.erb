@@ -34,9 +34,13 @@
 		</center>
 	</div>
 	<div class="modal-footer">
-		<!-- <input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="关闭" /> -->
-		<%= link_to "借阅", borrows_path(:book_id => @book.id), method:"post", id: "borrow", class:"btn btn-primary"%>
-		<%= link_to "预订", orders_path(:book_id => @book.id), method:"post", id: "order", class:"btn btn-info"%>
+		<% if @book.store > 0 %>
+			<%= link_to "借阅", borrows_path(:book_id => @book.id), method:"post", id: "borrow", class: "btn btn-primary"%>
+			<%= link_to "预订", orders_path(:book_id => @book.id), method:"post", id: "order", class: "btn btn-info disabled"%>
+		<% else %>
+			<%= link_to "借阅", borrows_path(:book_id => @book.id), method:"post", id: "borrow", class: "btn btn-primary disabled"%>
+			<%= link_to "预订", orders_path(:book_id => @book.id), method:"post", id: "order", class: "btn btn-info"%>
+		<% end %>
 		<%= link_to "已有#{@order_number}人预定" %>
 	</div>
 	<% end %>
