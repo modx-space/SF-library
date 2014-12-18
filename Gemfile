@@ -3,7 +3,8 @@ Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
 end
 
-source 'http://ruby.taobao.org'
+source 'https://rubygems.org' # Please keep this source for production deployment
+#source 'http://ruby.taobao.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
@@ -56,7 +57,12 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-gem 'capistrano', '~> 3.3.0', group: :deployment
+group :deployment do
+  gem 'capistrano',  '~> 3.1'
+  gem 'capistrano-rails', '~> 1.1'
+  gem 'capistrano-rvm'
+  gem 'capistrano-passenger'
+end
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
