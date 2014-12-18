@@ -24,7 +24,6 @@ class ApplicationController < ActionController::Base
   #   end
 
   #   def flash_message
-  #     binding.pry
   #     [:error, :success, :warn, :info].each do |type|
   #       return flash[type] unless flash[type].blank?
   #     end
