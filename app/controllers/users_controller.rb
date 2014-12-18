@@ -46,7 +46,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    binding.pry
     @user = User.find(params[:id])
     respond_to do |format|
       format.html 

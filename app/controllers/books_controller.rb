@@ -72,7 +72,6 @@ class BooksController < ApplicationController
       begin
         open(uri) do |http|
           response = JSON.parse(http.read)
-          binding.pry
           @book = {}
           @book[:picture] = response["images"]["large"]
           @book[:isbn] = response["isbn13"]
