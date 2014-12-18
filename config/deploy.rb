@@ -29,7 +29,11 @@ set :linked_files, fetch(:linked_files, []).push('config/database.yml')
 set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
 
 # Default value for default_env is {}
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+set :default_env, { path: "$PATH",
+                    "http_proxy" => "http://proxy.wdf.sap.corp:8080",
+                    "https_proxy" => "https://proxy.wdf.sap.corp:8080"}
+
+set :rails_env, 'production'
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5

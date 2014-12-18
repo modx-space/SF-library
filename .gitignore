@@ -22,3 +22,5 @@
 
 # Ignore tmp file
 *~
+
+.capistrano/
