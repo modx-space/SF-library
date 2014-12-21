@@ -34,6 +34,9 @@ LibraryApp::Application.routes.draw do
       get 'current_list'
       get 'history_list'
     end
+    member do
+      post 'cancel'
+    end
   end
 
   resources :sessions do
