@@ -12,7 +12,7 @@
 		<% end %>
 	</div>
 	<div class="span3 offset3">
-		<button onclick="add('<%= new_book_path %>')" class="btn">添加图书</button>
+		<button onclick="add_book('<%= new_book_path %>')" class="btn">添加图书</button>
 		<%#= link_to '添加图书', new_book_path, onclick: 'add("df")', class: "btn"%>
 	</div>
 </div>
@@ -36,7 +36,7 @@
 		</thead>
 		<tbody>
 			<% @books.each_with_index do |book,index| %>
-			<tr onclick="show('<%= edit_book_path(book.id) %>')" style="cursor: pointer;">
+			<tr onclick="show_book_info('<%= edit_book_path(book.id) %>')" style="cursor: pointer;">
 				<!-- <td><%#= (index+1)+(@page.to_i-1)*10 %></td> -->
 				<td><img class="img-rounded" src="<%= book.picture %>" alt="封面" style="width: 40px; height: 50px;"></td>
 				<td><%= book.name %></td>
@@ -95,12 +95,7 @@
 $("#order,#borrow").click(function(){
 	$('#bookinfor').modal('hide');
 });
-function show(path){
-	popWin.showWin("700","600","图书信息", path);
-};
-function add(path){
-	popWin.showWin("850","800","添加图书", path);
-};
+
 // function show1(book){
 // 	// set value
 // 	$('#name').val(book.name);

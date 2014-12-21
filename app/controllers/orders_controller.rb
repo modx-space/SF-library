@@ -33,6 +33,18 @@ class OrdersController < ApplicationController
     end
   end
 
+  def cancel
+    @order = Order.find(params[:id])
+    if @order.cancel
+      flash[:success] = "订单取消成功"
+    else
+      flash[:error] = "订单取消失败!"
+    end
+    respond_to do |format|
+      format.html {redirect_to(:back) }
+    end
+  end
+
   def current_list
     page = params[:page] || 1
     @orders = Order.where("user_id = :user_id and status = ':status'", 

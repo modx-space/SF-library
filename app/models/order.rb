@@ -8,4 +8,9 @@ class Order < ActiveRecord::Base
     self.status = ORDER_STATUSES.index('已处理')
     self.save!
   end
+
+  def cancel
+    self.status = ORDER_STATUSES.index('取消')
+    self.save
+  end
 end

@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div class="container-fluid">
-		<% if (params[:controller] == 'users' || params[:controller] == 'books') && (params[:action] == 'edit' || params[:action] == 'new')%>
+		<% if only_show_content %>
 			<div id="notice">
 				<%= render 'layouts/notice' %>
 			</div>

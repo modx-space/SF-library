@@ -31,7 +31,7 @@ class Borrow < ActiveRecord::Base
   
   def return_and_shipout_order
     self.status = BORROW_STATUSES.index('已归还')
-    self.return_date = Time.now
+    self.return_at = Time.now
     book = self.book
     begin
       message = "归还成功!"
