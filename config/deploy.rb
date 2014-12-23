@@ -30,8 +30,8 @@ set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/ca
 
 # Default value for default_env is {}
 set :default_env, { path: "$PATH",
-                    "http_proxy" => "http://proxy.wdf.sap.corp:8080",
-                    "https_proxy" => "https://proxy.wdf.sap.corp:8080"}
+                    "http_proxy" => "http://proxy.sin.sap.corp:8080",
+                    "https_proxy" => "https://proxy.sin.sap.corp:8080"}
 
 set :rails_env, 'production'
 
