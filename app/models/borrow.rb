@@ -1,5 +1,8 @@
 # encoding: utf-8
 class Borrow < ActiveRecord::Base
+  extend Enumerize
+
+  enumerize :status, in: [:undelivery, :borrowing, :returned], scope: true
   
   belongs_to :user
   belongs_to :book
@@ -30,7 +33,7 @@ class Borrow < ActiveRecord::Base
   end
   
   def return_and_shipout_order
-    self.status = BORROW_STATUSES.index('已归还')
+    self.status = :returned 
     self.return_at = Time.now
     book = self.book
     begin
@@ -44,7 +47,7 @@ class Borrow < ActiveRecord::Base
           order_user = order.user
           new_borrow = order_user.borrows.new
           new_borrow.book_id = book.id
-          new_borrow.status = BORROW_STATUSES.index('未出库')
+          new_borrow.status = :undelivery
           new_borrow.save!
           message = "归还成功，并自动借阅给排队等待的第一位用户#{order_user.name}"
         else 

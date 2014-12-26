@@ -28,14 +28,14 @@ class Book < ActiveRecord::Base
       hash = {}
       hash[:user_name] = borrow.user.name
       hash[:borrow_date] = borrow.created_at.to_formatted_s(:Y_m_D)
-      hash[:expected_date] = borrow.should_return_date != nil ? borrow.should_return_date.to_formatted_s(:Y_m_D) : '未出库'
+      hash[:expected_date] = borrow.should_return_date != nil ? borrow.should_return_date.to_formatted_s(:Y_m_D) : :undelivery
       results << hash
     end
     results
   end
 
   def borrowing_list 
-    self.borrows.where("status != ':status'", {status: BORROW_STATUSES.index('已归还')}).order(created_at: :desc)
+    self.borrows.without_status(:returned).order(created_at: :desc)
   end
 
   def order_conditions

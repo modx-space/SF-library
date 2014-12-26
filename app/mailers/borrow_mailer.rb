@@ -11,7 +11,7 @@ class BorrowMailer < ActionMailer::Base
   end
 
   def five_days_left_remind borrow
-    return if borrow.status != BORROW_STATUSES.index('借阅中') # borrowed
+    return if borrow.status != :borrowing # borrowed
 
     @borrow = borrow
     @receiver = borrow.user
