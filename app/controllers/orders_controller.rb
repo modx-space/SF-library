@@ -12,7 +12,7 @@ class OrdersController < ApplicationController
     else
       order_record = Order.find_by(user_id: current_user.id, book_id: params[:book_id], status: ORDER_STATUSES.index('排队中'))
       if order_record
-        flash[:error] = "你已预定此书，请耐心等候..."
+        flash[:error] = "你已预约此书，请耐心等候..."
       else
         order = Order.new
         order.user_id = current_user.id
@@ -29,7 +29,7 @@ class OrdersController < ApplicationController
       end
     end
     respond_to do |format|
-       format.html { redirect_to edit_book_path(book.id) } 
+       format.html { redirect_to :back } 
     end
   end
 
