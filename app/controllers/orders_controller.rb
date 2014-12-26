@@ -24,7 +24,7 @@ class OrdersController < ApplicationController
         else
           # 预订失败
           logger.error order.errors
-          flash[:error] = "预订失败!"
+          flash[:error] = "预订失败: " << order.errors.full_messages.to_s
         end
       end
     end
@@ -38,7 +38,7 @@ class OrdersController < ApplicationController
     if @order.cancel
       flash[:success] = "订单取消成功"
     else
-      flash[:error] = "订单取消失败!"
+      flash[:error] = "订单取消失败: " << @order.errors.full_messages.to_s
     end
     respond_to do |format|
       format.html {redirect_to(:back) }

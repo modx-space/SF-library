@@ -36,7 +36,7 @@ class UsersController < ApplicationController
       if user.save
         flash[:success] = '用户创建成功!'
       else
-        flash[:error] = '用户创建失败!'
+        flash[:error] = '用户创建失败!' << user.errors.full_messages.to_s
       end
     end
 
@@ -61,7 +61,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       flash[:success] = "更新成功!"
     else
-      flash[:error] = '更新失败!'
+      flash[:error] = '更新失败!' << @user.errors.full_messages.to_s
     end
     respond_to do |format|
       format.html { redirect_to edit_user_path(@user.id) }
@@ -74,7 +74,7 @@ class UsersController < ApplicationController
     if @user.destroy
       flash[:success] = '删除成功。'  
     else
-      flash[:error] = '用户删除失败!'
+      flash[:error] = '用户删除失败!' << @user.errors.full_messages.to_s
     end
     respond_to do |format|
       format.html { redirect_to admin_users_path }
@@ -89,7 +89,7 @@ class UsersController < ApplicationController
     if @user.save 
       flash[:success] = '密码重置成功'
     else
-      flash[:error] = '密码重置失败'
+      flash[:error] = '密码重置失败' << @user.errors.full_messages.to_s
     end
     respond_to do |format|
       format.html { redirect_to edit_user_path(@user.id) }
