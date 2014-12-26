@@ -21,6 +21,39 @@ class Book < ActiveRecord::Base
     Order.count(conditions: "status = '#{ORDER_STATUSES.index('排队中')}' and book_id = #{self.id}")
   end
 
+  def borrow_conditions
+    borrows = self.borrowing_list 
+    results = Array.new
+    borrows.each do |borrow|
+      hash = {}
+      hash[:user_name] = borrow.user.name
+      hash[:borrow_date] = borrow.created_at.localtime.to_formatted_s(:Y_m_D)
+      hash[:expected_date] = borrow.should_return_date != nil ? borrow.should_return_date.localtime.to_formatted_s(:Y_m_D) : '未出库'
+      results << hash
+    end
+    results
+  end
+
+  def borrowing_list 
+    self.borrows.where("status != ':status'", {status: BORROW_STATUSES.index('已归还')}).order(created_at: :desc)
+  end
+
+  def order_conditions
+    orders = self.ordering_list
+    results = Array.new
+    orders.each do |order|
+      hash = {}
+      hash[:user_name] = order.user.name
+      hash[:order_date] = order.created_at.localtime.to_formatted_s(:Y_m_D)
+      results << hash
+    end
+    results
+  end
+
+  def ordering_list 
+    self.orders.where("status = ':status'", {status: BORROW_STATUSES.index('排队中')}).order(created_at: :desc)
+  end
+
   # STATUSES = {
   #   REC => '推荐',
   #   IN => '已买',

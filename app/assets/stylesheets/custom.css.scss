@@ -38,3 +38,48 @@ textarea{
 #book_picture{
 	display:none;
 }
+
+ label {
+   cursor: text;
+ }
+
+ a {
+   cursor: pointer;
+ }
+
+ .label-container{
+   display: block;
+   margin-bottom: 10px;
+   vertical-align: middle;
+   font-size: 0px;
+   white-space: nowrap;
+
+ }
+
+ .label-container .general{
+    margin-right: 2px;
+    display: inline-block;
+    width: auto;
+    height: 10px;
+    min-width: 16px;
+    padding: 4px 5px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 20px;
+    text-align: left;
+    text-shadow: 0px 1px 0px #FFF; 
+  }
+
+ .label-container .mark {
+    width: 55px;
+    font-weight: bold;
+    text-align: right;
+  }
+  
+  .label-text {
+    margin-bottom: 10px;
+  }
+
+ .label-container .mark:first-child {
+   border-radius: 4px 0px 0px 4px;
+ }

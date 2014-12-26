@@ -35,15 +35,34 @@ class BooksController < ApplicationController
     end
 
     respond_to do |format|
-      format.html# {render '_index.html.erb'}
-      #format.js { render 'index.js.erb' }
+      format.html
     end
     
+  end
+
+  def admin_index
+    page = params[:page] || 1
+    sql = %Q| select * from books where status = "已买" |
+    if params[:tag] != nil
+      @books = Book.search_by_tag(params[:tag], page)
+    else
+      @books = Book.search(page)
+    end
+    respond_to do |format|
+      format.html { render 'index.html.erb'}
+    end
+
   end
   
   def edit
     @book = Book.find(params[:id])
-    @order_number = @book.order_queue_count   
+  end
+
+  def show
+    @book = Book.find(params[:id])
+    @order_number = @book.order_queue_count
+    @borrow_conditions = @book.borrow_conditions
+    @order_conditions = @book.order_conditions
   end
   
   def recommed_list

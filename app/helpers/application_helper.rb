@@ -1,8 +1,8 @@
 # encoding: utf-8
 module ApplicationHelper
   def only_show_content
-    (params[:controller] == 'users' || params[:controller] == 'books') &&
-     (params[:action] == 'edit' || params[:action] == 'new') ||
-      (params[:controller] == 'orders' && params[:action] == 'show')
+    (['users', 'books'].include?(params[:controller]) &&
+     ['edit', 'new'].include?(params[:action])) ||
+      (['orders', 'books'].include?(params[:controller]) && params[:action] == 'show')
   end
 end

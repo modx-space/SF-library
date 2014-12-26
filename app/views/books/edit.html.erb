@@ -38,7 +38,7 @@
 			<%= link_to "借阅", borrows_path(:book_id => @book.id), method:"post", id: "borrow", class: "btn btn-primary"%>
 		<% else %>
 			<%= link_to "预订", orders_path(:book_id => @book.id), method:"post", id: "order", class: "btn btn-info"%>
-			<%= link_to "已有#{@order_number}人预定" %>
+			<%= link_to "已有#{@order_number}人预约" %>
 		<% end %>
 	</div>
 	<% end %>

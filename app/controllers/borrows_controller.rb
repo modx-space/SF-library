@@ -34,7 +34,7 @@ class BorrowsController < ApplicationController
       end
     end
     respond_to do |format|
-      format.html { redirect_to edit_book_path(book.id) } 
+      format.html { redirect_to :back } 
     end
   end
 

@@ -3,6 +3,9 @@ LibraryApp::Application.routes.draw do
   root to: 'default#home'
   
   resources :books do
+    collection do
+      get 'admin_index'
+    end
   end
 
 
@@ -50,7 +53,7 @@ LibraryApp::Application.routes.draw do
 
   #admin
   match '/admin/users', to: 'users#index', via: 'get'
-  match '/admin/books', to: 'books#index', via: 'get'
+  match '/admin/books', to: 'books#admin_index', via: 'get'
   match '/admin/borrowing', to: 'borrows#admin_current', via: 'get'
   match '/admin/borrowed', to: 'borrows#admin_history', via: 'get'
   match '/admin/ordering', to: 'orders#admin_current', via: 'get'
