@@ -68,7 +68,7 @@
         </div>
         <div class="label-container">
           <label class="general mark">购买日期:</label>
-          <label class="general"><%= @book.created_at.localtime.to_formatted_s(:Y_m_D) %></label>
+          <label class="general"><%= @book.created_at.to_formatted_s(:Y_m_D) %></label>
         </div>
       </div>
     </div>

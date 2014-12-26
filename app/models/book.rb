@@ -27,8 +27,8 @@ class Book < ActiveRecord::Base
     borrows.each do |borrow|
       hash = {}
       hash[:user_name] = borrow.user.name
-      hash[:borrow_date] = borrow.created_at.localtime.to_formatted_s(:Y_m_D)
-      hash[:expected_date] = borrow.should_return_date != nil ? borrow.should_return_date.localtime.to_formatted_s(:Y_m_D) : '未出库'
+      hash[:borrow_date] = borrow.created_at.to_formatted_s(:Y_m_D)
+      hash[:expected_date] = borrow.should_return_date != nil ? borrow.should_return_date.to_formatted_s(:Y_m_D) : '未出库'
       results << hash
     end
     results
@@ -44,7 +44,7 @@ class Book < ActiveRecord::Base
     orders.each do |order|
       hash = {}
       hash[:user_name] = order.user.name
-      hash[:order_date] = order.created_at.localtime.to_formatted_s(:Y_m_D)
+      hash[:order_date] = order.created_at.to_formatted_s(:Y_m_D)
       results << hash
     end
     results
