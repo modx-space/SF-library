@@ -5,7 +5,7 @@ class OrdersController < ApplicationController
 
   def create
     book = Book.find(params[:book_id])
-    borrow_record = Borrow.find_by(user_id: current_user.id, book_id: params[:book_id], status: BORROW_STATUSES.index('借阅中'))
+    borrow_record = Borrow.find_by(user_id: current_user.id, book_id: params[:book_id], status: :borrowing)
     if borrow_record
       # 已在使用，无需预订
       flash[:info] = "你已在使用本书，不可预订..."

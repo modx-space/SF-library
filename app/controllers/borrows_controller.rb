@@ -6,14 +6,14 @@ class BorrowsController < ApplicationController
 
   def create
   	book = Book.find(params[:book_id])
-    already_borrow_book = current_user.borrows.where(book_id: book.id).where("status != '?'", BORROW_STATUSES.index('已归还'))
+    already_borrow_book = current_user.borrows.without_status(:returned).where(book_id: book.id)
     if already_borrow_book.size > 0
     	flash[:info] = "你已在使用本书，不可多占资源..."
     else
       if book.store > 0
       	@borrow = current_user.borrows.new
       	@borrow.book_id = params[:book_id]
-        @borrow.status = BORROW_STATUSES.index('未出库')
+        @borrow.status = :undelivery
         begin
           @borrow.transaction do
             @borrow.save!
@@ -40,7 +40,7 @@ class BorrowsController < ApplicationController
 
   def deliver
     borrow = Borrow.find(params[:id])
-    if borrow.update(status: BORROW_STATUSES.index('借阅中'), 
+    if borrow.update(status: :borrowing, 
       should_return_date: Time.now + BORROW_PERIOD)
       flash[:success] = "出库成功!" 
       borrow.schedule_five_days_left_remind
@@ -69,8 +69,8 @@ class BorrowsController < ApplicationController
   
   def current_list
     page = params[:page] || 1
-    @borrows =  Borrow.where("user_id = :user_id and status != ':status'", 
-                      {user_id: current_user.id, status: BORROW_STATUSES.index('已归还')})
+    @borrows =  Borrow.where("user_id = :user_id and status != :status", 
+                      { user_id: current_user.id, status: :returned })
                       .paginate(page: page, per_page: BOOK_PER_PAGE)
     
     render_list_page('current_index.html.erb', @borrows.size)
@@ -79,8 +79,8 @@ class BorrowsController < ApplicationController
  
   def history_list
     page = params[:page] || 1
-    @borrows = Borrow.where("user_id = :user_id and status = ':status'", 
-                      {user_id: current_user.id, status: BORROW_STATUSES.index('已归还')})
+    @borrows = Borrow.where("user_id = :user_id and status = :status", 
+                      {user_id: current_user.id, status: :returned })
                       .paginate(page: page, per_page: BOOK_PER_PAGE)
     
     render_list_page('history_index.html.erb', @borrows.size)
@@ -89,7 +89,7 @@ class BorrowsController < ApplicationController
 
   def admin_current
     page = params[:page] || 1
-    @borrows = Borrow.where("status != ':status'", {status: BORROW_STATUSES.index('已归还')})
+    @borrows = Borrow.where("status != :status", {status: :returned })
                       .paginate(page: page, per_page: BOOK_PER_PAGE)
     
     render_list_page('current_index.html.erb', @borrows.size)
@@ -97,7 +97,7 @@ class BorrowsController < ApplicationController
 
   def admin_history
     page = params[:page] || 1
-    @borrows = Borrow.where("status = ':status'", {status: BORROW_STATUSES.index('已归还')})
+    @borrows = Borrow.where("status = :status", {status: :returned })
                       .paginate(page: page, per_page: BOOK_PER_PAGE)
     
     render_list_page('history_index.html.erb', @borrows.size)
