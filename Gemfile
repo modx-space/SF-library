@@ -52,6 +52,8 @@ gem 'cancancan'
 
 gem 'delayed_job_active_record', '4.0.2'
 
+gem 'enumerize'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
