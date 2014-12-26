@@ -21,9 +21,9 @@
         <td><img class="img-rounded" src="<%= book.picture %>" alt="封面" style="width: 40px; height: 50px;"></td>
         <td><%= book.name %></td>
         <td><%= book.isbn %></td>
-        <td><%= order.created_at.localtime.to_formatted_s(:Y_m_D) %></td>
+        <td><%= order.created_at.to_formatted_s(:Y_m_D) %></td>
         <td><%= ORDER_STATUSES[order.status.to_i]%></td>
-        <td><%= order.book[:updated_at].localtime.to_formatted_s(:Y_m_D) %></td>
+        <td><%= order.book[:updated_at].to_formatted_s(:Y_m_D) %></td>
       </tr>
       <% end %>
     </tbody>
