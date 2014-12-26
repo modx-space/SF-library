@@ -53,9 +53,20 @@ class BooksController < ApplicationController
     end
 
   end
-  
-  def edit
+
+  def update
     @book = Book.find(params[:id])
+    if @book.update(update_book_params)
+      flash[:success] = '修改成功'
+    else
+      flash[:error] = '失败'
+      @book.errors.full_messages.each do |msg|
+        flash[:error] << msg << ';'
+      end
+    end
+    respond_to do |format|
+      format.html {redirect_to :back}
+    end
   end
 
   def show
@@ -203,5 +214,16 @@ class BooksController < ApplicationController
     end
     #index
   end
+
+  private
+    #Strong Parameters
+    # Using a private method to encapsulate the permissible parameters is
+    # just a good pattern since you'll be able to reuse the same permit
+    # list between create and update. Also, you can specialize this method
+    # with per-user checking of permissible attributes.
+    def update_book_params
+      params.require(:book).permit(:name, :picture, :intro, :author, :isbn, :press, :publish_date, 
+        :language, :category, :price, :total)
+    end
   
 end
