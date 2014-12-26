@@ -59,10 +59,7 @@ class BooksController < ApplicationController
     if @book.update(update_book_params)
       flash[:success] = '修改成功'
     else
-      flash[:error] = '失败'
-      @book.errors.full_messages.each do |msg|
-        flash[:error] << msg << ';'
-      end
+      flash[:error] = '失败: ' << @book.errors.full_messages.to_s
     end
     respond_to do |format|
       format.html {redirect_to :back}
@@ -210,7 +207,7 @@ class BooksController < ApplicationController
     if book.save
         redirect_to books_index_path, success: '入库成功 O(∩_∩)O'
     else    
-         flash[:error] = '入库失败! (⊙o⊙)'
+         flash[:error] = '入库失败! (⊙o⊙)' << book.errors.full_messages.to_s
     end
     #index
   end

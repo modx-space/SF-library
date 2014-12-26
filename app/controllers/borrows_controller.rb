@@ -25,7 +25,7 @@ class BorrowsController < ApplicationController
         rescue Exception => ex
           logger.error "*** transaction abored!"
           logger.error "*** errors: #{ex.message}"
-          flash[:error] = "借阅失败!"
+          flash[:error] = "借阅失败: " << @borrow.errors.full_messages.to_s
         end
 
       else
@@ -46,7 +46,7 @@ class BorrowsController < ApplicationController
       borrow.schedule_five_days_left_remind
     else
       logger.error borrow.errors
-      flash[:error] = "出库失败!!!!"
+      flash[:error] = "出库失败: " << borrow.error.full_messages.to_s
     end
 
     respond_to do |format|

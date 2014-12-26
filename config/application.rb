@@ -23,5 +23,6 @@ module LibraryApp
     config.time_zone = 'Beijing'
     config.active_record.default_timezone = :local
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+    #config.autoload_paths += %W(#{config.root}/lib/support) 
   end
 end
