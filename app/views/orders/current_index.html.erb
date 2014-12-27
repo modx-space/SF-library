@@ -22,7 +22,7 @@
         <td><%= book.name %></td>
         <td><%= book.isbn %></td>
         <td><%= order.created_at.to_formatted_s(:Y_m_D) %></td>
-        <td>前方有<b><%= book.order_queue_count-1 %></b>人<%= ORDER_STATUSES[order.status.to_i] %></td>
+        <td>前方有<b><%= book.order_queue_count-1 %></b>人排队</td>
         <td><%= link_to "取消", cancel_order_path(order[:id]), method: "post", class: "btn btn-default", data: { confirm: '确定取消?'}%></td>
       </tr>
       <% end %>
