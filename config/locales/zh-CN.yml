@@ -1,0 +1,12 @@
+zh-CN:
+  enumerize:
+    borrow:
+      status:
+        undelivery: '未出库'
+        borrowing: '借阅中'
+        returned: '已归还'
+    order:
+      status:
+        in_queue: '排队中'
+        handled: '已处理'
+        canceled: '取消'

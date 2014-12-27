@@ -31,7 +31,7 @@
         <td><%= borrow[:created_at].to_formatted_s(:Y_m_D) %></td>
         <td><%= (!borrow[:should_return_date].nil?) ? borrow[:should_return_date].to_formatted_s(:Y_m_D) : "出库后定" %></td>
         <td><%=  (borrow[:should_return_date].nil? || borrow[:should_return_date] >= Time.now) ? "否" : "是" %></td>
-        <td><%= borrow[:status] %></td>
+        <td><%= borrow.status.text %></td>
         <% if is_admin_page %>
           <% user = borrow.user %> 
           <td><%= user.name %></td>
