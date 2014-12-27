@@ -51,7 +51,7 @@ class Book < ActiveRecord::Base
   end
 
   def ordering_list 
-    self.orders.where("status = ':status'", {status: BORROW_STATUSES.index('排队中')}).order(created_at: :desc)
+    self.orders.where("status = ':status'", {status: ORDER_STATUSES.index('排队中')}).order(created_at: :desc)
   end
 
   # STATUSES = {
