@@ -42,7 +42,7 @@ class Borrow < ActiveRecord::Base
         self.save!
         ## if there're orders then pick up the first one to borrow it
         #if order = Order.find_by(book_id: book.id).order(created_at: :desc).limit(1)
-        if order = book.orders.find_by(status: ORDER_STATUSES.index('排队中'))
+        if order = book.orders.find_by(status: :in_queue)
           order.shipout_order
           order_user = order.user
           new_borrow = order_user.borrows.new

@@ -1,16 +1,19 @@
 # encoding: utf-8
 class Order < ActiveRecord::Base
-  
+  extend Enumerize
+
+  enumerize :status, in: [:in_queue, :handled, :canceled], scope: true
+
   belongs_to :user
   belongs_to :book
   
   def shipout_order
-    self.status = ORDER_STATUSES.index('已处理')
+    self.status = :handled
     self.save!
   end
 
   def cancel
-    self.status = ORDER_STATUSES.index('取消')
+    self.status = :canceled
     self.save
   end
 end
