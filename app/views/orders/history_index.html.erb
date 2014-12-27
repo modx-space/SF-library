@@ -22,7 +22,7 @@
         <td><%= book.name %></td>
         <td><%= book.isbn %></td>
         <td><%= order.created_at.to_formatted_s(:Y_m_D) %></td>
-        <td><%= ORDER_STATUSES[order.status.to_i]%></td>
+        <td><%= order.status %></td>
         <td><%= order.book[:updated_at].to_formatted_s(:Y_m_D) %></td>
       </tr>
       <% end %>
