@@ -55,8 +55,8 @@ class OrdersController < ApplicationController
 
   def history_list
     page = params[:page] || 1
-    @orders = Order.where("user_id = :user_id and status = :status", 
-                      {user_id: current_user.id, status: :handled})
+    @orders = Order.where("user_id = :user_id and status != :status", 
+                      {user_id: current_user.id, status: :in_queue})
                       .paginate(page: page, per_page: BOOK_PER_PAGE)
 
     render_list_page('history_index.html.erb', @orders.size)
@@ -72,8 +72,8 @@ class OrdersController < ApplicationController
 
   def admin_history
     page = params[:page] || 1
-    @orders = Order.where("status = :status", 
-                      {status: :handled})
+    @orders = Order.where("status != :status", 
+                      {status: :in_queue})
                       .paginate(page: page, per_page: BOOK_PER_PAGE)
 
     render_list_page('history_index.html.erb', @orders.size)
