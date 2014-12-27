@@ -18,7 +18,7 @@ class Book < ActiveRecord::Base
   end
 
   def order_queue_count
-    Order.count(conditions: "status = '#{ORDER_STATUSES.index('排队中')}' and book_id = #{self.id}")
+    Order.count(conditions: "status = '#{:in_queue}' and book_id = #{self.id}")
   end
 
   def borrow_conditions
@@ -35,7 +35,7 @@ class Book < ActiveRecord::Base
   end
 
   def borrowing_list 
-    self.borrows.where("status != ':status'", {status: BORROW_STATUSES.index('已归还')}).order(created_at: :desc)
+    self.borrows.without_status(:returned).order(created_at: :desc)
   end
 
   def order_conditions
@@ -51,7 +51,7 @@ class Book < ActiveRecord::Base
   end
 
   def ordering_list 
-    self.orders.where("status = ':status'", {status: ORDER_STATUSES.index('排队中')}).order(created_at: :desc)
+    self.orders.where("status = :status", {status: :in_queue}).order(created_at: :desc)
   end
 
   # STATUSES = {
