@@ -7,7 +7,10 @@ class Book < ActiveRecord::Base
   has_many :users, through: :orders
   
   validates :store, numericality: { only_integer: true }
-  
+  validate :total_greater_than_borrowing #when update total, cannot be less than current borrowing
+
+  before_update :change_store_count
+
   def self.search_by_tag(search, page)
             paginate :per_page => BOOK_PER_PAGE, :page => page,   
                        :conditions => ['name like ? or author like ? or isbn like ?',
@@ -54,12 +57,20 @@ class Book < ActiveRecord::Base
     self.orders.where("status = :status", {status: :in_queue}).order(created_at: :desc)
   end
 
-  # STATUSES = {
-  #   REC => '推荐',
-  #   IN => '已买',
-  # }
+  def change_store_count
+    if total != total_was
+      delta = total - total_was
+      self.store = delta + store_was
+    end
+  end
 
-  # def status_name
-  #   STATUSES[status]
-  # end
+  def total_greater_than_borrowing
+    if total < total_was
+      borrows = borrowing_list
+      if total < borrows.count
+        errors.add(:base, '总数不能小于当前出借数量')
+      end
+    end
+  end
+
 end
