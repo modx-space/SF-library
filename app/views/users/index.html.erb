@@ -1,4 +1,8 @@
 # encoding: utf-8
+<div class="row-fluid">
+	<% search_path = admin_users_path %>
+	<%= render partial: 'helper/search_box', locals: { path: search_path}%>
+</div>	
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span7">
