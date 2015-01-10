@@ -7,10 +7,7 @@ LibraryApp::Application.routes.draw do
       get 'admin_index'
     end
   end
-
-
-
-
+  
   resources :users do   
     collection do
       #delete 'logout'

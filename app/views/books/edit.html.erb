@@ -28,7 +28,7 @@
 			</div>
 			<div class="input-prepend">
 			  <span class="add-on">类型:</span>
-			  <%= f.text_field :category, class: "span3" %>
+			  <%= f.select :category, Book.category.options, class: "span3" %>
 			</div>
 			<div class="input-prepend">
 			  <span class="add-on">出版日期:</span>

@@ -50,7 +50,7 @@
             </div>
             <div class="span5">
               <label class="general mark">类型:</label>
-              <label class="general"><%= @book.category %></label>
+              <label class="general"><%= @book.category.text if @book.category != nil %></label>
             </div>
           </div>
         </div>
