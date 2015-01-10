@@ -12,7 +12,7 @@
 			</div>
 			<div class="input-prepend">
 			  <span class="add-on">总数:</span>
-			  <%= f.text_field :total, class: "span3" %>
+			  <%= f.number_field :total, min: 0, step: 1, class: "span3" %>
 			</div>
 			<div class="input-prepend">
 			  <span class="add-on">作者:</span>
@@ -32,11 +32,11 @@
 			</div>
 			<div class="input-prepend">
 			  <span class="add-on">出版日期:</span>
-			  <%= f.text_field :publish_date, class: "span3" %>
+			  <%= f.date_field :publish_date, class: "span3" %>
 			</div>
 			<div class="input-prepend">
 			  <span class="add-on">价格:</span>
-			  <%= f.text_field :price, class: "span3" %>
+			  <%= f.number_field :price, class: "span3" %>
 			</div>
 			<div>
 			  <span>简介 :</span><br>

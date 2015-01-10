@@ -14,6 +14,15 @@ class Borrow < ActiveRecord::Base
   #after_save :send_borrow_notification_to_admin
   #after_save :schedule_five_days_left_remind
   
+  def search_by_tag(search, page)
+    if search == nil
+      paginate(per_page: BOOK_PER_PAGE, page: page, 
+        conditions: [])
+    else
+      paginate(per_page: BOOK_PER_PAGE, page: page)
+    end
+  end
+
   def validate_book_store
     unless self.book.store >= 0
       errors.add(:base, "#{self.book.name} has no enough store")

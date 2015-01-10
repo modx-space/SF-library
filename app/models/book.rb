@@ -24,12 +24,13 @@ class Book < ActiveRecord::Base
   before_create :set_store_count
 
   def self.search_by_tag(search, page)
-            paginate :per_page => BOOK_PER_PAGE, :page => page,   
-                       :conditions => ['name like ? or author like ? or isbn like ?',
-				 "%#{search}%","%#{search}%","%#{search}%"]
-  end
-  def self.search(page)
-    paginate :per_page => BOOK_PER_PAGE, :page => page
+    if search != nil 
+      paginate :per_page => BOOK_PER_PAGE, :page => page,   
+                       :conditions => ['name like ? or author like ? or isbn like ? or category like ? or press like ? or tag like ?',
+				 "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%"]
+    else
+      paginate :per_page => BOOK_PER_PAGE, :page => page
+    end
   end
 
   def order_queue_count

@@ -21,7 +21,7 @@
 			<br>
 				<div class="input-prepend">
 			  	<span class="add-on">总数:</span>
-			  <%= f.text_field :total, class: "span3", value: 1 %>
+			  <%= f.number_field :total, min: 0, step: 1, value: 1 %>
 				</div>
 			</br>
 			<div class="input-prepend">
@@ -47,7 +47,8 @@
 			</div>
 			<div class="input-prepend">
 			  <span class="add-on">出版时间:</span>
-			  <%= f.text_field :publish_date, class: "span3", readonly: true %>
+			  <%= f.date_field :publish_date, class: "span3", readonly: true %>
+				<%= f.hidden_field :tag %>
 			</div>
 			<br>
 			<div>
