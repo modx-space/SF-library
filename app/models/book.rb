@@ -1,15 +1,27 @@
 # encoding: utf-8
 class Book < ActiveRecord::Base
+  extend Enumerize
+
+  enumerize :category, in: [:art, :biography, :business_money, :children, 
+                            :comics, :computer, :cooking, :crafts_home, :education,
+                            :engineering, :health, :history, :humor, :law,
+                            :fiction, :medical, :parenting, :politics, :reference,
+                            :religion, :science, :science_fiction, :self_help,
+                            :sports, :travel, :other]
+
+  enumerize :status, in: [:active, :inactive, :recommend], default: :active
   
   has_many :borrows
   has_many :users, through: :borrows
   has_many :orders
   has_many :users, through: :orders
   
-  validates :store, numericality: { only_integer: true }
-  validate :total_greater_than_borrowing #when update total, cannot be less than current borrowing
+  validates :total, numericality: { only_integer: true }
+  validates :category, presence: true
+  validate :total_greater_than_borrowing, on: :update #when update total, cannot be less than current borrowing
 
   before_update :change_store_count
+  before_create :set_store_count
 
   def self.search_by_tag(search, page)
             paginate :per_page => BOOK_PER_PAGE, :page => page,   
@@ -62,6 +74,11 @@ class Book < ActiveRecord::Base
       delta = total - total_was
       self.store = delta + store_was
     end
+  end
+
+  def set_store_count
+    self.store = self.total
+    self.point = 0
   end
 
   def total_greater_than_borrowing

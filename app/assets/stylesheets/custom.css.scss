@@ -83,3 +83,11 @@ textarea{
  .label-container .mark:first-child {
    border-radius: 4px 0px 0px 4px;
  }
+
+ .non-scroll {
+   overflow: visible;
+ }
+
+ .error-border {
+   border: 1px solid red !important;
+ }

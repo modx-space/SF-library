@@ -48,7 +48,7 @@
 				<td><%= book.author %></td>
 				<td><%= book.isbn %></td>
 				<td><%= book.language %></td>
-				<td><%= book.category %></td>
+				<td><%= book.category.text if book.category != nil %></td>
 				<td><%= book.total %></td>
 				<td><%= book.store > 0 ? book.store : 0 %></td>
 				<td><%= book.order_queue_count %>人</td>
