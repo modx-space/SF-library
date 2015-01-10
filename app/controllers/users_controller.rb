@@ -5,17 +5,10 @@ class UsersController < ApplicationController
   load_and_authorize_resource
   
   def index
-    @users = User.order('name').
-    paginate(page: params[:page])
-    # if params[:tag] != nil
-    #   @users = User.search_by_tag(params[:tag], params[:page]||1)
-    # else
-    #   @users = User.search(params[:page]||1)
-    # end
-    
+    page = params[:page] || 1
+    @users = User.search(params[:tag], page)
     respond_to do |format|
       format.html
-      #format.js { render 'index.js.erb' }
     end
     
   end

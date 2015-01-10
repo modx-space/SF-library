@@ -1,5 +1,9 @@
 # encoding: utf-8
 class User < ActiveRecord::Base
+  extend Enumerize
+
+  enumerize :building, in: [:PVG01, :PVG02, :PVG03, :PVG05, :PVG06], default: :PVG03
+
   has_many :borrows
   has_many :books, through: :borrows
   has_many :orders
@@ -39,13 +43,13 @@ class User < ActiveRecord::Base
 	Digest::SHA1.hexdigest(token.to_s)
   end
 
-  def self.search_by_tag(search, page)
-        paginate :per_page => USER_PER_PAGE, :page => page,   
-                   :conditions => ['name like ?', "%#{search}%"]
-  end
-
-  def self.search(page)
-    paginate :per_page => USER_PER_PAGE, :page => page
+  def self.search(search, page)
+    if search != nil
+      where('name like ? or team like ? or building = ?',
+         "%#{search}%","%#{search}%","%#{search}%").paginate(page: page, per_page: BOOK_PER_PAGE)
+    else
+      paginate(page: page, per_page: BOOK_PER_PAGE)
+    end
   end
 
 
