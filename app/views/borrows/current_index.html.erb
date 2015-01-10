@@ -11,9 +11,10 @@
     <thead>
       <tr>
         <th>封面</th>
+        <th>借阅编号</th>
         <th>书名</th>
         <th>ISBN</th>
-        <th>借书日期</th>
+        <th>借阅日期</th>
         <th>应还日期</th>
         <th>超期</th>
         <th>状态</th>
@@ -29,6 +30,7 @@
       <tr>
         <% book = borrow.book %> 
         <td><img class="img-rounded" src="<%= book.picture %>" alt="封面" style="width: 40px; height: 50px;"></td>
+        <td><%= borrow.id %></td>
         <td><%= book[:name] %></td>
         <td><%= book[:isbn] %></td>
         <td><%= borrow[:created_at].to_formatted_s(:Y_m_D) %></td>
