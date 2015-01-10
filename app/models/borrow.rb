@@ -16,8 +16,8 @@ class Borrow < ActiveRecord::Base
   
   def self.search(search, page)
     if search != nil
-      joins(:book).where('books.name like ? or author like ? or isbn like ? or books.category like ? or press like ? or books.tag like ?',
-         "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%").paginate(page: page, per_page: BOOK_PER_PAGE)
+      joins(:book).where('borrows.id like ? or books.name like ? or author like ? or isbn like ? or books.category like ? or press like ? or books.tag like ?',
+         "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%").paginate(page: page, per_page: BOOK_PER_PAGE)
     else
       paginate(page: page, per_page: BOOK_PER_PAGE)
     end
@@ -25,8 +25,8 @@ class Borrow < ActiveRecord::Base
 
   def self.admin_search(search, page)
     if search != nil
-      joins(:book, :user).where('users.name like ? or users.email like ? or users.team like ? or books.name like ? or author like ? or isbn like ? or books.category like ? or press like ? or books.tag like ?',
-         "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%").paginate(page: page, per_page: BOOK_PER_PAGE)
+      joins(:book, :user).where('borrows.id like ? or users.name like ? or users.email like ? or users.team like ? or books.name like ? or author like ? or isbn like ? or books.category like ? or press like ? or books.tag like ?',
+         "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%").paginate(page: page, per_page: BOOK_PER_PAGE)
     else
       paginate(page: page, per_page: BOOK_PER_PAGE)
     end
