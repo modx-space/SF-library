@@ -1,4 +1,8 @@
 # encoding: utf-8
+<div class="row-fluid">
+  <% search_path = params[:action] == 'admin_current' ? admin_ordering_path : current_list_orders_path %>
+  <%= render partial: 'helper/search_box', locals: { path: search_path}%>
+</div>
 <%= will_paginate @orders %>
 <% is_admin_page = params[:action] == 'admin_current' %>
 <div class="book container-fluid">
