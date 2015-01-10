@@ -27,13 +27,7 @@ class BooksController < ApplicationController
   
   def index
     page = params[:page] || 1
-    sql = %Q| select * from books where status = "已买" |
-    if params[:tag] != nil
-      @books = Book.search_by_tag(params[:tag], page)
-    else
-      @books = Book.search(page)
-    end
-
+    @books = Book.search_by_tag(params[:tag], page)
     respond_to do |format|
       format.html
     end
@@ -42,12 +36,8 @@ class BooksController < ApplicationController
 
   def admin_index
     page = params[:page] || 1
-    sql = %Q| select * from books where status = "已买" |
-    if params[:tag] != nil
-      @books = Book.search_by_tag(params[:tag], page)
-    else
-      @books = Book.search(page)
-    end
+    @books = Book.search_by_tag(params[:tag], page)
+
     respond_to do |format|
       format.html { render 'index.html.erb'}
     end
@@ -111,6 +101,7 @@ class BooksController < ApplicationController
             @book[:press] = response["publisher"]
             @book[:publish_date] = response["pubdate"]
             @book[:price] = response["price"]
+            @book[:tag] = response["tags"].collect {|item| item["name"]}.join(',')
             @book[:intro] = response["summary"].delete("\n")[0,150]+"......"
           end
         rescue Exception => ex
@@ -188,6 +179,7 @@ class BooksController < ApplicationController
 
   def create
     respond_to do |format|
+      binding.pry
       if Book.find_by(isbn: params[:book][:isbn])
         flash[:info] = '该书已存在'
         format.html { render new_book_path }
@@ -220,7 +212,7 @@ class BooksController < ApplicationController
     ## Please refer to https://github.com/CanCanCommunity/cancancan #Strong parameters for detail 
     def create_params
       params.require(:book).permit(:name, :picture, :intro, :author, :isbn, :press, :publish_date, 
-        :language, :category, :price, :total)
+        :language, :category, :price, :total, :tag)
     end
   
 end

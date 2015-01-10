@@ -1,20 +1,11 @@
 # encoding: utf-8
 <% is_admin_page = params[:action] == 'admin_index' %>
+<% search_path = params[:action] == 'admin_index' ? admin_books_path : books_path %>
 <div class="row-fluid">
-	<div id="search" class="span6">
-		<%=form_tag searchBooks_path, :method => 'get' do %>
-		<span>
-		<%= text_field_tag :tag, params[:tag] %>
-		</span>
-		<span>		
-		<%= submit_tag "查找", :name => nil , :class => "btn" %>
-		</span>
-		
-		<% end %>
-	</div>
+	<%= render partial: 'helper/search_box', locals: { path: search_path}%>
 	<% if is_admin_page %>
-		<div class="span3 offset3">
-			<button onclick="add_book('<%= new_book_path %>')" class="btn">添加图书</button>
+		<div class="span3 offset2">
+			<button onclick="add_book('<%= new_book_path %>')" class="btn  btn-info">添加图书</button>
 		</div>
 	<% end %>
 </div>
