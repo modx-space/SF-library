@@ -14,12 +14,21 @@ class Borrow < ActiveRecord::Base
   #after_save :send_borrow_notification_to_admin
   #after_save :schedule_five_days_left_remind
   
-  def search_by_tag(search, page)
-    if search == nil
-      paginate(per_page: BOOK_PER_PAGE, page: page, 
-        conditions: [])
+  def self.search(search, page)
+    if search != nil
+      joins(:book).where('books.name like ? or author like ? or isbn like ? or books.category like ? or press like ? or books.tag like ?',
+         "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%").paginate(page: page, per_page: BOOK_PER_PAGE)
     else
-      paginate(per_page: BOOK_PER_PAGE, page: page)
+      paginate(page: page, per_page: BOOK_PER_PAGE)
+    end
+  end
+
+  def self.admin_search(search, page)
+    if search != nil
+      joins(:book, :user).where('users.name like ? or users.email like ? or users.team like ? or books.name like ? or author like ? or isbn like ? or books.category like ? or press like ? or books.tag like ?',
+         "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%").paginate(page: page, per_page: BOOK_PER_PAGE)
+    else
+      paginate(page: page, per_page: BOOK_PER_PAGE)
     end
   end
 

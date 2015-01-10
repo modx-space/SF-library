@@ -69,49 +69,45 @@ class BorrowsController < ApplicationController
   
   def current_list
     page = params[:page] || 1
-    @borrows =  Borrow.where("user_id = :user_id and status != :status", 
+    @borrows =  Borrow.where("user_id = :user_id and borrows.status != :status", 
                       { user_id: current_user.id, status: :returned })
-                      .paginate(page: page, per_page: BOOK_PER_PAGE)
-    
-    render_list_page('current_index.html.erb', @borrows.size)
+                      .search(params[:tag], page)
+                      
+    render_list_page('current_index.html.erb')
 
   end
  
   def history_list
     page = params[:page] || 1
-    @borrows = Borrow.where("user_id = :user_id and status = :status", 
+    @borrows = Borrow.where("user_id = :user_id and borrows.status = :status", 
                       {user_id: current_user.id, status: :returned })
-                      .paginate(page: page, per_page: BOOK_PER_PAGE)
+                      .search(params[:tag], page)
     
-    render_list_page('history_index.html.erb', @borrows.size)
+    render_list_page('history_index.html.erb')
 
   end
 
   def admin_current
     page = params[:page] || 1
-    @borrows = Borrow.where("status != :status", {status: :returned })
-                      .paginate(page: page, per_page: BOOK_PER_PAGE)
+    @borrows = Borrow.where("borrows.status != :status", {status: :returned })
+                      .admin_search(params[:tag], page)
     
-    render_list_page('current_index.html.erb', @borrows.size)
+    render_list_page('current_index.html.erb')
   end
 
   def admin_history
     page = params[:page] || 1
-    @borrows = Borrow.where("status = :status", {status: :returned })
-                      .paginate(page: page, per_page: BOOK_PER_PAGE)
+    @borrows = Borrow.where("borrows.status = :status", {status: :returned })
+                      .admin_search(params[:tag], page)
     
-    render_list_page('history_index.html.erb', @borrows.size)
+    render_list_page('history_index.html.erb')
   end
 
   private 
 
-  def render_list_page (path, size)
-    respond_to do |format|
-      if size > 0  
-        format.html {render path} 
-      else
-        format.html {render 'helper/no_records.html.erb'}
-      end
+  def render_list_page (path)
+    respond_to do |format|     
+      format.html {render path} 
     end
   end
 

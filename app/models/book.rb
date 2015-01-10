@@ -25,9 +25,9 @@ class Book < ActiveRecord::Base
 
   def self.search_by_tag(search, page)
     if search != nil 
-      paginate :per_page => BOOK_PER_PAGE, :page => page,   
-                       :conditions => ['name like ? or author like ? or isbn like ? or category like ? or press like ? or tag like ?',
-				 "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%"]
+      where('name like ? or author like ? or isbn like ? or category like ? or press like ? or tag like ?',
+         "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%").paginate(:per_page => BOOK_PER_PAGE, :page => page)   
+                       
     else
       paginate :per_page => BOOK_PER_PAGE, :page => page
     end
