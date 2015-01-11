@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   extend Enumerize
 
   enumerize :building, in: [:PVG01, :PVG02, :PVG03, :PVG05, :PVG06], default: :PVG03
+  enumerize :role, in: [:admin, :reader], default: :reader, predicates: true, scope: true
 
   has_many :borrows
   has_many :books, through: :borrows
@@ -19,17 +20,6 @@ class User < ActiveRecord::Base
   validates :name, presence: true
   validates :role, presence: true
   # validates :pwd, length:{ minimum: 6}
-
-  scope :admin, where(role: 'admin')
-
-  def is_admin?
-    role == nil ? false : role.to_sym == :admin
-  end
-
-  def role_name(role)
-  	hash = {:admin => '管理员', :reader => '用户'}
-  	hash[role.to_sym]
-  end
 
   def overdue_books
     self.borrows.where("should_return_date < ?", Time.now)
