@@ -3,6 +3,7 @@
   alert("<%= @book[:error] %>")
 <% end %>
 $("#book_name").val("<%= @book[:name] %>");
+$("#book_name").focus();
 $("#book_author").val("<%= @book[:author] %>");
 $("#book_language").val("<%= @book[:language] %>");
 $("#book_price").val("<%= @book[:price] %>");
