@@ -74,18 +74,44 @@ class UsersController < ApplicationController
     end
   end
   
+  def reset_passwd
+    @user = User.find(params[:id])
+  end
+
+  def edit_passwd
+    @user = User.find(params[:id])
+  end
 
   def reset
     @user = User.find(params[:id])
-    @user.password = DEFAULT_PASSWORD
-    @user.password_confirmation = DEFAULT_PASSWORD
-    if @user.save 
-      flash[:success] = '密码重置成功'
+    @user.password = params[:new_password]
+    @user.password_confirmation = params[:confirm_password]
+    if @user.save
+      flash[:success] = '密码修改成功'
     else
-      flash[:error] = '密码重置失败' << @user.errors.full_messages.to_s
+      flash[:error] = '密码修改失败'<< @user.errors.full_messages.to_s
     end
     respond_to do |format|
-      format.html { redirect_to edit_user_path(@user.id) }
+      format.html { redirect_to :back}
+    end
+  end
+
+  def update_passwd
+    @user = User.find(params[:id])
+    if @user.authenticate(params[:old_password])
+      @user.password = params[:new_password]
+      @user.password_confirmation = params[:confirm_password]
+      if @user.save
+        flash[:success] = '密码修改成功'
+      else
+        flash[:error] = '密码修改失败'<< @user.errors.full_messages.to_s
+      end
+    else
+      flash[:error] = '原密码错误'
+    end  
+    
+    respond_to do |format|
+      format.html { redirect_to :back}
     end
   end
   

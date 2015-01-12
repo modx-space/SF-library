@@ -14,7 +14,10 @@ LibraryApp::Application.routes.draw do
       #post 'login'
     end
     member do
-      get 'reset'
+      get 'reset_passwd'
+      put 'reset'
+      get 'edit_passwd'
+      put 'update_passwd'
     end
   end
 
