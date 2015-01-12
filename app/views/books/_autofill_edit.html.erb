@@ -13,7 +13,7 @@
 		<center>
 			<div class="input-prepend">
 			  <span class="add-on">ISBN:</span>
-			  <%= f.text_field :isbn, class: "span6" %>
+			  <%= f.text_field :isbn, class: "span6", required: "required" %>
 			  <%= link_to "查询", fetch_path, method:"get", class:"btn btn-info",id:"fetch", onclick: "fetch()",remote: true %>
 			  <% _btn_label = params[:action]=="recbook" ? "推荐" : "添加" %>
 			  <%= f.submit _btn_label, class: "btn btn-success", id: "submit" %>
@@ -21,7 +21,7 @@
 			<br>
 				<div class="input-prepend">
 			  	<span class="add-on">总数:</span>
-			  <%= f.number_field :total, min: 0, step: 1, value: 1 %>
+			  <%= f.number_field :total, min: 0, step: 1, value: 1, required: "required" %>
 				</div>
 			</br>
 			<div class="input-prepend">
@@ -68,12 +68,13 @@ function fetch(){
 $(document).ready(function(){
 	$("#submit").click(function(){
 		var blankValue = false;
-		if(!$("#book_isbn").val()){
-			$("#book_isbn").addClass("error-border");
-			blankValue = true;
-		}
 		if(!$("#book_category").val()){
 			$("#book_category").addClass("error-border");
+			blankValue = true;
+		}
+
+		if(!$("#book_name").val()){
+			$("#book_name").addClass("error-border");
 			blankValue = true;
 		}
 
@@ -81,6 +82,9 @@ $(document).ready(function(){
 			return false;
 		}
 
+	});
+	$("#book_category,#book_name").focus(function(){
+		$(this).removeClass("error-border");
 	});
 });
 
