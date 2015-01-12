@@ -29,7 +29,7 @@ class Ability
     # See the wiki for details:
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
     user ||= User.new # guest user (not logged in)
-    if user.admin?
+    if user.admin? || user.super_admin?
       can :manage, :all 
       can :read, :all
     else

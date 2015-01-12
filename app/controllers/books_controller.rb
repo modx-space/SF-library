@@ -179,7 +179,6 @@ class BooksController < ApplicationController
 
   def create
     respond_to do |format|
-      binding.pry
       if Book.find_by(isbn: params[:book][:isbn])
         flash[:info] = '该书已存在'
         format.html { render new_book_path }

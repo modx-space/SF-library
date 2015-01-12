@@ -51,7 +51,12 @@ class UsersController < ApplicationController
   
   def update
     @user = User.find(params[:user][:id])
-    if @user.update(user_params)
+    if current_user.super_admin?
+      result = @user.update(admin_update_params)
+    else
+      result = @user.update(update_params)
+    end
+    if result
       flash[:success] = "更新成功!"
     else
       flash[:error] = '更新失败!' << @user.errors.full_messages.to_s
@@ -120,7 +125,11 @@ class UsersController < ApplicationController
     # just a good pattern since you'll be able to reuse the same permit
     # list between create and update. Also, you can specialize this method
     # with per-user checking of permissible attributes.
-    def user_params
-      params.require(:user).permit(:email, :name, :role, :team, :password, :password_confirmation)
+    def update_params
+      params.require(:user).permit(:name,:team, :password, :password_confirmation)
+    end
+
+    def admin_update_params
+      params.require(:user).permit(:email, :role, :name, :team, :password, :password_confirmation)
     end
 end
