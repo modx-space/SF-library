@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   extend Enumerize
 
   enumerize :building, in: [:PVG01, :PVG02, :PVG03, :PVG05, :PVG06], default: :PVG03
-  enumerize :role, in: [:admin, :reader], default: :reader, predicates: true, scope: true
+  enumerize :role, in: [:reader, :admin, :super_admin], default: :reader, predicates: true, scope: true
 
   has_many :borrows
   has_many :books, through: :borrows

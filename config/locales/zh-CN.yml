@@ -10,6 +10,11 @@ zh-CN:
         in_queue: '排队中'
         handled: '已处理'
         canceled: '取消'
+    user:
+      role:
+        admin: '管理员'
+        reader: '读者'
+        super_admin: '超级管理员'
     book:
       category:
         art: '艺术'
