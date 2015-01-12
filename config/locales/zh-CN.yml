@@ -38,6 +38,13 @@ zh-CN:
         sports: '体育'
         travel: '旅游'
         other: '其他'
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            password_confirmation:
+              confirmation: '两次密码不一致'
   will_paginate:
     next_label: 下一页
     previous_label: 上一页

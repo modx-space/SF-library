@@ -36,6 +36,7 @@ class Ability
       can [:read, :library, :edit], Book
       can [:current_list, :history_list, :create], Borrow
       can [:current_list, :history_list, :create, :cancel], Order
+      can [:update_passwd, :edit_passwd], User
     end
   end
 end
