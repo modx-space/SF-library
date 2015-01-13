@@ -5,9 +5,8 @@
 			<%= link_to "Minerva's Book Library", root_path, id: "logo", class: "brand" %>
 				<% if signed_in? %>
 					<ul class="nav pull-right">
-						<li class="active divider-vertical"><a class="brand"><%= say_hello %></a></li>
-						<li class="active divider-vertical"><a data-target="#userinfor" data-toggle="modal"><i class="icon-white icon-user"></i>
-							<%= current_user.name %></a>
+						<li class="active divider-vertical"><a onclick="show_user('<%= user_path(current_user.id)%>')"><i class="icon-white icon-user"></i>
+							<%= current_user.display_name  %></a>
 						</li>
 						<li class="active divider-vertical">
 							<%= link_to delete_sessions_path, method: "delete" do %>

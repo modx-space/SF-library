@@ -42,6 +42,16 @@ class User < ActiveRecord::Base
     end
   end
 
+  def display_name
+    index = self.name.index(/[^A-Za-z]/)
+    index.nil? ? self.name.capitalize : 
+      self.name[0, index].capitalize
+  end
+
+  def has_admin_authe
+    self.admin? || self.super_admin?
+  end
+
   private
   	def create_token
   		self.remember_token = User.encrypt(User.new_remember_token)

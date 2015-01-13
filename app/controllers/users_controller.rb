@@ -39,6 +39,9 @@ class UsersController < ApplicationController
   end
 
   def show
+    if current_user.has_admin_authe && params[:admin] == 'true'
+      @admin_page = true
+    end
     @user = User.find(params[:id])
     respond_to do |format|
       format.html 
