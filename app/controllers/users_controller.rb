@@ -53,7 +53,7 @@ class UsersController < ApplicationController
   end
   
   def update
-    @user = User.find(params[:user][:id])
+    @user = User.find(params[:id])
     if current_user.super_admin?
       result = @user.update(admin_update_params)
     else
@@ -129,10 +129,10 @@ class UsersController < ApplicationController
     # list between create and update. Also, you can specialize this method
     # with per-user checking of permissible attributes.
     def update_params
-      params.require(:user).permit(:name,:team, :password, :password_confirmation)
+      params.require(:user).permit(:name,:team, :building, :office, :seat)
     end
 
     def admin_update_params
-      params.require(:user).permit(:email, :role, :name, :team, :password, :password_confirmation)
+      params.require(:user).permit(:email, :role, :name, :team, :building, :office, :seat)
     end
 end

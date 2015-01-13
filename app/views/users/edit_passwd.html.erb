@@ -18,7 +18,7 @@
 		</center>
 	</div>
 	<div class="modal-footer">
-		<%= link_to "返回", :back, class: "btn btn-info"%>
+		<%= link_to "返回", user_path(@user.id), class: "btn btn-info"%>
 		<%= submit_tag "修改", class: "btn btn-primary" %>
 	</div>
 	<% end %>
