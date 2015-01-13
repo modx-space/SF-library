@@ -40,7 +40,12 @@
   </div>
   <br/>
   <div class="modal-footer">
-    <%= link_to "重置密码", reset_user_path(@user.id), method: "get", class: "btn btn-danger", data: { confirm: '确定重置?'}%>
+    <% if @admin_page%>
+      <%= link_to "重置密码", reset_passwd_user_path(@user.id), method: "get", class: "btn btn-danger"%>
+    <% else%>
+      <%= link_to "修改密码", edit_passwd_user_path(@user.id), method: "get", class: "btn btn-danger"%>
+    <% end%>
+    
     <%= link_to "编辑", edit_user_path(@user.id), class: "btn btn-info" %>
   </div>
 </div>
