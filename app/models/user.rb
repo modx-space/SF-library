@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 
   enumerize :building, in: [:PVG01, :PVG02, :PVG03, :PVG05, :PVG06], default: :PVG03
   enumerize :role, in: [:reader, :admin, :super_admin], default: :reader, predicates: true, scope: true
+  enumerize :status, in: [:active, :inactive], scope: true, default: :active, predicates: true
 
   has_many :borrows
   has_many :books, through: :borrows
@@ -16,12 +17,11 @@ class User < ActiveRecord::Base
   
   has_secure_password
 
-  SUPER_ADMIN_PASSWD = 'Fx#5Ea'
-  ADMIN_PASSWD = 'jh6$xv'
+  SUPER_ADMIN_PASSWD = 'super246'
+  ADMIN_PASSWD = 'admin987'
   DEFAULT_PASSWD = '123456'
   
-  validates :email, presence: true
-  validates :name, presence: true
+  validates :email, :name, :status, presence: true
   validates :email, uniqueness: { case_sensitive: false }
   # validates :pwd, length:{ minimum: 6}
 
