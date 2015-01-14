@@ -45,14 +45,16 @@ class BooksController < ApplicationController
   end
 
   def update
-    @book = Book.find(params[:id])
-    if @book.update(update_params)
-      flash[:success] = '修改成功'
-    else
-      flash[:error] = '失败: ' << @book.errors.full_messages.to_s
-    end
     respond_to do |format|
-      format.html {redirect_to :back}
+      @book = Book.find(params[:id])
+      if @book.update(update_params)
+        flash[:success] = '修改成功'
+        format.html {redirect_to :back}
+      else
+        format.html {render action: 'edit'}
+      end
+
+      
     end
   end
 
@@ -179,20 +181,13 @@ class BooksController < ApplicationController
 
   def create
     respond_to do |format|
-      if Book.find_by(isbn: params[:book][:isbn])
-        flash[:info] = '该书已存在'
-        format.html { render new_book_path }
+      @book = Book.create(create_params)
+      if @book.id != nil
+        flash[:success] = '入库成功'
+        format.html { redirect_to edit_book_path(@book) }
       else
-        @book = Book.create(create_params)
-        if @book.id != nil
-          flash[:success] = '入库成功'
-          format.html { redirect_to edit_book_path(@book) }
-        else
-          flash[:error] = '入库失败' << @book.errors.full_messages.to_s
-          format.html { render new_book_path }
-        end
-      end 
-      
+        format.html { render new_book_path }
+      end
     end
   end
 

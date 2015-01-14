@@ -1,6 +1,7 @@
 #encoding: utf-8
 <div id="resetpasswd"  role="dialog" aria-hidden="true">
 	<%= form_tag update_passwd_user_path(@user.id), method: 'put' do  %>
+	<%= render partial: 'helper/error_bar', locals: {object: @user} %>
 	<div class="modal-body">
 		<center>
 			<div class="input-prepend">
