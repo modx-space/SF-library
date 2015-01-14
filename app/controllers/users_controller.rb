@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   
   def index
     page = params[:page] || 1
-    @users = User.search(params[:tag], page)
+    @users = User.search(params[:tag], page).with_status(:active)
     respond_to do |format|
       format.html
     end
@@ -68,13 +68,13 @@ class UsersController < ApplicationController
     
   end
   
-  def destroy
+  def soft_delete
     respond_to do |format|
       @user = User.find(params[:id])
-      if @user.destroy
-        flash[:success] = '删除成功。'  
+      if @user.update(status: :inactive)
+        flash[:success] = '操作成功'  
       else
-        flash[:error] = '用户删除失败!' << @user.errors.full_messages.to_s
+        flash[:error] = '操作失败!' << @user.errors.full_messages.to_s
       end
     
       format.html { redirect_to admin_users_path }
