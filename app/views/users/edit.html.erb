@@ -2,7 +2,7 @@
 	<%= form_for @user do |f| %>
 		<%= render partial: 'form', locals: {f: f}%>
 	<div class="modal-footer">
-		<%= link_to "返回", user_path(@user.id), class: "btn btn-info"%>
+		<%= link_to "返回", user_path(@user.id), class: "btn btn-info left_align"%>
 		<%= f.submit "修改", class: "btn btn-primary" %>
 	</div>
 	<% end %>

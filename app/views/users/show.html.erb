@@ -41,9 +41,9 @@
   <br/>
   <div class="modal-footer">
     <% if @admin_page%>
-      <%= link_to "重置密码", reset_passwd_user_path(@user.id), method: "get", class: "btn btn-danger"%>
+      <%= link_to "重置密码", reset_passwd_user_path(@user.id), method: "get", class: "btn btn-danger left_align"%>
     <% else%>
-      <%= link_to "修改密码", edit_passwd_user_path(@user.id), method: "get", class: "btn btn-danger"%>
+      <%= link_to "修改密码", edit_passwd_user_path(@user.id), method: "get", class: "btn btn-danger left_align"%>
     <% end%>
     
     <%= link_to "编辑", edit_user_path(@user.id), class: "btn btn-info" %>

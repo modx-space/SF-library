@@ -1,6 +1,6 @@
 <div class="modal-body">
   <center>
-    <% if current_user.super_admin? || params[:action] == 'new'%>
+    <% if current_user.super_admin? || new_page == true%>
       <div class="input-prepend">
         <span class="add-on">邮箱:</span>
         <%= f.email_field :email, class: "span5" %>

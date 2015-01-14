@@ -13,28 +13,24 @@ class UsersController < ApplicationController
     
   end
   
+  def new
+    @new_page = true
+  end
+
   def create
-    user = User.new
-    user.name = params[:user][:name]
-    user.email = params[:user][:email]
-    user.team = params[:user][:team]
-    user.role = params[:user][:role]
-    user.password = DEFAULT_PASSWORD
-    user.password_confirmation = DEFAULT_PASSWORD
-
-    user_temp = User.find_by(email: params[:user][:email])
-    if user_temp
-      flash[:error] = '用户已存在！'
-    else
-      if user.save
-        flash[:success] = '用户创建成功!'
-      else
-        flash[:error] = '用户创建失败!' << user.errors.full_messages.to_s
-      end
-    end
-
+    @new_page = true
     respond_to do |format|
-      format.html { redirect_to admin_users_path }
+      if current_user.super_admin?
+        @user = User.create(super_admin_create_params)
+      elsif current_user.admin?
+        @user = User.create(create_params)
+      end
+      if !@user.errors.any?
+        flash[:success] = '用户创建成功!'
+        format.html {redirect_to user_path(@user.id)}
+      else
+        format.html { render action: "new" }
+      end
     end   
   end
 
@@ -134,5 +130,13 @@ class UsersController < ApplicationController
 
     def admin_update_params
       params.require(:user).permit(:email, :role, :name, :team, :building, :office, :seat)
+    end
+
+    def super_admin_create_params
+      params.require(:user).permit(:name, :team, :email, :role, :sf_email, :building, :office, :seat)
+    end
+
+    def create_params
+      params.require(:user).permit(:name, :team, :email, :building, :office, :seat)
     end
 end

@@ -11,14 +11,18 @@ class User < ActiveRecord::Base
   has_many :books, through: :orders
   
   before_create :create_token
+  before_validation :default_password
   before_save { self.email = email.downcase }
   
   has_secure_password
 
+  SUPER_ADMIN_PASSWD = 'Fx#5Ea'
+  ADMIN_PASSWD = 'jh6$xv'
+  DEFAULT_PASSWD = '123456'
   
   validates :email, presence: true
   validates :name, presence: true
-  validates :role, presence: true
+  validates :email, uniqueness: { case_sensitive: false }
   # validates :pwd, length:{ minimum: 6}
 
   def overdue_books
@@ -56,4 +60,17 @@ class User < ActiveRecord::Base
   	def create_token
   		self.remember_token = User.encrypt(User.new_remember_token)
   	end
+
+    def default_password
+      if self.super_admin?
+        self.password = User::SUPER_ADMIN_PASSWD
+        self.password_confirmation = User::SUPER_ADMIN_PASSWD
+      elsif self.admin?
+        self.password = User::ADMIN_PASSWD
+        self.password_confirmation = User::ADMIN_PASSWD
+      else
+        self.password = User::DEFAULT_PASSWD
+        self.password_confirmation = User::DEFAULT_PASSWD
+      end
+    end
   end
