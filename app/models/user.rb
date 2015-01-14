@@ -52,6 +52,11 @@ class User < ActiveRecord::Base
       self.name[0, index].capitalize
   end
 
+  def display_location
+    seat_part = ('.' + self.seat.to_s) if !self.seat.nil?
+    self.building.to_s + ' ' + self.office.to_s + seat_part.to_s
+  end
+
   def has_admin_authe
     self.admin? || self.super_admin?
   end

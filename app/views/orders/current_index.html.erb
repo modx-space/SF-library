@@ -11,11 +11,14 @@
     <thead>
       <tr>
         <th>封面</th>
-        <th>预定编号</th>
+        <th>流水号</th>
         <th>书名</th>
-        <th>ISBN</th>
         <th>预约时间</th>
         <th>排队情况</th>
+        <% if is_admin_page %>
+          <th>用户</th>
+          <th>用户邮箱</th>
+        <% end %>
         <th>操作</th>
       </tr>
     </thead>
@@ -26,9 +29,13 @@
         <td><img class="img-rounded" src="<%= book.picture %>" alt="封面" style="width: 40px; height: 50px;"></td>
         <td><%= order.id %></td>
         <td><%= book.name %></td>
-        <td><%= book.isbn %></td>
         <td><%= order.created_at.to_formatted_s(:Y_m_D) %></td>
         <td>前方有<b><%= book.order_queue_count-1 %></b>人排队</td>
+        <% if is_admin_page %>
+          <% user = order.user %> 
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+        <% end %>
         <td><%= link_to "取消", cancel_order_path(order[:id]), method: "post", class: "btn btn-default", data: { confirm: '确定取消?'}%></td>
       </tr>
       <% end %>

@@ -109,7 +109,7 @@ class BooksController < ApplicationController
         rescue Exception => ex
           @book = {}
           logger.error "*** errors: #{ex.message}"
-          @book[:error] = "ISBN有误或不存在"
+          @book[:error] = "ISBN不存在或网络问题"
         end
       end
       format.js
