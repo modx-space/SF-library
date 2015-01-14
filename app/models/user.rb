@@ -39,8 +39,8 @@ class User < ActiveRecord::Base
 
   def self.search(search, page)
     if search != nil
-      where('name like ? or team like ? or building = ?',
-         "%#{search}%","%#{search}%","%#{search}%").paginate(page: page, per_page: BOOK_PER_PAGE)
+      where('name like ? or team like ? or building = ? or email like ? or office = ? or sf_email like ?',
+         "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%").paginate(page: page, per_page: BOOK_PER_PAGE)
     else
       paginate(page: page, per_page: BOOK_PER_PAGE)
     end
