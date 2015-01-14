@@ -2,6 +2,7 @@
 <div class="book container-fluid">
 	<% _action_path = params[:action] == 'recbook' ? recommend_path : books_path %>
 	<%= form_for(:book, url: _action_path, method: 'post') do |f| %>
+	<%= render partial: 'helper/error_bar', locals: {object: @book} %>
 	<div class="modal-header">
 		<center>
 			<h4>图书信息</h4>

@@ -49,31 +49,34 @@ class UsersController < ApplicationController
   end
   
   def update
-    @user = User.find(params[:id])
-    if current_user.super_admin?
-      result = @user.update(admin_update_params)
-    else
-      result = @user.update(update_params)
-    end
-    if result
-      flash[:success] = "更新成功!"
-    else
-      flash[:error] = '更新失败!' << @user.errors.full_messages.to_s
-    end
     respond_to do |format|
-      format.html { redirect_to edit_user_path(@user.id) }
+      @user = User.find(params[:id])
+      if current_user.super_admin?
+        result = @user.update(admin_update_params)
+      else
+        result = @user.update(update_params)
+      end
+      if result
+        flash[:success] = "更新成功!"
+        format.html { redirect_to edit_user_path(@user.id) }
+      else
+        format.html {render action: "edit"}
+      end
+    
+      
     end
     
   end
   
   def destroy
-    @user = User.find(params[:id])
-    if @user.destroy
-      flash[:success] = '删除成功。'  
-    else
-      flash[:error] = '用户删除失败!' << @user.errors.full_messages.to_s
-    end
     respond_to do |format|
+      @user = User.find(params[:id])
+      if @user.destroy
+        flash[:success] = '删除成功。'  
+      else
+        flash[:error] = '用户删除失败!' << @user.errors.full_messages.to_s
+      end
+    
       format.html { redirect_to admin_users_path }
     end
   end
@@ -87,35 +90,36 @@ class UsersController < ApplicationController
   end
 
   def reset
-    @user = User.find(params[:id])
-    @user.password = params[:new_password]
-    @user.password_confirmation = params[:confirm_password]
-    if @user.save
-      flash[:success] = '密码修改成功'
-    else
-      flash[:error] = '密码修改失败'<< @user.errors.full_messages.to_s
-    end
     respond_to do |format|
-      format.html { redirect_to :back}
-    end
-  end
-
-  def update_passwd
-    @user = User.find(params[:id])
-    if @user.authenticate(params[:old_password])
+      @user = User.find(params[:id])
       @user.password = params[:new_password]
       @user.password_confirmation = params[:confirm_password]
       if @user.save
         flash[:success] = '密码修改成功'
+        format.html { redirect_to user_path(@user.id)}
       else
-        flash[:error] = '密码修改失败'<< @user.errors.full_messages.to_s
-      end
-    else
-      flash[:error] = '原密码错误'
-    end  
-    
+        format.html { render action: 'reset_passwd'}
+      end  
+    end
+  end
+
+  def update_passwd
     respond_to do |format|
-      format.html { redirect_to :back}
+      @user = User.find(params[:id])
+      if @user.authenticate(params[:old_password])
+        @user.password = params[:new_password]
+        @user.password_confirmation = params[:confirm_password]
+        if @user.save
+          flash[:success] = '密码修改成功'
+          format.html { redirect_to user_path(@user.id)}
+        else
+          format.html { render action: 'edit_passwd'}
+        end
+      else
+        flash[:error] = '原密码错误'
+        format.html { redirect_to action: 'edit_passwd'}
+      end  
+      
     end
   end
   

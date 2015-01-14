@@ -1,5 +1,6 @@
 <div id="userdetail"  role="dialog" aria-hidden="true">
 	<%= form_for @user do |f| %>
+    <%= render partial: 'helper/error_bar', locals: {object: @user} %>
 		<%= render partial: 'form', locals: {f: f}%>
 	<div class="modal-footer">
 		<%= link_to "返回", user_path(@user.id), class: "btn btn-info left_align"%>

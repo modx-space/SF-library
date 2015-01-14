@@ -1,5 +1,6 @@
 <div id="bookinfor" role="dialog" aria-hidden="true">
 	<%= form_for @book do |f| %>
+	<%= render partial: 'helper/error_bar', locals: {object: @book} %>
 	<div class="modal-body">
 		<center>
 			<div class="input-prepend">

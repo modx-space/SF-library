@@ -16,8 +16,9 @@ class Book < ActiveRecord::Base
   has_many :orders
   has_many :users, through: :orders
   
+  validates :isbn, uniqueness: { case_sensitive: false }
   validates :total, numericality: { only_integer: true }
-  validates :category, presence: true
+  validates :category, :name, presence: true
   validate :total_greater_than_borrowing, on: :update #when update total, cannot be less than current borrowing
 
   before_update :change_store_count

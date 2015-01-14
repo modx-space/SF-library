@@ -62,15 +62,17 @@ class User < ActiveRecord::Base
   	end
 
     def default_password
-      if self.super_admin?
-        self.password = User::SUPER_ADMIN_PASSWD
-        self.password_confirmation = User::SUPER_ADMIN_PASSWD
-      elsif self.admin?
-        self.password = User::ADMIN_PASSWD
-        self.password_confirmation = User::ADMIN_PASSWD
-      else
-        self.password = User::DEFAULT_PASSWD
-        self.password_confirmation = User::DEFAULT_PASSWD
+      if self.password.nil? || self.password_confirmation.nil?    
+        if self.super_admin?
+          self.password = User::SUPER_ADMIN_PASSWD
+          self.password_confirmation = User::SUPER_ADMIN_PASSWD
+        elsif self.admin?
+          self.password = User::ADMIN_PASSWD
+          self.password_confirmation = User::ADMIN_PASSWD
+        else
+          self.password = User::DEFAULT_PASSWD
+          self.password_confirmation = User::DEFAULT_PASSWD
+        end
       end
     end
   end
