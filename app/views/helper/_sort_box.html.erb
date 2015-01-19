@@ -1,0 +1,10 @@
+# encoding: utf-8
+<div class="btn-group">
+  <button class="btn dropdown-toggle" data-toggle="dropdown">默认排序 <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+	  <li><a href="?">默认排序</a></li>
+      <li><a href="#">Another action</a></li>
+      <li><a href="#">Something else here</a></li>
+      <li><%= link_to "order by date", params.merge({sort: 'date_desc'}) %></li>
+  </ul>
+</div>
