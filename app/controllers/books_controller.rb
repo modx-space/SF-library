@@ -99,9 +99,9 @@ class BooksController < ApplicationController
             @book[:isbn] = response["isbn13"]
             @book[:name] = response["title"]
             @book[:author] = response["author"].to_s.delete("[]\"")
-            @book[:language] = /\p{Han}/.match(response["title"]) == nil ? "中文" : "英语"
+            @book[:language] = /\p{Han}/.match(response["title"]) == nil ? :english : :chinese
             @book[:press] = response["publisher"]
-            @book[:publish_date] = response["pubdate"]
+            @book[:publish_date] = /-\d+-/.match(response["pubdate"]).nil? ? response["pubdate"] + "-01" : response["pubdate"]
             @book[:price] = response["price"]
             @book[:tag] = response["tags"].collect {|item| item["name"]}.join(',')
             @book[:intro] = response["summary"].delete("\n")[0,150]+"......"

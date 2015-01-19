@@ -10,6 +10,7 @@ class Book < ActiveRecord::Base
                             :sports, :travel, :other]
 
   enumerize :status, in: [:active, :inactive, :recommend], default: :active
+  enumerize :language, in: [:chinese, :english], default: :chinese
   
   has_many :borrows
   has_many :users, through: :borrows
