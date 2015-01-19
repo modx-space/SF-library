@@ -17,7 +17,6 @@
 				<th>邮箱</th>
 				<th>权限</th>
 				<th>位置</th>
-				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -28,7 +27,6 @@
 				<td onclick="show_user('<%= user_path(user.id, admin: true)%>')"><%= user.email %></td>
 				<td onclick="show_user('<%= user_path(user.id, admin: true)%>')"><%= user.role %></td>
 				<td onclick="show_user('<%= user_path(user.id, admin: true)%>')"><%= user.display_location %></td>
-				<td><%= link_to "离职", user_path(user.id), method: "delete", class: "btn btn-danger", data: { confirm: '真的确定吗?'}%></td>
 			</tr>
 			<% end %>
 		</tbody>
