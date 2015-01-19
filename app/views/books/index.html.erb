@@ -3,11 +3,12 @@
 <% search_path = params[:action] == 'admin_index' ? admin_books_path : books_path %>
 <div class="row-fluid">
 	<%= render partial: 'helper/search_box', locals: { path: search_path}%>
-	<% if is_admin_page %>
-		<div class="span3 offset2">
-			<button onclick="add_book('<%= new_book_path %>')" class="btn  btn-info">添加图书</button>
-		</div>
-	<% end %>
+	<div class="span3 offset2">
+		<%= render partial: 'helper/sort_box'%>
+		<% if is_admin_page %>
+		  <button onclick="add_book('<%= new_book_path %>')" class="btn  btn-info">添加图书</button>
+		<% end %>
+	</div>	
 </div>
 
 <%= will_paginate @books, remote: false %>

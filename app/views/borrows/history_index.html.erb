@@ -2,6 +2,9 @@
 <div class="row-fluid">
   <% search_path = params[:action] == 'admin_history' ? admin_borrowed_path : history_list_borrows_path %>
   <%= render partial: 'helper/search_box', locals: { path: search_path}%>
+  <div class="span3 offset2">
+    <%= render partial: 'helper/sort_box'%>
+  </div>
 </div>
 <%= will_paginate @borrowing %>
 <% is_admin_page = params[:action] == 'admin_history' %>
