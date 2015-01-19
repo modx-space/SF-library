@@ -78,7 +78,7 @@ class Borrow < ActiveRecord::Base
     rescue Exception => ex
       logger.error "*** transaction abored!"
       logger.error "*** errors: #{ex.message}"
-      return {value: true, message: "归还失败!!!"}
+      return {value: false, message: "归还失败!!!"}
     end
   end
 end
