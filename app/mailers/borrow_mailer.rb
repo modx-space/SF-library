@@ -3,7 +3,7 @@ class BorrowMailer < ActionMailer::Base
 
   def borrow_notification_to_admin borrow
     @borrow = borrow
-    @receivers = User.admin
+    @receivers = User.with_role(:admin)
     @subject = "#{borrow.user.name} borrow a #{borrow.book.name}"
     @receivers.each do |user|
       mail(to: user.email, subject: @subject) 
