@@ -69,7 +69,7 @@ class User < ActiveRecord::Base
   	end
 
     def default_password
-      if self.password.nil? || self.password_confirmation.nil?    
+      if self.new_record?    
         if self.super_admin?
           self.password = User::SUPER_ADMIN_PASSWD
           self.password_confirmation = User::SUPER_ADMIN_PASSWD
