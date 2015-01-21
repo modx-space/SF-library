@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   
   def index
     page = params[:page] || 1
-    @users = User.search(params[:tag], page).with_status(:active)
+    @users = User.search(params[:tag], page).on_board
     respond_to do |format|
       format.html
     end
