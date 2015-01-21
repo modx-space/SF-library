@@ -20,9 +20,11 @@ class User < ActiveRecord::Base
   SUPER_ADMIN_PASSWD = 'super246'
   ADMIN_PASSWD = 'admin987'
   DEFAULT_PASSWD = '123456'
+
+  scope :on_board, -> { with_status(:active)  }
   
   validates :email, :name, :status, presence: true
-  validates :email, uniqueness: { case_sensitive: false }
+  validates :email, :sf_email, uniqueness: { case_sensitive: false }
   # validates :pwd, length:{ minimum: 6}
 
   def overdue_books
