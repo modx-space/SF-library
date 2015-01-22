@@ -27,16 +27,16 @@
 			</br>
 			<div class="input-prepend">
 			  <span class="add-on">书名:</span>
-			  <%= f.text_field :name, class: "span3", readonly: true %>
+			  <%= f.text_field :name, class: "span3" %>
 			  <span class="add-on">作者:</span>
-			  <%= f.text_field :author, class: "span3", readonly: true %>
+			  <%= f.text_field :author, class: "span3" %>
 			</div>
 			<br>
 			<div class="input-prepend">
 			  <span class="add-on">语言:</span>
-			  <%= f.text_field :language, class: "span3", readonly: true %>
+			  <%= f.select :language, Book.language.options, class: "span3" %>
 			  <span class="add-on">价格:</span>
-			  <%= f.text_field :price, class: "span3", readonly: true %>	  
+			  <%= f.text_field :price, class: "span3" %>	  
 			</div>
 			<div class="input-prepend">
 				<span class="add-on">类别:</span>
@@ -44,13 +44,18 @@
 			</div>
 			<div class="input-prepend">
 			  <span class="add-on">出版社:</span>
-			  <%= f.text_field :press, class: "span3", readonly: true %>
+			  <%= f.text_field :press, class: "span3" %>
 			</div>
 			<div class="input-prepend">
 			  <span class="add-on">出版时间:</span>
-			  <%= f.date_field :publish_date, class: "span3", readonly: true %>
+			  <%= f.date_field :publish_date, class: "span3" %>
 				<%= f.hidden_field :tag %>
 			</div>
+			<div class="input-prepend">
+			  <span class="add-on">捐赠者:</span>
+			  <%= f.date_field :provider, class: "span3" %>
+			</div>
+			<%= f.hidden_field :tag %>
 			<br>
 			<div>
 			  <span>简介 :</span><br>

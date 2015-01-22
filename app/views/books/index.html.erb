@@ -39,7 +39,7 @@
 				<td><%= book.name %></td>
 				<td><%= book.author %></td>
 				<td><%= book.isbn %></td>
-				<td><%= book.language %></td>
+				<td><%= book.language.text unless book.language.nil? %></td>
 				<td><%= book.category.text if book.category != nil %></td>
 				<td><%= book.total %></td>
 				<td><%= book.store > 0 ? book.store : 0 %></td>

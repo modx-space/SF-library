@@ -43,6 +43,9 @@ zh-CN:
         sports: '体育'
         travel: '旅游'
         other: '其他'
+      language:
+        chinese: '中文'
+        english: '英语'
   activerecord:
     errors:
       models:
