@@ -91,9 +91,9 @@
   </div>
   <div class="modal-footer">
     <% if @book.store > 0 %>
-      <%= link_to "借阅", borrows_path(:book_id => @book.id), method:"post", id: "borrow", class: "btn btn-primary"%>
+      <%= link_to "借阅", borrows_path(:book_id => @book.id), method:"post", id: "borrow", class: "btn btn-primary", data: { confirm: '确定借阅?'}%>
     <% else %>
-      <%= link_to "预订", orders_path(:book_id => @book.id), method:"post", id: "order", class: "btn btn-info"%>
+      <%= link_to "预订", orders_path(:book_id => @book.id), method:"post", id: "order", class: "btn btn-info", data: { confirm: '确定预定?'}%>
     <% end %>
     <%#= link_to "已有#{@order_number}人预约", data-target="#userinfor", data-toggle="modal" if (@order_number > 0 || @book.store != @book.total)%>
     <%if @order_number > 0 || @book.store != @book.total %>

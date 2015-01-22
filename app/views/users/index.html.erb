@@ -26,7 +26,7 @@
 				<td onclick="show_user('<%= user_path(user.id, admin: true)%>')"><%= user.name %></td>
 				<td onclick="show_user('<%= user_path(user.id, admin: true)%>')"><%= user.team %></td>
 				<td onclick="show_user('<%= user_path(user.id, admin: true)%>')"><%= user.email %></td>
-				<td onclick="show_user('<%= user_path(user.id, admin: true)%>')"><%= user.role %></td>
+				<td onclick="show_user('<%= user_path(user.id, admin: true)%>')"><%= user.role.text %></td>
 				<td onclick="show_user('<%= user_path(user.id, admin: true)%>')"><%= user.display_location %></td>
 			</tr>
 			<% end %>
