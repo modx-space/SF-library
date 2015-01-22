@@ -199,14 +199,14 @@ class BooksController < ApplicationController
     # with per-user checking of permissible attributes.
     def update_params
       params.require(:book).permit(:name, :picture, :intro, :author, :isbn, :press, :publish_date, 
-        :language, :category, :price, :total)
+        :language, :category, :price, :total, :provider)
     end
 
     ## !!!!ATTENTION!! if no create_params, cancancancan will get error.
     ## Please refer to https://github.com/CanCanCommunity/cancancan #Strong parameters for detail 
     def create_params
       params.require(:book).permit(:name, :picture, :intro, :author, :isbn, :press, :publish_date, 
-        :language, :category, :price, :total, :tag)
+        :language, :category, :price, :total, :tag, :provider)
     end
   
 end

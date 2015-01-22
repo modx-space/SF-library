@@ -38,7 +38,7 @@
             </div>
             <div class="span5">
               <label class="general mark">语言:</label>
-              <label class="general"><%= @book.language %></label>
+              <label class="general"><%= @book.language.text unless @book.language.nil? %></label>
             </div>
           </div>
         </div>
@@ -66,9 +66,19 @@
             </div>
           </div>
         </div>
-        <div class="label-container">
-          <label class="general mark">购买日期:</label>
-          <label class="general"><%= @book.created_at.to_formatted_s(:Y_m_D) %></label>
+        <div class="row-fluid">
+          <div class="label-container" >
+            <div class="span7 ">
+              <label class="general mark">购买日期:</label>
+              <label class="general"><%= @book.created_at.to_formatted_s(:Y_m_D) %></label>
+            </div>
+            <% if !@book.provider.blank? %>
+              <div class="span5">
+                <label class="general mark">捐赠者:</label>
+                <label class="general"><%= @book.provider %></label>
+              </div>
+            <% end%>
+          </div>
         </div>
       </div>
     </div>

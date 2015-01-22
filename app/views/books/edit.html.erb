@@ -21,7 +21,7 @@
 			</div>
 			<div class="input-prepend">
 			  <span class="add-on">语言:</span>
-			  <%= f.text_field :language, class: "span3" %>
+			  <%= f.select :language, Book.language.options, class: "span3" %>
 			</div>
 			<div class="input-prepend">
 			  <span class="add-on">出版社:</span>
@@ -38,6 +38,10 @@
 			<div class="input-prepend">
 			  <span class="add-on">价格:</span>
 			  <%= f.number_field :price, class: "span3" %>
+			</div>
+			<div class="input-prepend">
+			  <span class="add-on">捐赠者:</span>
+			  <%= f.text_field :provider, class: "span3" %>
 			</div>
 			<div>
 			  <span>简介 :</span><br>
