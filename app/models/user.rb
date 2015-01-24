@@ -25,6 +25,7 @@ class User < ActiveRecord::Base
   
   validates :email, :name, :status, presence: true
   validates :email, uniqueness: { case_sensitive: false }
+  validates :sf_email, uniqueness: { case_sensitive: false }, allow_blank: true
   # validates :pwd, length:{ minimum: 6}
 
   def overdue_books
