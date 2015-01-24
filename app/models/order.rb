@@ -7,6 +7,8 @@ class Order < ActiveRecord::Base
   belongs_to :user
   belongs_to :book
 
+  validates :status, presence: true
+
   def self.search(search, page)
     if search != nil
       joins(:book).where('orders.id like ? or books.name like ? or author like ? or isbn like ? or books.category like ? or press like ? or books.tag like ?',

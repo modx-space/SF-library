@@ -24,6 +24,8 @@
           <th>用户</th>
           <th>用户邮箱</th>
         <% end %>
+        <th>出库by</th>
+        <th>归还by</th>
       </tr>
     </thead>
     <tbody>
@@ -43,6 +45,8 @@
           <td><%= user.name %></td>
           <td><%= user.email %></td>
         <% end %>
+        <td><%= borrow.deliver_handler.name unless borrow.deliver_handler.nil?%></td>
+        <td><%= borrow.return_handler.name unless borrow.return_handler.nil?%></td>
       </tr>
       <% end %>
     </tbody>
