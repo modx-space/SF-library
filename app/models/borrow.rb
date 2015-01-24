@@ -6,8 +6,11 @@ class Borrow < ActiveRecord::Base
   
   belongs_to :user
   belongs_to :book
+  belongs_to :deliver_handler, class_name: 'User', foreign_key: 'deliver_handler_id'
+  belongs_to :return_handler, class_name: 'User', foreign_key: 'return_handler_id'
 
   validate :validate_book_store
+  validates :status, presence: true
 
   # before_create :count_return_date
 
@@ -50,9 +53,10 @@ class Borrow < ActiveRecord::Base
     BorrowMailer.five_days_left_remind(self).deliver
   end
   
-  def return_and_shipout_order
+  def return_and_shipout_order(return_handler)
     self.status = :returned 
     self.return_at = Time.now
+    self.return_handler_id = return_handler.id
     book = self.book
     begin
       message = "归还成功!"

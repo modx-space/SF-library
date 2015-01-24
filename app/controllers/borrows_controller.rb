@@ -41,7 +41,8 @@ class BorrowsController < ApplicationController
   def deliver
     borrow = Borrow.find(params[:id])
     if borrow.update(status: :borrowing, 
-      should_return_date: Time.now + BORROW_PERIOD)
+      should_return_date: Time.now + BORROW_PERIOD,
+      deliver_handler_id: current_user.id)
       flash[:success] = "出库成功!" 
       borrow.schedule_five_days_left_remind
     else
@@ -56,7 +57,7 @@ class BorrowsController < ApplicationController
 
   def return
     borrow = Borrow.find(params[:id])
-    result = borrow.return_and_shipout_order 
+    result = borrow.return_and_shipout_order(current_user) 
     if result[:value]
       flash[:success] = result[:message]
     else
