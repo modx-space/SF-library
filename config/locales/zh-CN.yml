@@ -46,6 +46,13 @@ zh-CN:
       language:
         chinese: '中文'
         english: '英语'
+  sort:
+    book:
+      created_at_desc: '入库时间'
+      language_desc: '按语言'
+      total_desc: '按总数'
+      price_desc: '按价格'
+      
   activerecord:
     errors:
       models:
