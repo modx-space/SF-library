@@ -66,7 +66,7 @@ class Book < ActiveRecord::Base
   end
 
   def borrowing_list 
-    self.borrows.without_status(:returned).order(created_at: :desc)
+    self.borrows.without_status(:returned).order(created_at: :asc)
   end
 
   def order_conditions

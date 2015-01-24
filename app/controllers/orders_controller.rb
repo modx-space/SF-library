@@ -18,7 +18,7 @@ class OrdersController < ApplicationController
         order.user_id = current_user.id
         order.book_id = params[:book_id]
         order.status = :in_queue
-        record_count = book.order_queue_count
+        record_count = book.previous_order_count
         if order.save
           flash[:success] = "预订成功! 排队序号为: #{record_count+1} "
         else
