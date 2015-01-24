@@ -41,12 +41,25 @@ class User < ActiveRecord::Base
   end
 
   def self.search(search, page)
-    if search != nil
-      where('name like ? or team like ? or building = ? or email like ? or office = ? or sf_email like ?',
-         "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%").paginate(page: page, per_page: BOOK_PER_PAGE)
+    if search.present?
+      if (map_role_name = convert_role_translation(search)).nil?
+        where('name like ? or team like ? or building like ? or email like ? or office = ? or sf_email like ?',
+           "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%").paginate(page: page, per_page: BOOK_PER_PAGE)
+      else
+        where('role = ?', map_role_name).paginate(page: page, per_page: BOOK_PER_PAGE)
+      end
     else
       paginate(page: page, per_page: BOOK_PER_PAGE)
     end
+  end
+
+  def self.convert_role_translation(search)
+    User.role.options.each do |pair|
+      if pair[0] == search
+        return pair[1]
+      end
+    end
+    nil
   end
 
   def display_name
