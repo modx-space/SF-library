@@ -4,7 +4,7 @@
 <div class="row-fluid">
 	<%= render partial: 'helper/search_box', locals: { path: search_path}%>
 	<div class="span3 offset2">
-		<%= render partial: 'helper/sort_box'%>
+		<%= render partial: 'helper/sort_box', locals: {sort_types: Book.sort_types, sort_model: 'book'}%>
 		<% if is_admin_page %>
 		  <button onclick="add_book('<%= new_book_path %>')" class="btn  btn-info">添加图书</button>
 		<% end %>

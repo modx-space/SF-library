@@ -25,14 +25,28 @@ class Book < ActiveRecord::Base
   before_update :change_store_count
   before_create :set_store_count
 
-  def self.search_by_tag(search, page)
-    if search != nil 
+  def self.search(search)
+    if search.present?
       where('name like ? or author like ? or isbn like ? or category like ? or press like ? or tag like ? or provider like ?',
-         "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%").paginate(:per_page => BOOK_PER_PAGE, :page => page)   
-                       
+         "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%")
     else
-      paginate :per_page => BOOK_PER_PAGE, :page => page
+      all
     end
+  end
+
+  def self.sort(sort_type)
+    if sort_type.present? && sort_types.include?(sort_type.to_sym)
+      last_index_of_underscore = sort_type.rindex('_')
+      length = sort_type.length
+      sort_condition = sort_type[0,last_index_of_underscore] + ' ' + sort_type[last_index_of_underscore+1, length]
+      order(sort_condition)
+    else
+      all
+    end
+  end
+
+  def self.sort_types
+    [:language_desc, :total_desc, :price_desc, :created_at_desc]
   end
 
   def order_queue_count

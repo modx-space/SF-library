@@ -27,7 +27,8 @@ class BooksController < ApplicationController
   
   def index
     page = params[:page] || 1
-    @books = Book.search_by_tag(params[:tag], page)
+    @books = Book.search(params[:tag]).sort(params[:sort]).paginate(per_page: BOOK_PER_PAGE, page: page)
+    @sort_types = Book.sort_types
     respond_to do |format|
       format.html
     end
@@ -36,8 +37,8 @@ class BooksController < ApplicationController
 
   def admin_index
     page = params[:page] || 1
-    @books = Book.search_by_tag(params[:tag], page)
-
+    @books = Book.search(params[:tag]).sort(params[:sort]).paginate(per_page: BOOK_PER_PAGE, page: page)
+    @sort_types = Book.sort_types
     respond_to do |format|
       format.html { render 'index.html.erb'}
     end

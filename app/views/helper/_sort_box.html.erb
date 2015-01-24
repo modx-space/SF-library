@@ -1,10 +1,10 @@
 # encoding: utf-8
 <div class="btn-group">
-  <button class="btn dropdown-toggle" data-toggle="dropdown">默认排序 <span class="caret"></span></button>
+  <button class="btn dropdown-toggle" data-toggle="dropdown" id="sort_btn"><%= (params[:sort].present? && sort_types.include?(params[:sort].to_sym)) ? t("sort.#{sort_model}.#{params['sort']}") : '默认排序'%> <span class="caret"></span></button>
   <ul class="dropdown-menu">
 	  <li><a href="?">默认排序</a></li>
-      <li><a href="#">Another action</a></li>
-      <li><a href="#">Something else here</a></li>
-      <li><%= link_to "order by date", params.merge({sort: 'date_desc'}) %></li>
+    <% sort_types.each do |sort_type|%>
+      <li><%= link_to t("sort.#{sort_model}.#{sort_type}"), params.merge({sort: sort_type}) %></li>
+    <% end%>
   </ul>
 </div>
