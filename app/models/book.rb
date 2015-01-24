@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Book < ActiveRecord::Base
   extend Enumerize
+  extend SortUtils
 
   enumerize :category, in: [:art, :biography, :business_money, :children, 
                             :comics, :computer, :cooking, :crafts_home, :education,
@@ -36,9 +37,7 @@ class Book < ActiveRecord::Base
 
   def self.sort(sort_type)
     if sort_type.present? && sort_types.include?(sort_type.to_sym)
-      last_index_of_underscore = sort_type.rindex('_')
-      length = sort_type.length
-      sort_condition = sort_type[0,last_index_of_underscore] + ' ' + sort_type[last_index_of_underscore+1, length]
+      sort_condition = parse_sort_type(sort_type)
       order(sort_condition)
     else
       all
