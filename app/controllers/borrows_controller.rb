@@ -72,7 +72,9 @@ class BorrowsController < ApplicationController
     page = params[:page] || 1
     @borrows =  Borrow.where("user_id = :user_id and borrows.status != :status", 
                       { user_id: current_user.id, status: :returned })
-                      .search(params[:tag], page)
+                      .search(params[:tag])
+                      .sort(params[:sort], Borrow.current_sort_types)
+                      .paginate(page: page, per_page: BOOK_PER_PAGE)
                       
     render_list_page('current_index.html.erb')
 
@@ -82,7 +84,9 @@ class BorrowsController < ApplicationController
     page = params[:page] || 1
     @borrows = Borrow.where("user_id = :user_id and borrows.status = :status", 
                       {user_id: current_user.id, status: :returned })
-                      .search(params[:tag], page)
+                      .search(params[:tag])
+                      .sort(params[:sort], Borrow.history_sort_types)
+                      .paginate(page: page, per_page: BOOK_PER_PAGE)
     
     render_list_page('history_index.html.erb')
 
@@ -91,7 +95,9 @@ class BorrowsController < ApplicationController
   def admin_current
     page = params[:page] || 1
     @borrows = Borrow.where("borrows.status != :status", {status: :returned })
-                      .admin_search(params[:tag], page)
+                      .admin_search(params[:tag])
+                      .sort(params[:sort], Borrow.current_sort_types)
+                      .paginate(page: page, per_page: BOOK_PER_PAGE)
     
     render_list_page('current_index.html.erb')
   end
@@ -99,7 +105,9 @@ class BorrowsController < ApplicationController
   def admin_history
     page = params[:page] || 1
     @borrows = Borrow.where("borrows.status = :status", {status: :returned })
-                      .admin_search(params[:tag], page)
+                      .admin_search(params[:tag])
+                      .sort(params[:sort], Borrow.history_sort_types)
+                      .paginate(page: page, per_page: BOOK_PER_PAGE)
     
     render_list_page('history_index.html.erb')
   end

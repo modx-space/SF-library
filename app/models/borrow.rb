@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Borrow < ActiveRecord::Base
   extend Enumerize
+  extend SortUtils
 
   enumerize :status, in: [:undelivery, :borrowing, :returned], scope: true
   
@@ -17,22 +18,39 @@ class Borrow < ActiveRecord::Base
   #after_save :send_borrow_notification_to_admin
   #after_save :schedule_five_days_left_remind
   
-  def self.search(search, page)
-    if search != nil
+  def self.search(search)
+    if search.present?
       joins(:book).where('borrows.id like ? or books.name like ? or author like ? or isbn like ? or books.category like ? or press like ? or books.tag like ?',
-         "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%").paginate(page: page, per_page: BOOK_PER_PAGE)
+         "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%")
     else
-      paginate(page: page, per_page: BOOK_PER_PAGE)
+      all
     end
   end
 
-  def self.admin_search(search, page)
-    if search != nil
-      joins(:book, :user).where('borrows.id like ? or users.name like ? or users.email like ? or users.team like ? or books.name like ? or author like ? or isbn like ? or books.category like ? or press like ? or books.tag like ?',
-         "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%").paginate(page: page, per_page: BOOK_PER_PAGE)
+  def self.admin_search(search)
+    if search.present?
+      joins(:book, :user).where('borrows.id like ? or users.name like ? or users.building like ? or users.team like ? or books.name like ? or author like ? or isbn like ? or books.category like ? or press like ? or books.tag like ?',
+         "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%")
     else
-      paginate(page: page, per_page: BOOK_PER_PAGE)
+      all
     end
+  end
+
+  def self.sort(sort_type, supported_sort_types)
+    if sort_type.present? && supported_sort_types.include?(sort_type.to_sym)
+      sort_condition = parse_sort_type(sort_type)
+      order(sort_condition)
+    else
+      all
+    end
+  end
+
+  def self.current_sort_types
+    [:should_return_date_desc, :status_desc]
+  end
+
+  def self.history_sort_types
+    [:should_return_date_desc, :return_at_desc]
   end
 
   def validate_book_store
