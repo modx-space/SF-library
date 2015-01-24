@@ -49,7 +49,9 @@ class OrdersController < ApplicationController
     page = params[:page] || 1
     @orders = Order.where("user_id = :user_id and orders.status = :status", 
                       {user_id: current_user.id, status: :in_queue})
-                      .search(params[:tag], page)
+                      .search(params[:tag])
+                      .sort(params[:sort], Order.current_sort_types)
+                      .paginate(page: page, per_page: BOOK_PER_PAGE)
     render_list_page('current_index.html.erb')
   end
 
@@ -57,7 +59,9 @@ class OrdersController < ApplicationController
     page = params[:page] || 1
     @orders = Order.where("user_id = :user_id and orders.status != :status", 
                       {user_id: current_user.id, status: :in_queue})
-                      .search(params[:tag], page)
+                      .search(params[:tag])
+                      .sort(params[:sort], Order.history_sort_types)
+                      .paginate(page: page, per_page: BOOK_PER_PAGE)
 
     render_list_page('history_index.html.erb')
   end
@@ -66,7 +70,9 @@ class OrdersController < ApplicationController
     page = params[:page] || 1
     @orders = Order.where("orders.status = :status", 
                       {status: :in_queue})
-                      .admin_search(params[:tag], page)
+                      .admin_search(params[:tag])
+                      .sort(params[:sort], Order.current_sort_types)
+                      .paginate(page: page, per_page: BOOK_PER_PAGE)
     render_list_page('current_index.html.erb')
   end
 
@@ -74,7 +80,9 @@ class OrdersController < ApplicationController
     page = params[:page] || 1
     @orders = Order.where("orders.status != :status", 
                       {status: :in_queue})
-                      .admin_search(params[:tag], page)
+                      .admin_search(params[:tag])
+                      .sort(params[:sort], Order.history_sort_types)
+                      .paginate(page: page, per_page: BOOK_PER_PAGE)
 
     render_list_page('history_index.html.erb')
   end
