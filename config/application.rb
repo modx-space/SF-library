@@ -23,7 +23,7 @@ module LibraryApp
     config.time_zone = 'Beijing'
     config.active_record.default_timezone = :local
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
-    #config.autoload_paths += %W(#{config.root}/lib/support) 
+    config.autoload_paths += %W(#{config.root}/lib/support) 
 
     config.action_view.field_error_proc = Proc.new { |html_tag, instance| 
         if html_tag =~ /<(input|textarea|select)/
