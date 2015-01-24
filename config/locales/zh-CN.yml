@@ -52,7 +52,13 @@ zh-CN:
       language_desc: '按语言'
       total_desc: '按总数'
       price_desc: '按价格'
-      
+    borrow:
+      should_return_date_desc: '应还日期'
+      status_desc: '状态'
+      return_at_desc: '归还日期'
+    order:
+      created_at_desc: '预约时间'
+      updated_at_desc: '处理时间'
   activerecord:
     errors:
       models:
