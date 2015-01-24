@@ -50,6 +50,11 @@ class Order < ActiveRecord::Base
     self.save!
   end
 
+  def previous_order_count
+    Order.where("status = ? and book_id = ? and created_at < ?",
+     :in_queue, self.book_id, self.created_at).count
+  end
+
   def cancel
     self.status = :canceled
     self.save

@@ -33,7 +33,7 @@
         <td><%= order.id %></td>
         <td><%= book.name %></td>
         <td><%= order.created_at.to_formatted_s(:Y_m_D) %></td>
-        <td>前方有<b><%= book.order_queue_count-1 %></b>人排队</td>
+        <td>前方有<b><%= order.previous_order_count %></b>人排队</td>
         <% if is_admin_page %>
           <% user = order.user %> 
           <td><%= user.name %></td>
