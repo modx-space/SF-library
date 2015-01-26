@@ -1,0 +1,152 @@
+# encoding: utf-8
+<div role="dialog" aria-hidden="true">
+  <div class="row-fluid">
+    <!-- picture -->
+    <div class="span4">
+      <ul class="thumbnails">
+        <li class="span12">
+          <div class="thumbnail">
+            <img class="img-rounded" src="<%= @book.picture %>" alt="封面" style="width: 240px; height: 320px;">
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- info -->
+    <div class="span8">
+      <div class="modal-body">
+        <div class="label-container">
+          <label class="general mark">书名:</label>
+          <label class="general"><%= @book.name %></label>
+        </div>
+        <div class="label-container">
+          <label class="general mark">ISBN:</label>
+          <label class="general"><%= @book.isbn %></label>
+        </div>
+        <div class="label-container">
+          <label class="general mark">总数:</label>
+          <label class="general"><%= @book.total %></label>
+        </div>
+        <div class="label-container">
+          <label class="general mark">在库:</label>
+          <label class="general"><%= @book.store %></label>
+        </div>
+        <div class="row-fluid">
+          <div class="label-container" >
+            <div class="span7 ">
+              <label class="general mark">作者:</label>
+              <label class="general"><%= @book.author %></label>
+            </div>
+            <div class="span5">
+              <label class="general mark">语言:</label>
+              <label class="general"><%= @book.language.text unless @book.language.nil? %></label>
+            </div>
+          </div>
+        </div>
+        <div class="row-fluid">
+          <div class="label-container" >
+            <div class="span7 ">
+              <label class="general mark">出版社:</label>
+              <label class="general"><%= @book.press %></label>
+            </div>
+            <div class="span5">
+              <label class="general mark">类型:</label>
+              <label class="general"><%= @book.category.text if @book.category != nil %></label>
+            </div>
+          </div>
+        </div>
+        <div class="row-fluid">
+          <div class="label-container" >
+            <div class="span7 ">
+              <label class="general mark">出版日期:</label>
+              <label class="general"><%= @book.publish_date %></label>
+            </div>
+            <div class="span5">
+              <label class="general mark">价格:</label>
+              <label class="general"><%= @book.price %></label>
+            </div>
+          </div>
+        </div>
+        <div class="row-fluid">
+          <div class="label-container" >
+            <div class="span7 ">
+              <label class="general mark">入库日期:</label>
+              <label class="general"><%= @book.created_at.to_formatted_s(:Y_m_D) %></label>
+            </div>
+            <% if !@book.provider.blank? %>
+              <div class="span5">
+                <label class="general mark">捐赠者:</label>
+                <label class="general"><%= @book.provider %></label>
+              </div>
+            <% end%>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="span12">
+      <center><label><b>简介:</b></label></center>
+      <label class="label-text" ><%= @book.intro %></label>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <% if @book.store > 0 %>
+      <%= link_to "借阅", borrows_path(:book_id => @book.id), method:"post", id: "borrow", class: "btn btn-primary", data: { confirm: '确定借阅?'}%>
+    <% else %>
+      <%= link_to "预订", orders_path(:book_id => @book.id), method:"post", id: "order", class: "btn btn-info", data: { confirm: '确定预定?'}%>
+    <% end %>
+    <%#= link_to "已有#{@order_number}人预约", data-target="#userinfor", data-toggle="modal" if (@order_number > 0 || @book.store != @book.total)%>
+    <%if @order_number > 0 || @book.store != @book.total %>
+      <a data-target="#condition_modal", data-toggle="modal">借阅,预约详情</a>
+    <% end %>
+  </div>
+</div>
+
+<!-- Modal for order/borrow conditions -->
+<div id="condition_modal" class="modal hide fade" role="dialog" aria-hidden="true">
+  <div class="modal-body">
+    <div class="row-fluid">
+      <div class="span6" >
+        <table class="table  table-hover">
+          <caption><b>借阅情况</b></caption>
+          <thead>
+            <tr>
+              <th>借阅用户</th>
+              <th>借阅日期</th>
+              <th>应还日期</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @borrow_conditions.each do |borrow_condition| %>
+            <tr>
+              <td><%= borrow_condition[:user_name] %></td>
+              <td><%= borrow_condition[:borrow_date] %></td>
+              <td><%= borrow_condition[:expected_date] %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="span5 offset1">
+        <table class="table  table-hover">
+          <caption><b>预约情况</b></caption>
+          <thead>
+            <tr>
+              <th>预约用户</th>
+              <th>预约日期</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @order_conditions.each do |order_condition| %>
+            <tr>
+              <td><%= order_condition[:user_name] %></td>
+              <td><%= order_condition[:order_date] %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+  </div>
+</div>

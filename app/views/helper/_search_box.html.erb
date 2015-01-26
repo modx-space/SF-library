@@ -1,0 +1,7 @@
+# encoding: utf-8
+<div id="search" class="span6">
+  <%= form_tag path, :method => 'get', class: 'form-search' do %>
+  <%= text_field_tag :tag, params[:tag], placeholder: '请输入关键词', class: "input-medium search-query" %>
+  <%= submit_tag "查找", :name => nil , :class => "btn btn-primary" %>  
+  <% end %>
+</div>

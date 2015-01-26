@@ -1,33 +1,10 @@
 <div id="userdetail"  role="dialog" aria-hidden="true">
 	<%= form_for @user do |f| %>
-	<div class="modal-body">
-		<center>
-			<%= f.text_field :id, id: "id", class: "span2", style: "display: none" %>
-			<div class="input-prepend">
-			  <span class="add-on">姓名:</span>
-			  <%= f.text_field :name, id: "name", class: "span3" %>
-			</div>
-			<div class="input-prepend">
-			  <span class="add-on">类型:</span>
-			  <%= f.text_field :role, id: "role", class: "span3" %>
-			</div>
-			<div class="input-prepend">
-			  <span class="add-on">邮箱:</span>
-			  <%= f.text_field :email, id: "email", class: "span4" %>
-			</div>
-			<br>
-			<div class="input-prepend">
-			  <span class="add-on">团队:</span>
-			  <%= f.text_field :team, id: "team", class: "span4" %>
-			</div>
-		</center>
-	</div>
+    <%= render partial: 'helper/error_bar', locals: {object: @user} %>
+		<%= render partial: 'form', locals: {f: f, new_page: false}%>
 	<div class="modal-footer">
-		<%= link_to "重置密码", reset_user_path(@user.id), method: "get", class: "btn btn-danger", data: { confirm: '确定重置?'}%>
-		<%= f.submit "修改", class: "btn btn-info" %>
+		<%= link_to "返回", user_path(@user.id), class: "btn btn-info left_align"%>
+		<%= f.submit "修改", class: "btn btn-primary" %>
 	</div>
 	<% end %>
 </div>
-
-<script >
-</script>

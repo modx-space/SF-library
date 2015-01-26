@@ -1,0 +1,40 @@
+<div class="modal-body">
+  <center>
+    <% if current_user.super_admin? || new_page == true%>
+      <div class="input-prepend">
+        <span class="add-on">邮箱:</span>
+        <%= f.email_field :email, class: "span5" %>
+      </div>
+    <% end%>
+    <div class="input-prepend">
+      <span class="add-on">姓名:</span>
+      <%= f.text_field :name, class: "span5" %>
+    </div>
+    <% if current_user.super_admin? %>
+      <div class="input-prepend">
+        <span class="add-on">权限:</span>
+        <%= f.select :role, User.role.options, class: "span3" %>
+      </div>
+      <div class="input-prepend">
+        <span class="add-on">SF邮箱:</span>
+        <%= f.email_field :sf_email, class: "span3" %>
+      </div>
+    <% end%>
+    <div class="input-prepend">
+      <span class="add-on">团队:</span>
+      <%= f.text_field :team, class: "span3" %>
+    </div>
+    <div class="input-prepend">
+      <span class="add-on">PVG:</span>
+      <%= f.select :building, User.building.options, class: "span3" %>
+    </div>
+    <div class="input-prepend">
+      <span class="add-on">办公室:</span>
+      <%= f.text_field :office, class: "span3" %>
+    </div>
+        <div class="input-prepend">
+      <span class="add-on">座位编号:</span>
+      <%= f.number_field :seat, min:1, class: "span3" %>
+    </div>
+  </center>
+</div>

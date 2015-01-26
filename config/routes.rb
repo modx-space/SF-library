@@ -3,18 +3,21 @@ LibraryApp::Application.routes.draw do
   root to: 'default#home'
   
   resources :books do
+    collection do
+      get 'admin_index'
+    end
   end
-
-
-
-
+  
   resources :users do   
     collection do
       #delete 'logout'
       #post 'login'
     end
     member do
-      get 'reset'
+      get 'reset_passwd'
+      put 'reset'
+      get 'edit_passwd'
+      put 'update_passwd'
     end
   end
 
@@ -50,7 +53,7 @@ LibraryApp::Application.routes.draw do
 
   #admin
   match '/admin/users', to: 'users#index', via: 'get'
-  match '/admin/books', to: 'books#index', via: 'get'
+  match '/admin/books', to: 'books#admin_index', via: 'get'
   match '/admin/borrowing', to: 'borrows#admin_current', via: 'get'
   match '/admin/borrowed', to: 'borrows#admin_history', via: 'get'
   match '/admin/ordering', to: 'orders#admin_current', via: 'get'

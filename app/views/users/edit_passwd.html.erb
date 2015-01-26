@@ -1,0 +1,26 @@
+#encoding: utf-8
+<div id="resetpasswd"  role="dialog" aria-hidden="true">
+	<%= form_tag update_passwd_user_path(@user.id), method: 'put' do  %>
+	<%= render partial: 'helper/error_bar', locals: {object: @user} %>
+	<div class="modal-body">
+		<center>
+			<div class="input-prepend">
+			  <span class="add-on">原密码:</span>
+			  <%= password_field_tag :old_password, params[:old_password],required: true, class: "span5" %>
+			</div>
+			<div class="input-prepend">
+			  <span class="add-on">新密码:</span>
+			  <%= password_field_tag :new_password, params[:new_password],required: true, class: "span5" %>
+			</div>
+			<div class="input-prepend">
+			  <span class="add-on">确认密码:</span>
+			  <%= password_field_tag :confirm_password, params[:confirm_password],required: true, class: "span5" %>
+			</div>
+		</center>
+	</div>
+	<div class="modal-footer">
+		<%= link_to "返回", user_path(@user.id), class: "btn btn-info left_align"%>
+		<%= submit_tag "修改", class: "btn btn-primary" %>
+	</div>
+	<% end %>
+</div>

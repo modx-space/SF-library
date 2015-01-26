@@ -5,9 +5,8 @@
 			<%= link_to "Minerva's Book Library", root_path, id: "logo", class: "brand" %>
 				<% if signed_in? %>
 					<ul class="nav pull-right">
-						<li class="active divider-vertical"><a class="brand"><%= say_hello %></a></li>
-						<li class="active divider-vertical"><a data-target="#userinfor" data-toggle="modal"><i class="icon-white icon-user"></i>
-							<%= current_user.name %></a>
+						<li class="active divider-vertical"><a onclick="show_user('<%= user_path(current_user.id)%>')"><i class="icon-white icon-user"></i>
+							<%= current_user.display_name  %></a>
 						</li>
 						<li class="active divider-vertical">
 							<%= link_to delete_sessions_path, method: "delete" do %>
@@ -21,11 +20,11 @@
 						<!-- <div class="controls"> -->
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-envelope"></i></span>
-								<%= f.text_field :email, placeholder: "邮箱", class: "span10" %>
+								<%= f.email_field :email, placeholder: "邮箱", class: "span10", required: "required" %>
 							</div>
 					    	<div class="input-prepend">
 								<span class="add-on"><i class="icon-certificate"></i></span>
-					      	  	<%= f.password_field :password, placeholder: "密码", class: "span10" %>
+					      	  	<%= f.password_field :password, placeholder: "密码", class: "span10", required: "required" %>
 					    	</div>
 					    	<div class="input-prepend">
 								<%= f.submit "登录", class: "btn" %>

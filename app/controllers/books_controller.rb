@@ -27,23 +27,43 @@ class BooksController < ApplicationController
   
   def index
     page = params[:page] || 1
-    sql = %Q| select * from books where status = "已买" |
-    if params[:tag] != nil
-      @books = Book.search_by_tag(params[:tag], page)
-    else
-      @books = Book.search(page)
-    end
-
+    @books = Book.search(params[:tag]).sort(params[:sort]).paginate(per_page: BOOK_PER_PAGE, page: page)
+    @sort_types = Book.sort_types
     respond_to do |format|
-      format.html# {render '_index.html.erb'}
-      #format.js { render 'index.js.erb' }
+      format.html
     end
     
   end
-  
-  def edit
+
+  def admin_index
+    page = params[:page] || 1
+    @books = Book.search(params[:tag]).sort(params[:sort]).paginate(per_page: BOOK_PER_PAGE, page: page)
+    @sort_types = Book.sort_types
+    respond_to do |format|
+      format.html { render 'index.html.erb'}
+    end
+
+  end
+
+  def update
+    respond_to do |format|
+      @book = Book.find(params[:id])
+      if @book.update(update_params)
+        flash[:success] = '修改成功'
+        format.html {redirect_to :back}
+      else
+        format.html {render action: 'edit'}
+      end
+
+      
+    end
+  end
+
+  def show
     @book = Book.find(params[:id])
-    @order_number = @book.order_queue_count   
+    @order_number = @book.order_queue_count
+    @borrow_conditions = @book.borrow_conditions
+    @order_conditions = @book.order_conditions
   end
   
   def recommed_list
@@ -68,25 +88,30 @@ class BooksController < ApplicationController
   
   def fetch
     respond_to do |format|
-      uri = URI('https://api.douban.com/v2/book/isbn/'+params[:isbn]);
-      begin
-        open(uri) do |http|
-          response = JSON.parse(http.read)
+      @book = {}
+      if(Book.find_by(isbn: params[:isbn]))
+        @book[:error] = "该ISBN号已存在"
+      else
+        uri = URI('http://api.douban.com/v2/book/isbn/'+params[:isbn]);
+        begin
+          open(uri) do |http|
+            response = JSON.parse(http.read)
+            @book[:picture] = response["images"]["large"]
+            @book[:isbn] = response["isbn13"]
+            @book[:name] = response["title"]
+            @book[:author] = response["author"].to_s.delete("[]\"")
+            @book[:language] = /\p{Han}/.match(response["title"]) == nil ? :english : :chinese
+            @book[:press] = response["publisher"]
+            @book[:publish_date] = /-\d+-/.match(response["pubdate"]).nil? ? response["pubdate"] + "-01" : response["pubdate"]
+            @book[:price] = response["price"]
+            @book[:tag] = response["tags"].collect {|item| item["name"]}.join(',')
+            @book[:intro] = response["summary"].delete("\n")[0,150]+"......"
+          end
+        rescue Exception => ex
           @book = {}
-          @book[:picture] = response["images"]["large"]
-          @book[:isbn] = response["isbn13"]
-          @book[:name] = response["title"]
-          @book[:author] = response["author"].to_s.delete("[]\"")
-          @book[:language] = response["translator"].length > 0 ? "外文" : "中文"
-          @book[:category] = response["tags"][0]["name"]
-          @book[:press] = response["publisher"]
-          @book[:publish_date] = response["pubdate"]
-          @book[:price] = response["price"]
-          @book[:intro] = response["summary"].delete("\n")[0,150]+"......"
+          logger.error "*** errors: #{ex.message}"
+          @book[:error] = "ISBN不存在或网络问题"
         end
-      rescue 
-        @book = {}
-        flash[:error] = "请核实ISBN!"
       end
       format.js
     end
@@ -156,33 +181,33 @@ class BooksController < ApplicationController
   end
 
   def create
-    book = nil
-    if book = Book.find_by(isbn: params[:book][:isbn])
-      book.store = book.store + params[:book][:total]
-      book.total = book.total + params[:book][:total]
-    else
-      book = Book.new()
-      book.name = params[:book][:name]
-      book.picture = params[:book][:picture]
-      book.intro = params[:book][:intro]
-      book.author = params[:book][:author]
-      book.isbn = params[:book][:isbn]
-      book.press = params[:book][:press]
-      book.publish_date = params[:book][:publish_date]
-      book.language = params[:book][:language]
-      book.category = params[:book][:category]
-      book.price = params[:book][:price]
-      book.total = params[:book][:total]
-      book.store = book.total
-      book.point = 0
+    respond_to do |format|
+      @book = Book.create(create_params)
+      if @book.id != nil
+        flash[:success] = '入库成功'
+        format.html { redirect_to edit_book_path(@book) }
+      else
+        format.html { render new_book_path }
+      end
     end
-    book.status = "已买"
-    if book.save
-        redirect_to books_index_path, success: '入库成功 O(∩_∩)O'
-    else    
-         flash[:error] = '入库失败! (⊙o⊙)'
-    end
-    #index
   end
+
+  private
+    #Strong Parameters
+    # Using a private method to encapsulate the permissible parameters is
+    # just a good pattern since you'll be able to reuse the same permit
+    # list between create and update. Also, you can specialize this method
+    # with per-user checking of permissible attributes.
+    def update_params
+      params.require(:book).permit(:name, :picture, :intro, :author, :isbn, :press, :publish_date, 
+        :language, :category, :price, :total, :provider)
+    end
+
+    ## !!!!ATTENTION!! if no create_params, cancancancan will get error.
+    ## Please refer to https://github.com/CanCanCommunity/cancancan #Strong parameters for detail 
+    def create_params
+      params.require(:book).permit(:name, :picture, :intro, :author, :isbn, :press, :publish_date, 
+        :language, :category, :price, :total, :tag, :provider)
+    end
   
 end

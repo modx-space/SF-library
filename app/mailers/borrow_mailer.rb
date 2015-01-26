@@ -1,17 +1,17 @@
 class BorrowMailer < ActionMailer::Base
-  default from: "minyue.wang@sap.com" # maybe use other email address, like "minerva.book.lib@sap.com"
+  default from: "DL_536ACDABDF15DB7F9000000F@exchange.sap.corp" # maybe use other email address, like "minerva.book.lib@sap.com"
 
   def borrow_notification_to_admin borrow
-    @borrow = borrow
-    @receivers = User.admin
-    @subject = "#{borrow.user.name} borrow a #{borrow.book.name}"
-    @receivers.each do |user|
-      mail(to: user.email, subject: @subject) 
-    end 
+    @book = borrow.book
+    @user = borrow.user
+    @receivers = User.on_board.with_role(:super_admin, :admin)
+    @subject = "等待出库: #{borrow.user.name} 借阅了 <#{borrow.book.name}>"
+    emails = @receivers.collect(&:email).join(";")
+    mail(to: emails, subject: @subject)     
   end
 
   def five_days_left_remind borrow
-    return if borrow.status != BORROW_STATUSES.index('借阅中') # borrowed
+    return if borrow.status != :borrowing # borrowed
 
     @borrow = borrow
     @receiver = borrow.user

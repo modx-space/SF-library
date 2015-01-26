@@ -1,4 +1,11 @@
 # encoding: utf-8
+<div class="row-fluid">
+  <% search_path = params[:action] == 'admin_history' ? admin_ordered_path : history_list_orders_path %>
+  <%= render partial: 'helper/search_box', locals: { path: search_path}%>
+  <div class="span3 offset2">
+    <%= render partial: 'helper/sort_box', locals: {sort_types: Order.history_sort_types, sort_model: 'order'}%>
+  </div>  
+</div>
 <%= will_paginate @orders %>
 <% is_admin_page = params[:action] == 'admin_history' %>
 <div class="book container-fluid">
@@ -7,9 +14,13 @@
     <thead>
       <tr>
         <th>封面</th>
+        <th>流水号</th>
         <th>书名</th>
-        <th>ISBN</th>
-        <th>预定时间</th>
+        <% if is_admin_page %>
+          <th>用户</th>
+          <th>用户邮箱</th>
+        <% end %>
+        <th>预约时间</th>
         <th>处理结果</th>
         <th>处理时间</th>
       </tr>
@@ -19,11 +30,16 @@
       <tr>
         <% book = order.book%>
         <td><img class="img-rounded" src="<%= book.picture %>" alt="封面" style="width: 40px; height: 50px;"></td>
+        <td><%= order.id %></td>
         <td><%= book.name %></td>
-        <td><%= book.isbn %></td>
-        <td><%= order.created_at.localtime.to_formatted_s(:Y_m_D) %></td>
-        <td><%= ORDER_STATUSES[order.status.to_i]%></td>
-        <td><%= order.book[:updated_at].localtime.to_formatted_s(:Y_m_D) %></td>
+        <% if is_admin_page %>
+          <% user = order.user %> 
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+        <% end %>
+        <td><%= order.created_at.to_formatted_s(:Y_m_D) %></td>
+        <td><%= order.status.text %></td>
+        <td><%= order.book[:updated_at].to_formatted_s(:Y_m_D) %></td>
       </tr>
       <% end %>
     </tbody>

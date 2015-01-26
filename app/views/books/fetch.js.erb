@@ -1,13 +1,17 @@
 # encoding: utf-8
+<% if @book[:error] %>
+  alert("<%= @book[:error] %>")
+<% end %>
 $("#book_name").val("<%= @book[:name] %>");
+$("#book_name").focus();
 $("#book_author").val("<%= @book[:author] %>");
 $("#book_language").val("<%= @book[:language] %>");
 $("#book_price").val("<%= @book[:price] %>");
-$("#book_category").val("<%= @book[:category] %>");
 $("#book_press").val("<%= @book[:press] %>");
 $("#book_publish_date").val("<%= @book[:publish_date] %>");
 $("#book_intro").val("<%= @book[:intro] %>");
 $("#book_picture").val("<%= @book[:picture] %>");
+$("#book_tag").val("<%= @book[:tag] %>");
 var empty = <%= @book[:name].nil? %>
 if(!empty){
 	$("#img").attr("src","<%= @book[:picture]%>");

@@ -1,4 +1,11 @@
 # encoding: utf-8
+<div class="row-fluid">
+  <% search_path = params[:action] == 'admin_history' ? admin_borrowed_path : history_list_borrows_path %>
+  <%= render partial: 'helper/search_box', locals: { path: search_path}%>
+  <div class="span3 offset2">
+    <%= render partial: 'helper/sort_box', locals: {sort_types: Borrow.history_sort_types, sort_model: 'borrow'}%>
+  </div>
+</div>
 <%= will_paginate @borrowing %>
 <% is_admin_page = params[:action] == 'admin_history' %>
 <div class="book container-fluid">
@@ -7,9 +14,9 @@
     <thead>
       <tr>
         <th>封面</th>
+        <th>流水号</th>
         <th>书名</th>
-        <th>ISBN</th>
-        <th>借书日期</th>
+        <th>借阅日期</th>
         <th>应还日期</th>
         <th>归还日期</th>
         <th>超期归还</th>
@@ -17,6 +24,8 @@
           <th>用户</th>
           <th>用户邮箱</th>
         <% end %>
+        <th>出库by</th>
+        <th>归还by</th>
       </tr>
     </thead>
     <tbody>
@@ -24,17 +33,20 @@
       <tr>
         <% book = borrow.book %> 
         <td><img class="img-rounded" src="<%= book.picture %>" alt="封面" style="width: 40px; height: 50px;"></td>
+        <td><%= borrow.id %></td>
         <td><%= book[:name] %></td>
-        <td><%= book[:isbn] %></td>
-        <td><%= borrow[:created_at].localtime.to_formatted_s(:Y_m_D) %></td>
-        <td><%= borrow[:should_return_date].localtime.to_formatted_s(:Y_m_D) %></td>
-        <td><%= borrow[:return_at].localtime.to_formatted_s(:Y_m_D) %></td>
+
+        <td><%= borrow[:created_at].to_formatted_s(:Y_m_D) %></td>
+        <td><%= borrow[:should_return_date].to_formatted_s(:Y_m_D) %></td>
+        <td><%= borrow[:return_at].to_formatted_s(:Y_m_D) %></td>
         <td><%=  borrow[:should_return_date] <= borrow[:return_at] ? "是" : "否" %></td>
         <% if is_admin_page %>
           <% user = borrow.user %> 
           <td><%= user.name %></td>
           <td><%= user.email %></td>
         <% end %>
+        <td><%= borrow.deliver_handler.name unless borrow.deliver_handler.nil?%></td>
+        <td><%= borrow.return_handler.name unless borrow.return_handler.nil?%></td>
       </tr>
       <% end %>
     </tbody>
