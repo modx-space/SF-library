@@ -65,6 +65,8 @@ GEM
     delayed_job_active_record (4.0.2)
       activerecord (>= 3.0, < 4.2)
       delayed_job (>= 3.0, < 4.1)
+    enumerize (0.9.0)
+      activesupport (>= 3.2)
     erubis (2.7.0)
     execjs (2.0.0)
     faker (1.2.0)
@@ -83,12 +85,15 @@ GEM
       treetop (~> 1.4.8)
     method_source (0.8.2)
     mime-types (1.24)
+    mini_portile (0.6.2)
     minitest (4.7.5)
     multi_json (1.7.9)
     mysql2 (0.3.13)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
+    nokogiri (1.6.5)
+      mini_portile (~> 0.6.0)
     polyglot (0.3.3)
     pry (0.10.1)
       coderay (~> 1.1.0)
@@ -164,10 +169,12 @@ DEPENDENCIES
   capistrano-rvm
   coffee-rails (~> 4.0.0)
   delayed_job_active_record (= 4.0.2)
+  enumerize
   faker (= 1.2.0)
   jbuilder (~> 1.2)
   jquery-rails
   mysql2
+  nokogiri
   pry
   rails (= 4.0.0)
   sass-rails (~> 4.0.0)

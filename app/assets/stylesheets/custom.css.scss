@@ -4,6 +4,10 @@ body {
 	padding-bottom: 40px;
 }
 
+.main-frame {
+  min-width:1300px;
+}
+
 .alert {
 	margin-bottom: 5px;
 }
@@ -14,6 +18,10 @@ body {
 //  text-transform: uppercase;
   font-weight: bold;
   margin-top: 3px;
+}
+
+.modal-body{
+  max-height:450px;
 }
 
 .navbar-form {
@@ -28,6 +36,10 @@ body {
 	padding:10px;
 }
 
+#sort_btn{
+  width: 100px;
+}
+
 .hot,.rec{
 	margin-top:10px;
 }
@@ -35,6 +47,63 @@ textarea{
 	resize: none;
 }
 
-#book_picture{
-	display:none;
-}
+ label {
+   cursor: text;
+ }
+
+ a {
+   cursor: pointer;
+ }
+
+ .table td{
+    text-align:center ;
+ }
+
+ .table th{
+   text-align:center ;
+ }
+
+ .label-container{
+   display: block;
+   margin-bottom: 10px;
+   vertical-align: middle;
+   font-size: 0px;
+   white-space: nowrap;
+
+ }
+
+ .label-container .general{
+    margin-right: 2px;
+    display: inline-block;
+    width: auto;
+    height: 10px;
+    min-width: 16px;
+    padding: 4px 5px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 20px;
+    text-align: left;
+    text-shadow: 0px 1px 0px #FFF; 
+  }
+
+ .label-container .mark {
+    width: 55px;
+    font-weight: bold;
+    text-align: right;
+  }
+  
+  .label-text {
+    margin-bottom: 10px;
+  }
+
+ .label-container .mark:first-child {
+   border-radius: 4px 0px 0px 4px;
+ }
+
+ .error-border {
+   border: 1px solid red !important;
+ }
+
+ .left_align { 
+   float: left;
+ }

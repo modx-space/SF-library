@@ -5,47 +5,39 @@ class UsersController < ApplicationController
   load_and_authorize_resource
   
   def index
-    @users = User.order('name').
-    paginate(page: params[:page])
-    # if params[:tag] != nil
-    #   @users = User.search_by_tag(params[:tag], params[:page]||1)
-    # else
-    #   @users = User.search(params[:page]||1)
-    # end
-    
+    page = params[:page] || 1
+    @users = User.search(params[:tag], page).on_board
     respond_to do |format|
       format.html
-      #format.js { render 'index.js.erb' }
     end
     
   end
   
+  def new
+    @new_page = true
+  end
+
   def create
-    user = User.new
-    user.name = params[:user][:name]
-    user.email = params[:user][:email]
-    user.team = params[:user][:team]
-    user.role = params[:user][:role]
-    user.password = DEFAULT_PASSWORD
-    user.password_confirmation = DEFAULT_PASSWORD
-
-    user_temp = User.find_by(email: params[:user][:email])
-    if user_temp
-      flash[:error] = '用户已存在！'
-    else
-      if user.save
-        flash[:success] = '用户创建成功!'
-      else
-        flash[:error] = '用户创建失败!'
-      end
-    end
-
+    @new_page = true
     respond_to do |format|
-      format.html { redirect_to admin_users_path }
+      if current_user.super_admin?
+        @user = User.create(super_admin_create_params)
+      elsif current_user.admin?
+        @user = User.create(create_params)
+      end
+      if !@user.errors.any?
+        flash[:success] = '用户创建成功!'
+        format.html {redirect_to user_path(@user.id)}
+      else
+        format.html { render action: "new" }
+      end
     end   
   end
 
   def show
+    if current_user.has_admin_authe && params[:admin] == 'true'
+      @admin_page = true
+    end
     @user = User.find(params[:id])
     respond_to do |format|
       format.html 
@@ -57,42 +49,77 @@ class UsersController < ApplicationController
   end
   
   def update
-    @user = User.find(params[:user][:id])
-    if @user.update(user_params)
-      flash[:success] = "更新成功!"
-    else
-      flash[:error] = '更新失败!'
-    end
     respond_to do |format|
-      format.html { redirect_to edit_user_path(@user.id) }
+      @user = User.find(params[:id])
+      if current_user.super_admin?
+        result = @user.update(admin_update_params)
+      else
+        result = @user.update(update_params)
+      end
+      if result
+        flash[:success] = "更新成功!"
+        format.html { redirect_to edit_user_path(@user.id) }
+      else
+        format.html {render action: "edit"}
+      end
+    
+      
     end
     
   end
   
-  def destroy
-    @user = User.find(params[:id])
-    if @user.destroy
-      flash[:success] = '删除成功。'  
-    else
-      flash[:error] = '用户删除失败!'
-    end
+  def soft_delete
     respond_to do |format|
+      @user = User.find(params[:id])
+      if @user.update(status: :inactive)
+        flash[:success] = '操作成功'  
+      else
+        flash[:error] = '操作失败!' << @user.errors.full_messages.to_s
+      end
+    
       format.html { redirect_to admin_users_path }
     end
   end
   
+  def reset_passwd
+    @user = User.find(params[:id])
+  end
+
+  def edit_passwd
+    @user = User.find(params[:id])
+  end
 
   def reset
-    @user = User.find(params[:id])
-    @user.password = DEFAULT_PASSWORD
-    @user.password_confirmation = DEFAULT_PASSWORD
-    if @user.save 
-      flash[:success] = '密码重置成功'
-    else
-      flash[:error] = '密码重置失败'
-    end
     respond_to do |format|
-      format.html { redirect_to edit_user_path(@user.id) }
+      @user = User.find(params[:id])
+      @user.password = params[:new_password]
+      @user.password_confirmation = params[:confirm_password]
+      if @user.save
+        flash[:success] = '密码修改成功'
+        format.html { redirect_to user_path(@user.id)}
+      else
+        format.html { render action: 'reset_passwd'}
+      end  
+    end
+  end
+
+  def update_passwd
+    respond_to do |format|
+      @user = User.find(params[:id])
+      if @user.authenticate(params[:old_password])
+        @user.password = params[:new_password]
+        @user.password_confirmation = params[:confirm_password]
+        if @user.save
+          flash[:success] = '密码修改成功'
+          format.html { redirect_to user_path(@user.id)}
+        else
+          format.html { render action: 'edit_passwd'}
+        end
+      else
+        flash[:error] = '原密码错误'
+        format.html { redirect_to action: 'edit_passwd'}
+      end  
+      
     end
   end
   
@@ -101,7 +128,19 @@ class UsersController < ApplicationController
     # just a good pattern since you'll be able to reuse the same permit
     # list between create and update. Also, you can specialize this method
     # with per-user checking of permissible attributes.
-    def user_params
-      params.require(:user).permit(:email, :name, :role, :team, :password, :password_confirmation)
+    def update_params
+      params.require(:user).permit(:name,:team, :building, :office, :seat)
+    end
+
+    def admin_update_params
+      params.require(:user).permit(:email, :role, :name, :team, :building, :office, :seat)
+    end
+
+    def super_admin_create_params
+      params.require(:user).permit(:name, :team, :email, :role, :sf_email, :building, :office, :seat)
+    end
+
+    def create_params
+      params.require(:user).permit(:name, :team, :email, :building, :office, :seat)
     end
 end

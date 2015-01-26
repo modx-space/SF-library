@@ -1,0 +1,9 @@
+<div id="userdetail"  role="dialog" aria-hidden="true">
+  <%= form_for @user do |f| %>
+    <%= render partial: 'helper/error_bar', locals: {object: @user} %>
+    <%= render partial: 'form', locals: {f: f, new_page: @new_page}%>
+  <div class="modal-footer">
+    <%= f.submit "添加", class: "btn btn-primary" %>
+  </div>
+  <% end %>
+</div>

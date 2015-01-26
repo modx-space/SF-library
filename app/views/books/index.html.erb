@@ -1,20 +1,14 @@
 # encoding: utf-8
+<% is_admin_page = params[:action] == 'admin_index' %>
+<% search_path = params[:action] == 'admin_index' ? admin_books_path : books_path %>
 <div class="row-fluid">
-	<div id="search" class="span6">
-		<%=form_tag searchBooks_path, :method => 'get' do %>
-		<span>
-		<%= text_field_tag :tag, params[:tag] %>
-		</span>
-		<span>		
-		<%= submit_tag "查找", :name => nil , :class => "btn" %>
-		</span>
-		
+	<%= render partial: 'helper/search_box', locals: { path: search_path}%>
+	<div class="span3 offset2">
+		<%= render partial: 'helper/sort_box', locals: {sort_types: Book.sort_types, sort_model: 'book'}%>
+		<% if is_admin_page %>
+		  <button onclick="add_book('<%= new_book_path %>')" class="btn  btn-info">添加图书</button>
 		<% end %>
-	</div>
-	<div class="span3 offset3">
-		<button onclick="add_book('<%= new_book_path %>')" class="btn">添加图书</button>
-		<%#= link_to '添加图书', new_book_path, onclick: 'add("df")', class: "btn"%>
-	</div>
+	</div>	
 </div>
 
 <%= will_paginate @books, remote: false %>
@@ -31,19 +25,22 @@
 				<th>类别</th>
 				<th>总数</th>
 				<th>库存</th>
-				<th>状态-排队等待中</th>
+				<th>排队人数</th>
 			</tr>
 		</thead>
 		<tbody>
 			<% @books.each_with_index do |book,index| %>
-			<tr onclick="show_book_info('<%= edit_book_path(book.id) %>')" style="cursor: pointer;">
-				<!-- <td><%#= (index+1)+(@page.to_i-1)*10 %></td> -->
+			<% if is_admin_page %>
+				<tr onclick="show_book_info('<%= edit_book_path(book.id) %>')" style="cursor: pointer;">
+			<% else %>
+				<tr onclick="show_book_info('<%= book_path(book.id) %>')" style="cursor: pointer;">
+			<% end %>
 				<td><img class="img-rounded" src="<%= book.picture %>" alt="封面" style="width: 40px; height: 50px;"></td>
 				<td><%= book.name %></td>
 				<td><%= book.author %></td>
 				<td><%= book.isbn %></td>
-				<td><%= book.language %></td>
-				<td><%= book.category %></td>
+				<td><%= book.language.text unless book.language.nil? %></td>
+				<td><%= book.category.text if book.category != nil %></td>
 				<td><%= book.total %></td>
 				<td><%= book.store > 0 ? book.store : 0 %></td>
 				<td><%= book.order_queue_count %>人</td>
@@ -52,70 +49,4 @@
 		</tbody>
 	</table>
 </div>
-<%#= will_paginate @books %>
-
- <!-- Modal for Book-infor-->
-<!--<div id="bookinfor" class="modal hide fade" role="dialog" aria-hidden="true">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		<h3>图书信息</h3>
-	</div>
-	<div class="modal-body">
-		<center>
-			<div class="input-prepend">
-			  <span class="add-on">书名:</span>
-			  <input class="span8" type="text" disabled id="name">
-			</div>
-			<div class="input-prepend">
-			  <span class="add-on">ISBN:</span>
-			  <input class="span8" type="text" disabled id="isbn">
-			</div>
-			<div class="input-prepend">
-			  <span class="add-on">作者:</span>
-			  <input class="span8" type="text" disabled id="author">
-			</div>
-			<div class="input-prepend">
-			  <span class="add-on">出版 :</span>
-			  <input class="span8" type="text" disabled id="press">
-			</div>
-			<div>
-			  <span>简介 :</span><br>
-			  <textarea class="span9" rows="10" disabled id="intro"></textarea>
-		  </div>
-		</center>
-	</div>
-	<div class="modal-footer">
-		<input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="关闭" />
-		<%#= link_to "借阅", borrow_path, method:"post", id: "borrow", class:"btn btn-primary", remote: true %>
-		<%#= link_to "预订", order_path, method:"post", id: "order", class:"btn btn-info", remote: true %>
-	</div>
-</div> -->
-
-<script>
-$("#order,#borrow").click(function(){
-	$('#bookinfor').modal('hide');
-});
-
-// function show1(book){
-// 	// set value
-// 	$('#name').val(book.name);
-// 	$('#isbn').val(book.isbn);
-// 	$('#author').val(book.author);
-// 	$('#press').val(book.press);
-// 	$('#intro').val(book.intro);
-// 	$('#borrow').attr('href',$('#borrow').attr('href').split("?")[0]+"?book_id="+book.id);
-// 	$('#order').attr('href',$('#order').attr('href').split("?")[0]+"?book_id="+book.id);
-// 	// show borrow or order button according to book.available
-// 	if(book.store < 1){
-// 		$('#borrow').hide();
-// 		$('#order').show();
-// 	}
-// 	else{
-// 		$('#order').hide();
-// 		$('#borrow').show();
-// 	}
-// 	// show modal
-// 	$('#bookinfor').modal('show');
-// }
-
-</script>
+<%= will_paginate @books %>

@@ -4,7 +4,7 @@
 	  <li class="active">
 	    <a data-target="#user" data-toggle="tab" style="cursor: pointer;">读者</a>
 	  </li>
-	  <% if current_user.is_admin? %>
+	  <% if current_user.has_admin_authe %>
 		  <li><a id="admin_tab" data-target="#admin" data-toggle="tab" style="cursor: pointer;">管理员</a></li>
 	  <% end %>
 	</ul>
@@ -32,26 +32,15 @@
 						<i class="icon-calendar"></i>借阅历史
 					<% end %>
 				</li>
-				<li class="nav-header">预定</li>
+				<li class="nav-header">预约</li>
 				<li id="uli_5" data-location="/orders/current_list">
 					<%= link_to current_list_orders_path  do %>
-						<i class="icon-bell"></i>当前预定
+						<i class="icon-bell"></i>当前预约
 					<% end %>
 				</li>
 				<li id="uli_6" data-location="/orders/history_list">
 					<%= link_to history_list_orders_path  do %>
-						<i class="icon-calendar"></i>预定历史
-					<% end %>
-				</li>
-				<li class="nav-header">推荐</li>
-				<li id="uli_7">
-					<%= link_to recbook_path do %>
-						<i class="icon-heart"></i>我要推荐
-					<% end %>
-				</li>
-				<li id="uli_8">
-					<%= link_to recommend_list_path  do %>
-						<i class="icon-star"></i>推荐列表
+						<i class="icon-calendar"></i>预约历史
 					<% end %>
 				</li>
 			</ul>
@@ -75,7 +64,7 @@
 				</li>
 				<li id="ali_4" data-location="/admin/ordering">
 					<%= link_to admin_ordering_path  do %>
-						<i class="icon-calendar"></i>预定管理
+						<i class="icon-calendar"></i>预约管理
 					<% end %>
 				</li>
 				<li id="ali_5" data-location="/admin/borrowed">
@@ -85,12 +74,7 @@
 				</li>
 				<li id="ali_6" data-location="/admin/ordered">
 					<%= link_to admin_ordered_path  do %>
-						<i class="icon-calendar"></i>预定历史
-					<% end %>
-				</li>
-				<li id="ali_7">
-					<%= link_to recommend_list_path  do %>
-						<i class="icon-bell"></i>推荐管理
+						<i class="icon-calendar"></i>预约历史
 					<% end %>
 				</li>
 			</ul>

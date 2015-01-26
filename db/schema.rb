@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141221151524) do
+ActiveRecord::Schema.define(version: 20150124081234) do
 
   create_table "books", force: true do |t|
     t.string   "name"
@@ -30,7 +30,8 @@ ActiveRecord::Schema.define(version: 20141221151524) do
     t.string   "provider"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.date     "store_date"
+    t.string   "status"
+    t.string   "tag"
   end
 
   create_table "borrows", force: true do |t|
@@ -41,6 +42,8 @@ ActiveRecord::Schema.define(version: 20141221151524) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "return_at"
+    t.integer  "deliver_handler_id"
+    t.integer  "return_handler_id"
   end
 
   create_table "delayed_jobs", force: true do |t|
@@ -76,6 +79,11 @@ ActiveRecord::Schema.define(version: 20141221151524) do
     t.string   "remember_token"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "status"
+    t.string   "building"
+    t.string   "office"
+    t.integer  "seat"
+    t.string   "sf_email"
   end
 
   create_table "votes", force: true do |t|

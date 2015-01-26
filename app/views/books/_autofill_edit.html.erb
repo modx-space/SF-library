@@ -1,61 +1,69 @@
 # encoding: utf-8
 <div class="book container-fluid">
 	<% _action_path = params[:action] == 'recbook' ? recommend_path : books_path %>
-	<%= form_for(:book, url: _action_path, method: 'post', remote: true) do |f| %>
+	<%= form_for(:book, url: _action_path, method: 'post') do |f| %>
+	<%= render partial: 'helper/error_bar', locals: {object: @book} %>
 	<div class="modal-header">
 		<center>
 			<h4>图书信息</h4>
 			<img id="img" class="img-rounded" src="" alt="封面" style="width: 100px; height: 140px;display: none;">
-			<%= f.text_field :picture, class: "span3" %>
 		</center>
 	</div>
 	<div class="modal-body">
 		<center>
 			<div class="input-prepend">
 			  <span class="add-on">ISBN:</span>
-			  <%= f.text_field :isbn, class: "span6" %>
+			  <%= f.text_field :isbn, class: "span6", required: "required" %>
 			  <%= link_to "查询", fetch_path, method:"get", class:"btn btn-info",id:"fetch", onclick: "fetch()",remote: true %>
 			  <% _btn_label = params[:action]=="recbook" ? "推荐" : "添加" %>
-			  <%= f.submit _btn_label, class: "btn btn-success", id: "rec", disabled: true %>
+			  <%= f.submit _btn_label, class: "btn btn-success", id: "submit" %>
 			</div>
 			<br>
 				<div class="input-prepend">
-			  	<span class="add-on">数量:</span>
-			  <%= f.text_field :total, class: "span8", value: 1 %>
+			  	<span class="add-on">总数:</span>
+			  <%= f.number_field :total, min: 0, step: 1, value: 1, required: "required" %>
 				</div>
 			</br>
 			<div class="input-prepend">
 			  <span class="add-on">书名:</span>
-			  <%= f.text_field :name, class: "span5", readonly: true %>
+			  <%= f.text_field :name, class: "span3" %>
 			  <span class="add-on">作者:</span>
-			  <%= f.text_field :author, class: "span5", readonly: true %>
+			  <%= f.text_field :author, class: "span3" %>
 			</div>
 			<br>
 			<div class="input-prepend">
 			  <span class="add-on">语言:</span>
-			  <%= f.text_field :language, class: "span2", readonly: true %>
-			  <span class="add-on">类别:</span>
-			  <%= f.text_field :category, class: "span2" %>
+			  <%= f.select :language, Book.language.options, class: "span3" %>
 			  <span class="add-on">价格:</span>
-			  <%= f.text_field :price, class: "span2", readonly: true %>
+			  <%= f.text_field :price, class: "span3" %>	  
 			</div>
-			<br>
+			<div class="input-prepend">
+				<span class="add-on">类别:</span>
+			  <%= f.select :category, Book.category.options, prompt: '未选择', class: "span3" %>
+			</div>
 			<div class="input-prepend">
 			  <span class="add-on">出版社:</span>
-			  <%= f.text_field :press, class: "span8", readonly: true %>
+			  <%= f.text_field :press, class: "span3" %>
 			</div>
-			<br>
 			<div class="input-prepend">
 			  <span class="add-on">出版时间:</span>
-			  <%= f.text_field :publish_date, class: "span8", readonly: true %>
+			  <%= f.date_field :publish_date, class: "span3" %>
 			</div>
+			<div class="input-prepend">
+			  <span class="add-on">捐赠者:</span>
+			  <%= f.date_field :provider, class: "span3" %>
+			</div>
+			<div class="input-prepend">
+			  <span class="add-on">封面URL:</span>
+			  <%= f.url_field :picture, class: "span7" %>
+			</div>
+			<%= f.hidden_field :tag %>
 			<br>
 			<div>
 			  <span>简介 :</span><br>
 			  <%= f.text_area :intro, size: "10x6", class: "span8", readonly: true %>
 		  </div>
 		</center>
-	
 	</div>
 	<% end %>
 </div>
@@ -64,4 +72,28 @@ function fetch(){
 	isbn = $("#book_isbn").val();
 	$("#fetch").attr('href',$('#fetch').attr('href').split("?")[0]+"?isbn="+isbn);
 }
+
+$(document).ready(function(){
+	$("#submit").click(function(){
+		var blankValue = false;
+		if(!$("#book_category").val()){
+			$("#book_category").addClass("error-border");
+			blankValue = true;
+		}
+
+		if(!$("#book_name").val()){
+			$("#book_name").addClass("error-border");
+			blankValue = true;
+		}
+
+		if(blankValue){
+			return false;
+		}
+
+	});
+	$("#book_category,#book_name").focus(function(){
+		$(this).removeClass("error-border");
+	});
+});
+
 </script>

@@ -29,13 +29,14 @@ class Ability
     # See the wiki for details:
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
     user ||= User.new # guest user (not logged in)
-    if user.is_admin?
+    if user.has_admin_authe
       can :manage, :all 
       can :read, :all
     else
       can [:read, :library, :edit], Book
       can [:current_list, :history_list, :create], Borrow
-      can [:current_list, :history_list, :create], Order
+      can [:current_list, :history_list, :create, :cancel], Order
+      can [:update_passwd, :edit_passwd, :show, :edit, :update], User, :id => user.id
     end
   end
 end
