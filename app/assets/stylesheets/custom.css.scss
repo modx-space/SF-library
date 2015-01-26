@@ -4,6 +4,10 @@ body {
 	padding-bottom: 40px;
 }
 
+.main-frame {
+  min-width:1300px;
+}
+
 .alert {
 	margin-bottom: 5px;
 }
@@ -14,6 +18,10 @@ body {
 //  text-transform: uppercase;
   font-weight: bold;
   margin-top: 3px;
+}
+
+.modal-body{
+  max-height:450px;
 }
 
 .navbar-form {
@@ -90,10 +98,6 @@ textarea{
 
  .label-container .mark:first-child {
    border-radius: 4px 0px 0px 4px;
- }
-
- .non-scroll {
-   overflow: visible;
  }
 
  .error-border {
