@@ -78,4 +78,12 @@ LibraryApp::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+  config.action_mailer.smtp_settings = {
+    :address => "mail.sap.corp",
+    :port => 25,
+    :domain => "sap.com",
+    :authentication => "plain",
+    :enable_starttls_auto => true,
+    :openssl_verify_mode => 'none'
+  }
 end
