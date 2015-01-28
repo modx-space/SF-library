@@ -3,12 +3,9 @@ class Book < ActiveRecord::Base
   extend Enumerize
   extend SortUtils
 
-  enumerize :category, in: [:art, :biography, :business_money, :children, 
-                            :comics, :computer, :cooking, :crafts_home, :education,
-                            :engineering, :health, :history, :humor, :law,
-                            :fiction, :medical, :parenting, :politics, :reference,
-                            :religion, :science, :science_fiction, :self_help,
-                            :sports, :travel, :other]
+  enumerize :category, in: [:art, :computer, :politics_religion, :fiction,
+                            :history_biography, :business_money, :psycology,
+                            :parenting_child, :travel, :language, :other]
 
   enumerize :status, in: [:active, :inactive, :recommend], default: :active
   enumerize :language, in: [:chinese, :english], default: :chinese
@@ -28,8 +25,14 @@ class Book < ActiveRecord::Base
 
   def self.search(search)
     if search.present?
-      where('name like ? or author like ? or isbn like ? or category like ? or press like ? or tag like ? or provider like ?',
+      if /^\d{1,4}$/.match(search) != nil ## search for book id
+        where('id = ? or name like ?',"#{search}","%#{search}%")
+      elsif (map_category_name = convert_category_translation(search)) != nil
+        where('category = ? or name like ? or tag like ?', map_category_name,"%#{search}%","%#{search}%")
+      else
+        where('name like ? or author like ? or isbn like ? or category like ? or press like ? or tag like ? or provider like ?',
          "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%")
+      end
     else
       all
     end
@@ -45,11 +48,20 @@ class Book < ActiveRecord::Base
   end
 
   def self.sort_types
-    [:language_desc, :total_desc, :price_desc, :created_at_desc]
+    [:language_desc, :total_desc, :price_desc, :created_at_desc, :category_asc]
   end
 
   def order_queue_count
     Order.count(conditions: "status = '#{:in_queue}' and book_id = #{self.id}")
+  end
+
+  def self.convert_category_translation(search)
+    Book.category.options.each do |pair|
+      if (pair[0] =~ /#{search}/) != nil
+        return pair[1]
+      end
+    end
+    nil
   end
 
   def borrow_conditions
