@@ -3,12 +3,9 @@ class Book < ActiveRecord::Base
   extend Enumerize
   extend SortUtils
 
-  enumerize :category, in: [:art, :biography, :business_money, :children, 
-                            :comics, :computer, :cooking, :crafts_home, :education,
-                            :engineering, :health, :history, :humor, :law,
-                            :fiction, :medical, :parenting, :politics, :reference,
-                            :religion, :science, :science_fiction, :self_help,
-                            :sports, :travel, :other]
+  enumerize :category, in: [:art, :computer, :politics_religion, :fiction,
+                            :history_biography, :business_money, :psycology,
+                            :parenting_child, :travel, :language, :other]
 
   enumerize :status, in: [:active, :inactive, :recommend], default: :active
   enumerize :language, in: [:chinese, :english], default: :chinese
