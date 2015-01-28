@@ -37,6 +37,7 @@ zh-CN:
       language_desc: '按语言'
       total_desc: '按总数'
       price_desc: '按价格'
+      category_asc: '按类别'
     borrow:
       should_return_date_desc: '应还日期'
       status_desc: '状态'

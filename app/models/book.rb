@@ -48,7 +48,7 @@ class Book < ActiveRecord::Base
   end
 
   def self.sort_types
-    [:language_desc, :total_desc, :price_desc, :created_at_desc]
+    [:language_desc, :total_desc, :price_desc, :created_at_desc, :category_asc]
   end
 
   def order_queue_count
