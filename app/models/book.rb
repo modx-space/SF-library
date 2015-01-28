@@ -25,8 +25,14 @@ class Book < ActiveRecord::Base
 
   def self.search(search)
     if search.present?
-      where('name like ? or author like ? or isbn like ? or category like ? or press like ? or tag like ? or provider like ?',
+      if /^\d{1,4}$/.match(search) != nil ## search for book id
+        where('id = ? or name like ?',"#{search}","%#{search}%")
+      elsif (map_category_name = convert_category_translation(search)) != nil
+        where('category = ? or name like ? or tag like ?', map_category_name,"%#{search}%","%#{search}%")
+      else
+        where('name like ? or author like ? or isbn like ? or category like ? or press like ? or tag like ? or provider like ?',
          "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%")
+      end
     else
       all
     end
@@ -47,6 +53,15 @@ class Book < ActiveRecord::Base
 
   def order_queue_count
     Order.count(conditions: "status = '#{:in_queue}' and book_id = #{self.id}")
+  end
+
+  def self.convert_category_translation(search)
+    Book.category.options.each do |pair|
+      if (pair[0] =~ /#{search}/) != nil
+        return pair[1]
+      end
+    end
+    nil
   end
 
   def borrow_conditions
