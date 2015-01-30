@@ -23,9 +23,9 @@ class User < ActiveRecord::Base
 
   scope :on_board, -> { with_status(:active)  }
   
-  validates :email, :name, :status, presence: true
+  validates :email, :name, :status, :i_number, presence: true
   validates :email, uniqueness: { case_sensitive: false }
-  validates :sf_email, uniqueness: { case_sensitive: false }, allow_blank: true
+  validates :sf_email, :i_number, uniqueness: { case_sensitive: false }, allow_blank: true
   # validates :pwd, length:{ minimum: 6}
 
   def overdue_books

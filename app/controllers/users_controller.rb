@@ -129,18 +129,18 @@ class UsersController < ApplicationController
     # list between create and update. Also, you can specialize this method
     # with per-user checking of permissible attributes.
     def update_params
-      params.require(:user).permit(:name,:team, :building, :office, :seat)
+      params.require(:user).permit(:name,:team, :building, :office, :seat, :i_number)
     end
 
     def admin_update_params
-      params.require(:user).permit(:email, :role, :name, :team, :building, :office, :seat)
+      params.require(:user).permit(:email, :role, :name, :team, :building, :office, :seat, :i_number)
     end
 
     def super_admin_create_params
-      params.require(:user).permit(:name, :team, :email, :role, :sf_email, :building, :office, :seat)
+      params.require(:user).permit(:name, :team, :email, :role, :sf_email, :building, :office, :seat, :i_number)
     end
 
     def create_params
-      params.require(:user).permit(:name, :team, :email, :building, :office, :seat)
+      params.require(:user).permit(:name, :team, :email, :building, :office, :seat, :i_number)
     end
 end

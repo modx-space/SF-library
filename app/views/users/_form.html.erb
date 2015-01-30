@@ -10,6 +10,10 @@
       <span class="add-on">姓名:</span>
       <%= f.text_field :name, class: "span5" %>
     </div>
+    <div class="input-prepend">
+      <span class="add-on">I/C number:</span>
+      <%= f.text_field :i_number, class: "span5" %>
+    </div>
     <% if current_user.super_admin? %>
       <div class="input-prepend">
         <span class="add-on">权限:</span>
