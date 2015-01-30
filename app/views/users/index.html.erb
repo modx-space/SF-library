@@ -14,6 +14,7 @@
 			<tr>
 				<th>姓名</th>
 				<th>团队</th>
+				<th>I/C Number</th>
 				<th>邮箱</th>
 				<th>权限</th>
 				<th>位置</th>
@@ -24,6 +25,7 @@
 				<tr style="cursor: pointer;">
 				<td onclick="show_user('<%= user_path(user.id, admin: true)%>')"><%= user.name %></td>
 				<td onclick="show_user('<%= user_path(user.id, admin: true)%>')"><%= user.team %></td>
+				<td onclick="show_user('<%= user_path(user.id, admin: true)%>')"><%= user.i_number %></td>
 				<td onclick="show_user('<%= user_path(user.id, admin: true)%>')"><%= user.email %></td>
 				<td onclick="show_user('<%= user_path(user.id, admin: true)%>')"><%= user.role.text %></td>
 				<td onclick="show_user('<%= user_path(user.id, admin: true)%>')"><%= user.display_location %></td>
