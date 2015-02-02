@@ -15,8 +15,6 @@ class Borrow < ActiveRecord::Base
 
   # before_create :count_return_date
 
-  #after_save :send_borrow_notification_to_admin
-  #after_save :schedule_five_days_left_remind
   
   def self.search(search)
     if search.present?
@@ -67,8 +65,16 @@ class Borrow < ActiveRecord::Base
     BorrowMailer.borrow_notification_to_admin(self).deliver
   end
 
+  def send_deliver_nofification_to_reader
+    BorrowMailer.deliver_notification_to_reader(self).deliver
+  end
+
+  def send_return_notification_to_reader
+    BorrowMailer.return_notification_to_reader(self).deliver
+  end
+
   def schedule_five_days_left_remind
-    BorrowMailer.five_days_left_remind(self).deliver
+    BorrowMailer.delay(run_at: (BORROW_PERIOD - 3.day).from_now).five_days_left_remind(self)
   end
   
   def return_and_shipout_order(return_handler)
@@ -95,7 +101,7 @@ class Borrow < ActiveRecord::Base
           book.save!
         end
       end
-      send_borrow_notification_to_admin
+      send_return_notification_to_reader
       return {value: true, message: message}
     rescue Exception => ex
       logger.error "*** transaction abored!"

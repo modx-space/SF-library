@@ -52,6 +52,8 @@ gem 'cancancan'
 
 gem 'delayed_job_active_record', '4.0.2'
 
+gem 'daemons'
+
 gem 'enumerize'
 
 gem 'nokogiri'
