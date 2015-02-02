@@ -23,6 +23,7 @@ class Book < ActiveRecord::Base
   before_update :change_store_count
   before_create :set_store_count
 
+
   def self.search(search)
     if search.present?
       if /^\d{1,4}$/.match(search) != nil ## search for book id
@@ -62,6 +63,33 @@ class Book < ActiveRecord::Base
       end
     end
     nil
+  end
+
+  def self.new_book_list
+    Book.order("created_at DESC")[0..5]
+  end
+
+  def self.hot_list
+    sql = %Q| select boo.* from books boo 
+                    join borrows bor on book_id = boo.id 
+                    group by boo.id 
+                    order by count(boo.id)/boo.total desc
+            |
+    Book.find_by_sql(sql)[0..5]
+  end
+
+   def self.recent_hot_list
+    sql = %Q| select boo.* from books boo 
+               join borrows bor on bor.book_id = boo.id 
+                 and bor.created_at >= '2014-10-30 17:26:29 +0800' 
+                 and bor.created_at <= '2015-01-30 17:26:29 +0800'
+               join orders ord on ord.book_id = boo.id 
+                 and ord.created_at >= '2014-10-30 17:26:29 +0800' 
+                 and ord.created_at <= '2015-01-30 17:26:29 +0800'
+               group by boo.id 
+               order by count(boo.id) desc
+            |
+    Book.find_by_sql(sql)[0..5]
   end
 
   def borrow_conditions

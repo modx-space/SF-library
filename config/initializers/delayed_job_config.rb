@@ -1,0 +1,1 @@
+Delayed::Worker.logger = Logger.new(File.join(Rails.root, 'log', "#{Rails.env}_delayed_job.log"))

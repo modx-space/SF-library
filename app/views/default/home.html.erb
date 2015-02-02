@@ -7,7 +7,8 @@
 			<% @books_new.each do |book| %>
 			<li class="span2">
 				<div class="thumbnail">
-					<img class="img-rounded" src="<%= book.picture %>" style="width: 160px; height: 160px;"alt="封面">
+					<img class="img-rounded img_cursor" src="<%= book.picture %>" style="width: 160px; height: 160px;" alt="封面"
+						onclick="show_book_info('<%= book_path(book.id) %>')">
 				</div>
 			</li>
 			<% end %>
@@ -24,22 +25,24 @@
 		  <li><%#= image_tag("libmobile_qrcode.png", alt: "app-qrcode", size: "100") %></li>
 	  	</ul>
 	</div> -->
-	<div class="span4">
+	<div class="span6">
 		<h4 class="offset3"><span class="btn btn-success">管理员</span></h4>
-		<dl>
+		<dl class="offset2">
 			<dt>Megan Wang</dt>
-			<dd>meganwang@successfactors.com</dd>
-			<dt>April Mei</dt>
-			<dd>amei@successfactors.com</dd>
+			<dd>minyue.wang@sap.com</dd>
+			<dt>Michael Huang</dt>
+			<dd>michael.huang02@sap.com</dd>
 			<dt>Daniel Wei</dt>
-			<dd>dwei@successfactors.com</dd>
+			<dd>daniel.wei@sap.com</dd>
+			<dt>Yaming Zhao</dt>
+			<dd>yaming.zhao@sap.com</dd>
 		</dl>
 	</div>
-	<div class="span4">
-		<h4 class="offset3"><span class="btn btn-primary">关于</span></h4>
-		<ol>
+	<div class="span6">
+		<h4 class="offset3"><a href="https://confluence.successfactors.com/display/QA/Minerva%27s+Book+Lib" class="btn btn-primary">关于</a></h4>
+		<ol class="offset2">
 			<li>本系统为SuccessFactors内部使用</li>
-			<li>账号为公司邮箱:123456</li>
+			<li>账号为SAP或SF邮箱</li>
 			<li>若账号无法使用，请联系管理员</li>
 			<li>爱护书籍，让知识更好地传递</li>
 		</ol>

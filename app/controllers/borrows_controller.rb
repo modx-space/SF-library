@@ -44,6 +44,7 @@ class BorrowsController < ApplicationController
       should_return_date: Time.now + BORROW_PERIOD,
       deliver_handler_id: current_user.id)
       flash[:success] = "出库成功!" 
+      borrow.send_deliver_nofification_to_reader
       borrow.schedule_five_days_left_remind
     else
       logger.error borrow.errors
