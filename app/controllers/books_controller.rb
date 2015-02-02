@@ -3,26 +3,15 @@ require "open-uri"
 require "json"
 class BooksController < ApplicationController
   
-  before_action :signed_in_user
+  before_action :signed_in_user, except: :show
   load_and_authorize_resource
   
   #new_hot
   def library
-    books = Book.all
-    @books_new = Book.order("created_at DESC")[0..5]
+    @books_new = Book.new_book_list
     
-    sql = %Q| select * from borrows
-                group by book_id
-                order by count(1)
-            |
-    @books_hot = Borrow.find_by_sql(sql)[0..2]
-    
-    sql = %Q| select id,picture,name,isbn,press,author,point
-                    from books
-                    order by created_at DESC
-            |
-    @books_rec = Book.find_by_sql(sql)[0..2]
-    
+    @books_hot = Book.hot_list
+    @books_hot_recent = Book.recent_hot_list
   end
   
   def index
