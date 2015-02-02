@@ -70,8 +70,8 @@ class Book < ActiveRecord::Base
   end
 
   def self.hot_list
-    sql = %Q| select boo.* from library_production.books boo 
-                    join library_production.borrows bor on book_id = boo.id 
+    sql = %Q| select boo.* from books boo 
+                    join borrows bor on book_id = boo.id 
                     group by boo.id 
                     order by count(boo.id)/boo.total desc
             |
@@ -79,11 +79,11 @@ class Book < ActiveRecord::Base
   end
 
    def self.recent_hot_list
-    sql = %Q| select boo.* from library_production.books boo 
-               join library_production.borrows bor on bor.book_id = boo.id 
+    sql = %Q| select boo.* from books boo 
+               join borrows bor on bor.book_id = boo.id 
                  and bor.created_at >= '2014-10-30 17:26:29 +0800' 
                  and bor.created_at <= '2015-01-30 17:26:29 +0800'
-               join library_production.orders ord on ord.book_id = boo.id 
+               join orders ord on ord.book_id = boo.id 
                  and ord.created_at >= '2014-10-30 17:26:29 +0800' 
                  and ord.created_at <= '2015-01-30 17:26:29 +0800'
                group by boo.id 
