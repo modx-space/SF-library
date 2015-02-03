@@ -3,16 +3,16 @@
     <% if current_user.super_admin? || new_page == true%>
       <div class="input-prepend">
         <span class="add-on">邮箱:</span>
-        <%= f.email_field :email, class: "span5" %>
+        <%= f.email_field :email, class: "span6" %>
       </div>
     <% end%>
     <div class="input-prepend">
       <span class="add-on">姓名:</span>
-      <%= f.text_field :name, class: "span5" %>
+      <%= f.text_field :name, class: "span6" %>
     </div>
     <div class="input-prepend">
       <span class="add-on">I/C number:</span>
-      <%= f.text_field :i_number, class: "span5" %>
+      <%= f.text_field :i_number, class: "span6" %>
     </div>
     <% if current_user.super_admin? %>
       <div class="input-prepend">
