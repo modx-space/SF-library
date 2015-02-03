@@ -45,13 +45,54 @@ zh-CN:
     order:
       created_at_desc: '预约时间'
       updated_at_desc: '处理时间'
+  errors:
+    messages:
+      blank: "不能为空"
+      confirmation: '不一致'
   activerecord:
-    errors:
-      models:
-        user:
-          attributes:
-            password_confirmation:
-              confirmation: '两次密码不一致'
+    attributes:
+      book:
+        id: '编号'
+        name: '书名'
+        picture: '封面'
+        intro: '简介'
+        press: '出版社'
+        publish_date: '出版社'
+        language: '语言'
+        author: '语言'
+        category: '类型'
+        price: '价格'
+        total: '总数'
+        store: '在库'
+        point: '积分'
+        provider: '捐赠者'
+        created_at: '入库日期'
+        status: '状态'
+        tag: '标签'
+      user:
+        id: '编号'
+        name: '时间'
+        email: '邮箱'
+        team: '团队'
+        role: '权限'
+        status: '状态'
+        building: 'PVG'
+        office: '办公室'
+        seat: '座位编号'
+        sf_email: 'SF邮箱'
+        i_number: 'I/C Num'
+        password_confirmation: '确认密码'
+        password: '密码'
+      borrow:
+        id: '流水号'
+        should_return_date: '应还日期'
+        created_at: '借阅日期'
+        return_at: '归还日期'
+      order:
+        id: '流水号'
+        created_at: '预约时间'
+        status: '处理结果'
+        updated_at: '处理时间'
   will_paginate:
     next_label: 下一页
     previous_label: 上一页
