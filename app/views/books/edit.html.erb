@@ -4,7 +4,7 @@
 	<div class="modal-body">
 		<center>
 			<div class="input-prepend">
-			  <span class="add-on">书名:</span>
+			  <span class="add-on"><%= t('activerecord.attributes.book.name')%>:</span>
 			  <%= f.text_field :name, class: "span6" %>
 			</div>
 			<div class="input-prepend">
@@ -12,43 +12,43 @@
 			  <%= f.text_field :isbn, class: "span3" %>
 			</div>
 			<div class="input-prepend">
-			  <span class="add-on">总数:</span>
+			  <span class="add-on"><%= t('activerecord.attributes.book.total')%>:</span>
 			  <%= f.number_field :total, min: 0, step: 1, class: "span3" %>
 			</div>
 			<div class="input-prepend">
-			  <span class="add-on">作者:</span>
+			  <span class="add-on"><%= t('activerecord.attributes.book.author')%>:</span>
 			  <%= f.text_field :author, class: "span3" %>
 			</div>
 			<div class="input-prepend">
-			  <span class="add-on">语言:</span>
+			  <span class="add-on"><%= t('activerecord.attributes.book.language')%>:</span>
 			  <%= f.select :language, Book.language.options, class: "span3" %>
 			</div>
 			<div class="input-prepend">
-			  <span class="add-on">出版社:</span>
+			  <span class="add-on"><%= t('activerecord.attributes.book.press')%>:</span>
 			  <%= f.text_field :press, class: "span3" %>
 			</div>
 			<div class="input-prepend">
-			  <span class="add-on">类型:</span>
+			  <span class="add-on"><%= t('activerecord.attributes.book.category')%>:</span>
 			  <%= f.select :category, Book.category.options, class: "span3" %>
 			</div>
 			<div class="input-prepend">
-			  <span class="add-on">出版日期:</span>
+			  <span class="add-on"><%= t('activerecord.attributes.book.publish_date')%>:</span>
 			  <%= f.date_field :publish_date, class: "span3" %>
 			</div>
 			<div class="input-prepend">
-			  <span class="add-on">价格:</span>
+			  <span class="add-on"><%= t('activerecord.attributes.book.price')%>:</span>
 			  <%= f.number_field :price, class: "span3" %>
 			</div>
 			<div class="input-prepend">
-			  <span class="add-on">捐赠者:</span>
+			  <span class="add-on"><%= t('activerecord.attributes.book.provider')%>:</span>
 			  <%= f.text_field :provider, class: "span3" %>
 			</div>
 			<div class="input-prepend">
-			  <span class="add-on">封面URL:</span>
+			  <span class="add-on"><%= t('activerecord.attributes.book.picture')%>URL:</span>
 			  <%= f.url_field :picture, class: "span6" %>
 			</div>
 			<div>
-			  <span>简介 :</span><br>
+			  <span><%= t('activerecord.attributes.book.intro')%> :</span><br>
 			  <%= f.text_area :intro, id: "intro", rows: 5, class: "span8" %>
 		  </div>
 		</center>
