@@ -8,7 +8,8 @@ class Order < ActiveRecord::Base
   belongs_to :user
   belongs_to :book
 
-  validates :status, presence: true
+  validates :status, :book_id, :user_id, presence: true
+  validate :order_cannot_duplicate, :order_while_borrow, on: :create
 
   def self.search(search)
     if search.present?
@@ -59,4 +60,24 @@ class Order < ActiveRecord::Base
     self.status = :canceled
     self.save
   end
+
+  def order_while_borrow
+    return if (self.book_id.nil? || self.user_id.nil?)
+
+    book = Book.find(self.book_id)
+    borrow = Borrow.find_by(user_id: self.user_id, book_id: book.id, status: [:borrowing, :undelivery])
+    if !borrow.nil?
+      errors.add(:base, '您已借阅本书，五天后方可再次预定') if Time.now < (borrow.created_at + 5.days)
+    end
+  end
+
+  def order_cannot_duplicate
+    return if (self.book_id.nil? || self.user_id.nil?)
+    
+    existed_order = Order.find_by(user_id: self.user_id, book_id: self.book_id, status: :in_queue)
+    if !existed_order.nil?
+      errors.add(:base, '你已预约此书，请耐心等候...')
+    end
+  end
+
 end
