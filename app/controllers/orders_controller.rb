@@ -4,30 +4,21 @@ class OrdersController < ApplicationController
   load_and_authorize_resource
 
   def create
-    book = Book.find(params[:book_id])
-    borrow_record = Borrow.find_by(user_id: current_user.id, book_id: params[:book_id], status: :borrowing)
-    if borrow_record
-      # 已在使用，无需预订
-      flash[:info] = "你已在使用本书，不可预订..."
+    order = Order.new
+    order.user_id = current_user.id
+    order.book_id = params[:book_id]
+    order.status = :in_queue
+
+    if order.save
+      book = Book.find(params[:book_id])
+      record_count = book.order_queue_count
+      flash[:success] = "预订成功! 排队序号为: #{record_count} "
     else
-      order_record = Order.find_by(user_id: current_user.id, book_id: params[:book_id], status: :in_queue)
-      if order_record
-        flash[:error] = "你已预约此书，请耐心等候..."
-      else
-        order = Order.new
-        order.user_id = current_user.id
-        order.book_id = params[:book_id]
-        order.status = :in_queue
-        record_count = book.previous_order_count
-        if order.save
-          flash[:success] = "预订成功! 排队序号为: #{record_count+1} "
-        else
-          # 预订失败
-          logger.error order.errors
-          flash[:error] = "预订失败: " << order.errors.full_messages.to_s
-        end
-      end
+      # 预订失败
+      logger.error order.errors
+      flash[:error] = order.errors.full_messages.join(', ')
     end
+
     respond_to do |format|
        format.html { redirect_to :back } 
     end

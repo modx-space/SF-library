@@ -81,15 +81,17 @@ class Book < ActiveRecord::Base
    def self.recent_hot_list
     sql = %Q| select boo.* from books boo 
                join borrows bor on bor.book_id = boo.id 
-                 and bor.created_at >= '2014-10-30 17:26:29 +0800' 
-                 and bor.created_at <= '2015-01-30 17:26:29 +0800'
-               join orders ord on ord.book_id = boo.id 
-                 and ord.created_at >= '2014-10-30 17:26:29 +0800' 
-                 and ord.created_at <= '2015-01-30 17:26:29 +0800'
+                 and bor.created_at >= ? 
+                 and bor.created_at <= ?
+               left join orders ord on ord.book_id = boo.id 
+                 and ord.created_at >= ? 
+                 and ord.created_at <= ?
                group by boo.id 
                order by count(boo.id) desc
             |
-    Book.find_by_sql(sql)[0..5]
+    now = Time.now
+    three_months_ago = Time.now - 3.months
+    Book.find_by_sql([sql, three_months_ago, now, three_months_ago, now])[0..5]
   end
 
   def borrow_conditions
