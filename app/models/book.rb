@@ -83,7 +83,7 @@ class Book < ActiveRecord::Base
                join borrows bor on bor.book_id = boo.id 
                  and bor.created_at >= '2014-10-30 17:26:29 +0800' 
                  and bor.created_at <= '2015-01-30 17:26:29 +0800'
-               join orders ord on ord.book_id = boo.id 
+               left join orders ord on ord.book_id = boo.id 
                  and ord.created_at >= '2014-10-30 17:26:29 +0800' 
                  and ord.created_at <= '2015-01-30 17:26:29 +0800'
                group by boo.id 
