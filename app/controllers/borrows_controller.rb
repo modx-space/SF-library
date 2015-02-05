@@ -97,7 +97,7 @@ class BorrowsController < ApplicationController
     page = params[:page] || 1
     @borrows = Borrow.where("borrows.status = :status", {status: :borrowing })
                       .admin_search(params[:tag])
-                      .sort(params[:sort], Borrow.current_sort_types)
+                      .sort(params[:sort], Borrow.admin_management_sort_types)
                       .paginate(page: page, per_page: BOOK_PER_PAGE)
     
     render_list_page('admin_management.html.erb')
@@ -107,7 +107,7 @@ class BorrowsController < ApplicationController
     page = params[:page] || 1
     @borrows = Borrow.where("borrows.status = :status", {status: :undelivery })
                       .admin_search(params[:tag])
-                      .sort(params[:sort], Borrow.current_sort_types)
+                      .sort(params[:sort], Borrow.admin_management_sort_types)
                       .paginate(page: page, per_page: BOOK_PER_PAGE)
     
     render_list_page('admin_management.html.erb')

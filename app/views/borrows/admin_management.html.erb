@@ -3,7 +3,7 @@
   <% search_path = params[:action] == 'admin_current' ? admin_borrowing_path : admin_undelivery_path %>
   <%= render partial: 'helper/search_box', locals: { path: search_path}%>
   <div class="span3 offset2">
-    <%= render partial: 'helper/sort_box', locals: {sort_types: Borrow.current_sort_types, sort_model: 'borrow'}%>
+    <%= render partial: 'helper/sort_box', locals: {sort_types: Borrow.admin_management_sort_types, sort_model: 'borrow'}%>
   </div>
 </div>
 <%= will_paginate @borrows %>
