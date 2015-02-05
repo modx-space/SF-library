@@ -13,8 +13,8 @@
     <caption>借阅历史</caption>
     <thead>
       <tr>
+        <th class="grey-text">流水号</th>
         <th>封面</th>
-        <th>流水号</th>
         <th>书名</th>
         <th>借阅日期</th>
         <th>应还日期</th>
@@ -31,9 +31,9 @@
     <tbody>
       <% @borrows.each do |borrow| %>
       <tr>
+        <td class="grey-text"><%= borrow.id %></td>
         <% book = borrow.book %> 
         <td><img class="img-rounded img_cursor" src="<%= book.picture %>" alt="封面" style="width: 40px; height: 50px;" onclick="show_book_info('<%= book_path(book.id) %>')"></td>
-        <td><%= borrow.id %></td>
         <td><%= book[:name] %></td>
 
         <td><%= borrow[:created_at].to_formatted_s(:Y_m_D) %></td>

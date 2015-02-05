@@ -42,6 +42,8 @@ zh-CN:
       should_return_date_desc: '应还日期'
       status_desc: '状态'
       return_at_desc: '归还日期'
+      created_at_desc: '借阅日期'
+      book_id_asc: '书籍编号'
     order:
       created_at_desc: '预约时间'
       updated_at_desc: '处理时间'

@@ -47,6 +47,10 @@ class Borrow < ActiveRecord::Base
     [:should_return_date_desc, :status_desc]
   end
 
+  def self.admin_management_sort_types
+    [:should_return_date_desc, :created_at_desc, :book_id_asc]
+  end
+
   def self.history_sort_types
     [:should_return_date_desc, :return_at_desc]
   end

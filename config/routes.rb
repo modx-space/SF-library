@@ -56,6 +56,7 @@ LibraryApp::Application.routes.draw do
   match '/admin/books', to: 'books#admin_index', via: 'get'
   match '/admin/borrowing', to: 'borrows#admin_current', via: 'get'
   match '/admin/borrowed', to: 'borrows#admin_history', via: 'get'
+  match '/admin/undelivery', to: 'borrows#admin_undelivery', via: 'get'
   match '/admin/ordering', to: 'orders#admin_current', via: 'get'
   match '/admin/ordered', to: 'orders#admin_history', via: 'get'
   
