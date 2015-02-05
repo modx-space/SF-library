@@ -57,9 +57,15 @@
 						<i class="icon-book"></i>图书管理
 					<% end %>
 				</li>
+				<li class="nav-header">操作</li>
+				<li id="ali_3" data-location="/admin/undelivery">
+					<%= link_to admin_undelivery_path  do %>
+						<i class="icon-eye-open"></i>出库管理
+					<% end %>
+				</li>
 				<li id="ali_3" data-location="/admin/borrowing">
 					<%= link_to admin_borrowing_path  do %>
-						<i class="icon-eye-open"></i>借阅管理
+						<i class="icon-eye-open"></i>归还管理
 					<% end %>
 				</li>
 				<li id="ali_4" data-location="/admin/ordering">
@@ -67,6 +73,7 @@
 						<i class="icon-calendar"></i>预约管理
 					<% end %>
 				</li>
+				<li class="nav-header">历史</li>
 				<li id="ali_5" data-location="/admin/borrowed">
 					<%= link_to admin_borrowed_path  do %>
 						<i class="icon-eye-open"></i>借阅历史
