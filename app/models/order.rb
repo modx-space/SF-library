@@ -9,7 +9,7 @@ class Order < ActiveRecord::Base
   belongs_to :book
 
   validates :status, :book_id, :user_id, presence: true
-  validate :order_cannot_duplicate, :order_while_borrow, on: :create
+  validate :order_cannot_duplicate, :order_while_borrow, :user_validation, on: :create
 
   def self.search(search)
     if search.present?
@@ -77,6 +77,13 @@ class Order < ActiveRecord::Base
     existed_order = Order.find_by(user_id: self.user_id, book_id: self.book_id, status: :in_queue)
     if !existed_order.nil?
       errors.add(:base, '你已预约此书，请耐心等候...')
+    end
+  end
+
+  def user_validation
+    user = self.user
+    unless (msg = user.restrict_total_borrow_order).blank?
+      errors.add(:base, msg)
     end
   end
 

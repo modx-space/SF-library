@@ -25,7 +25,7 @@ class BorrowsController < ApplicationController
         rescue Exception => ex
           logger.error "*** transaction abored!"
           logger.error "*** errors: #{ex.message}"
-          flash[:error] = "借阅失败: " << @borrow.errors.full_messages.to_s
+          flash[:error] = "借阅失败: " << @borrow.errors.full_messages.join(', ')
         end
 
       else
@@ -52,7 +52,7 @@ class BorrowsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to admin_borrowing_path }
+      format.html { redirect_to :back }
     end
   end
 
@@ -65,7 +65,7 @@ class BorrowsController < ApplicationController
       flash[:error] = result[:message]
     end
     respond_to do |format|
-      format.html { redirect_to admin_borrowing_path }
+      format.html { redirect_to :back }
     end
   end
   

@@ -11,10 +11,10 @@ class Borrow < ActiveRecord::Base
   belongs_to :return_handler, class_name: 'User', foreign_key: 'return_handler_id'
 
   validate :validate_book_store
+  validate :user_validation, on: :create, if: "skip_user_check.nil?"
   validates :status, presence: true
 
-  # before_create :count_return_date
-
+  attr_accessor :skip_user_check
   
   def self.search(search)
     if search.present?
@@ -98,6 +98,7 @@ class Borrow < ActiveRecord::Base
           new_borrow = order_user.borrows.new
           new_borrow.book_id = book.id
           new_borrow.status = :undelivery
+          new_borrow.skip_user_check = true
           new_borrow.save!
           message = "归还成功，并自动借阅给排队等待的第一位用户#{order_user.name}"
         else 
@@ -113,4 +114,12 @@ class Borrow < ActiveRecord::Base
       return {value: false, message: "归还失败!!!"}
     end
   end
+
+  def user_validation
+    user = self.user
+    unless (msg = user.restrict_total_borrow_order).blank?
+      errors.add(:base, msg)
+    end
+  end
+
 end
