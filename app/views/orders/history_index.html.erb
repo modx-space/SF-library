@@ -13,8 +13,8 @@
     <caption>预订历史</caption>
     <thead>
       <tr>
+        <th class="grey-text">流水号</th>
         <th>封面</th>
-        <th>流水号</th>
         <th>书名</th>
         <% if is_admin_page %>
           <th>用户</th>
@@ -28,9 +28,9 @@
     <tbody>
       <% @orders.each do |order| %>
       <tr>
+        <td class="grey-text"><%= order.id %></td>
         <% book = order.book%>
         <td><img class="img-rounded img_cursor" src="<%= book.picture %>" alt="封面" style="width: 40px; height: 50px;" onclick="show_book_info('<%= book_path(book.id) %>')"></td>
-        <td><%= order.id %></td>
         <td><%= book.name %></td>
         <% if is_admin_page %>
           <% user = order.user %> 
