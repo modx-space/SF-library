@@ -10,8 +10,8 @@ class Borrow < ActiveRecord::Base
   belongs_to :deliver_handler, class_name: 'User', foreign_key: 'deliver_handler_id'
   belongs_to :return_handler, class_name: 'User', foreign_key: 'return_handler_id'
 
-  validate :validate_book_store
-  validate :user_validation, on: :create, if: "skip_user_check.nil?"
+  validate :cannot_be_duplicate, on: :create
+  validate :user_validation, :validate_book_store, on: :create, if: "skip_user_check.nil?"
   validates :status, presence: true
 
   attr_accessor :skip_user_check
@@ -53,12 +53,6 @@ class Borrow < ActiveRecord::Base
 
   def self.history_sort_types
     [:should_return_date_desc, :return_at_desc]
-  end
-
-  def validate_book_store
-    unless self.book.store >= 0
-      errors.add(:base, "#{self.book.name} has no enough store")
-    end
   end
 
   # def count_return_date
@@ -115,11 +109,28 @@ class Borrow < ActiveRecord::Base
     end
   end
 
-  def user_validation
-    user = self.user
-    unless (msg = user.restrict_total_borrow_order).blank?
-      errors.add(:base, msg)
+  private
+
+    def user_validation
+      user = self.user
+      unless (msg = user.restrict_total_borrow_order).blank?
+        errors.add(:base, msg)
+      end
     end
-  end
+
+    def cannot_be_duplicate
+      return if self.book_id.nil? || self.user_id.nil?
+
+      existed_borrow = Borrow.find_by(user_id: self.user_id, book_id: self.book_id, status: [:borrowing, :undelivery])
+      unless existed_borrow.nil?
+        errors[:base] << "你已在借阅本书，不可多占资源"
+      end
+    end
+
+    def validate_book_store
+      unless self.book.store > 0
+        errors.add(:base, "无库存,可预订!")
+      end
+    end
 
 end
