@@ -40,7 +40,7 @@ module UserHelper
 
     def profile_complete?
       if current_user.profile_not_complete?
-        redirect_to root_path, alert: "请先完善您的座位信息以及i_number :)"
+        redirect_to root_path, alert: "请先完善您的座位信息以及I/C number :)"
       end
     end
 
