@@ -77,6 +77,16 @@ class User < ActiveRecord::Base
     self.admin? || self.super_admin?
   end
 
+  def restrict_total_borrow_order
+    borrow_count = self.borrows.with_status(:borrowing, :undelivery).count
+    order_count = self.orders.with_status(:in_queue).count
+    (borrow_count + order_count) >= 5 ? '同时借阅预订书籍的数量,最多为5本' : ''
+  end
+
+  def cannot_when_location_not_complete
+    self.office.blank? ? '请先完善您的座位信息 :)' : ''
+  end
+
   private
   	def create_token
   		self.remember_token = User.encrypt(User.new_remember_token)

@@ -16,7 +16,7 @@ class OrdersController < ApplicationController
     else
       # 预订失败
       logger.error order.errors
-      flash[:error] = order.errors.full_messages.join(', ')
+      flash[:error] = "预订失败:" << order.errors.full_messages.join('; ')
     end
 
     respond_to do |format|

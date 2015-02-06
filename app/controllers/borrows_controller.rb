@@ -5,33 +5,22 @@ class BorrowsController < ApplicationController
   load_and_authorize_resource
 
   def create
-  	book = Book.find(params[:book_id])
-    already_borrow_book = current_user.borrows.without_status(:returned).where(book_id: book.id)
-    if already_borrow_book.size > 0
-    	flash[:info] = "你已在使用本书，不可多占资源..."
-    else
-      if book.store > 0
-      	@borrow = current_user.borrows.new
-      	@borrow.book_id = params[:book_id]
-        @borrow.status = :undelivery
-        begin
-          @borrow.transaction do
-            @borrow.save!
-            book.store = book.store - 1
-            book.save!
-          end
-          flash[:success] = "借阅成功!"
-          @borrow.send_borrow_notification_to_admin
-        rescue Exception => ex
-          logger.error "*** transaction abored!"
-          logger.error "*** errors: #{ex.message}"
-          flash[:error] = "借阅失败: " << @borrow.errors.full_messages.to_s
-        end
-
-      else
-        # 无库存，可预订
-        flash[:notice] = "无库存,可预订!"
+  	@borrow = current_user.borrows.new
+  	@borrow.book_id = params[:book_id]
+    @borrow.status = :undelivery
+    begin
+      @borrow.transaction do
+        @borrow.save!
+        book = @borrow.book
+        book.store = book.store - 1
+        book.save!
       end
+      flash[:success] = "借阅成功!"
+      @borrow.send_borrow_notification_to_admin
+    rescue Exception => ex
+      logger.error "*** transaction abored!"
+      logger.error "*** errors: #{ex.message}"
+      flash[:error] = "借阅失败: " << @borrow.errors.full_messages.join('; ')
     end
     respond_to do |format|
       format.html { redirect_to :back } 
@@ -48,11 +37,11 @@ class BorrowsController < ApplicationController
       borrow.schedule_five_days_left_remind
     else
       logger.error borrow.errors
-      flash[:error] = "出库失败: " << borrow.error.full_messages.to_s
+      flash[:error] = "出库失败: " << borrow.errors.full_messages.to_s
     end
 
     respond_to do |format|
-      format.html { redirect_to admin_borrowing_path }
+      format.html { redirect_to :back }
     end
   end
 
@@ -65,7 +54,7 @@ class BorrowsController < ApplicationController
       flash[:error] = result[:message]
     end
     respond_to do |format|
-      format.html { redirect_to admin_borrowing_path }
+      format.html { redirect_to :back }
     end
   end
   
