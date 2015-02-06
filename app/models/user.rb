@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
   validates :email, :name, :status, presence: true
   validates :email, uniqueness: { case_sensitive: false }
   validates :sf_email, :i_number, uniqueness: { case_sensitive: false }, allow_blank: true
+  validates :i_number ,:format => { :with => /\A[IiCc]\d{5,12}\z/ ,:message => "格式不正确"}
   # validates :pwd, length:{ minimum: 6}
 
   def overdue_books
@@ -83,8 +84,8 @@ class User < ActiveRecord::Base
     (borrow_count + order_count) >= 5 ? '同时借阅预订书籍的数量,最多为5本' : ''
   end
 
-  def cannot_when_location_not_complete
-    self.office.blank? ? '请先完善您的座位信息 :)' : ''
+  def profile_not_complete?
+    return self.office.blank? || self.i_number.blank?
   end
 
   private

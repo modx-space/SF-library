@@ -38,6 +38,12 @@ module UserHelper
       end
     end
 
+    def profile_complete?
+      if current_user.profile_not_complete?
+        redirect_to root_path, alert: "请先完善您的座位信息以及i_number :)"
+      end
+    end
+
     def sign_out
         self.current_user = nil
         cookies.delete(:remember_token)
