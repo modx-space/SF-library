@@ -124,7 +124,7 @@ class Book < ActiveRecord::Base
   end
 
   def ordering_list 
-    self.orders.where("status = :status", {status: :in_queue}).order(created_at: :desc)
+    self.orders.where("status = :status", {status: :in_queue}).order(created_at: :asc)
   end
 
   def change_store_count
