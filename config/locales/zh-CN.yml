@@ -33,7 +33,7 @@ zh-CN:
         english: '英语'
   sort:
     book:
-      created_at_desc: '入库时间'
+      id_asc: '按编号'
       language_desc: '按语言'
       total_desc: '按总数'
       price_desc: '按价格'

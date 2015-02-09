@@ -44,12 +44,12 @@ class Book < ActiveRecord::Base
       sort_condition = parse_sort_type(sort_type)
       order(sort_condition)
     else
-      all
+      all.order(created_at: :desc)
     end
   end
 
   def self.sort_types
-    [:language_desc, :total_desc, :price_desc, :created_at_desc, :category_asc]
+    [:language_desc, :total_desc, :price_desc, :id_asc, :category_asc]
   end
 
   def order_queue_count
