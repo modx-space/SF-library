@@ -22,8 +22,8 @@ class Order < ActiveRecord::Base
 
   def self.admin_search(search)
     if search.present?
-      joins(:book, :user).where('orders.id like ? or users.name like ? or users.email like ? or users.team like ? or books.name like ? or author like ? or isbn like ? or books.category like ? or press like ? or books.tag like ?',
-         "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%")
+      joins(:book, :user).where('orders.id like ? or users.name like ? or users.email like ? or users.building like ? or users.office like ?  or books.name like ? or author like ? or isbn like ? or books.category like ? or press like ? or books.tag like ?',
+         "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%")
     else
       all
     end

@@ -27,7 +27,7 @@ class Borrow < ActiveRecord::Base
 
   def self.admin_search(search)
     if search.present?
-      joins(:book, :user).where('borrows.id like ? or users.name like ? or users.building like ? or users.team like ? or books.name like ? or author like ? or isbn like ? or books.category like ? or press like ? or books.tag like ?',
+      joins(:book, :user).where('borrows.id like ? or users.name like ? or users.building like ? or users.office like ? or books.name like ? or author like ? or isbn like ? or books.category like ? or press like ? or books.tag like ?',
          "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%")
     else
       all
