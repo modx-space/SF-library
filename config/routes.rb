@@ -18,6 +18,8 @@ LibraryApp::Application.routes.draw do
       put 'reset'
       get 'edit_passwd'
       put 'update_passwd'
+      get 'activate'
+      get 'inactivate'
     end
   end
 

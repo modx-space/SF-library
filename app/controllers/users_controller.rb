@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   
   def index
     page = params[:page] || 1
-    @users = User.search(params[:tag], page).on_board
+    @users = User.search(params[:tag], page)
     respond_to do |format|
       format.html
     end
@@ -68,7 +68,8 @@ class UsersController < ApplicationController
     
   end
   
-  def soft_delete
+  def inactivate
+    @admin_page = true
     respond_to do |format|
       @user = User.find(params[:id])
       if @user.update(status: :inactive)
@@ -77,7 +78,21 @@ class UsersController < ApplicationController
         flash[:error] = '操作失败!' << @user.errors.full_messages.to_s
       end
     
-      format.html { redirect_to admin_users_path }
+      format.html { render action: "show" }
+    end
+  end
+
+  def activate
+    @admin_page = true
+    respond_to do |format|
+      @user = User.find(params[:id])
+      if @user.update(status: :active)
+        flash[:success] = '操作成功'  
+      else
+        flash[:error] = '操作失败!' << @user.errors.full_messages.to_s
+      end
+    
+      format.html { render action: "show" }
     end
   end
   

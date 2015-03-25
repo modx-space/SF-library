@@ -22,7 +22,11 @@
 		</thead>
 		<tbody>
 			<% @users.each do |user| %>
-				<tr style="cursor: pointer;">
+				<% if user.status.active? %>
+					<tr style="cursor: pointer;">
+				<% else %>
+					<tr style="cursor: pointer;" class="grey-text">
+				<% end%>
 				<td onclick="show_user('<%= user_path(user.id, admin: true)%>')"><%= user.name %></td>
 				<td onclick="show_user('<%= user_path(user.id, admin: true)%>')"><%= user.team %></td>
 				<td onclick="show_user('<%= user_path(user.id, admin: true)%>')"><%= user.i_number %></td>

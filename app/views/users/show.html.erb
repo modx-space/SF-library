@@ -46,6 +46,11 @@
   <div class="modal-footer">
     <% if @admin_page%>
       <%= link_to "重置密码", reset_passwd_user_path(@user.id), method: "get", class: "btn btn-danger left_align"%>
+      <% if @user.active? %>
+        <%= link_to "离职", inactivate_user_path(@user.id), method: "get", class: "btn btn-warning left_align"%>
+      <% else%>
+        <%= link_to "激活", activate_user_path(@user.id), method: "get", class: "btn btn-success left_align"%>
+      <% end%>
     <% else%>
       <%= link_to "修改密码", edit_passwd_user_path(@user.id), method: "get", class: "btn btn-danger left_align"%>
     <% end%>
