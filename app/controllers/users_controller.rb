@@ -72,7 +72,7 @@ class UsersController < ApplicationController
     @admin_page = true
     respond_to do |format|
       @user = User.find(params[:id])
-      if @user.update(status: :inactive)
+      if @user.update_attribute('status', :inactive)
         flash[:success] = '操作成功'  
       else
         flash[:error] = '操作失败!' << @user.errors.full_messages.to_s
@@ -86,7 +86,7 @@ class UsersController < ApplicationController
     @admin_page = true
     respond_to do |format|
       @user = User.find(params[:id])
-      if @user.update(status: :active)
+      if @user.update_attribute('status', :active)
         flash[:success] = '操作成功'  
       else
         flash[:error] = '操作失败!' << @user.errors.full_messages.to_s
