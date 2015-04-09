@@ -20,7 +20,7 @@ class OverdueAlert < ActiveRecord::Base
     begin
       self.transaction do
         borrows = Borrow.where("should_return_date < :now and status = :status",
-                                { now: Time.now, status: :borrowing }).order(id: :desc)
+                                { now: Time.now, status: :borrowing })
         borrow_id_array = borrows.pluck(:id)
         self.borrow_ids = borrow_id_array.join(',')
         self.save!
