@@ -31,6 +31,7 @@ LibraryApp::Application.routes.draw do
     collection do
       get 'current_list'
       get 'history_list'
+      get 'overdue_alert'
     end
   end
 

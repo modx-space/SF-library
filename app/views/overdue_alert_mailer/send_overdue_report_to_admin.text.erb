@@ -1,0 +1,8 @@
+发送清单如下:
+
+<% @borrows.each do |borrow|%>
+  <%= borrow.user.name%>, <%= borrow.user.email%>, <%= borrow.book.name%>, <%= borrow.should_return_date.to_formatted_s(:Y_m_D)%>
+<% end%>
+
+Minerva’s Book Lib
+http://10.129.126.211
