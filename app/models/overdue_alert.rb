@@ -21,9 +21,8 @@ class OverdueAlert < ActiveRecord::Base
         self.save!
 
         user = User.find self.admin_id
-        borrow_id_array.each{|borrow_id| 
-          borrow = Borrow.find borrow_id.to_i
-          send_overdue_alert_mail(user, borrow.book)
+        borrows.all.each{|borrow| 
+          send_overdue_alert_mail(borrow.user, borrow.book)
         } 
         send_overdue_report_mail(user, borrow_id_array)
       end
