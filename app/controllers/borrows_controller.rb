@@ -57,6 +57,23 @@ class BorrowsController < ApplicationController
       format.html { redirect_to :back }
     end
   end
+
+  def overdue_alert
+    start_today = Time.now.midnight
+    end_today = start_today + 1.day
+    overdue_alert = OverdueAlert.where("created_at >= ? and created_at < ?", start_today, end_today).take
+    respond_to do |format|
+      if overdue_alert != nil
+        flash[:error] = overdue_alert.admin.display_name + '已在今天发送过超期提醒'
+      else
+        new_overdue_alert = OverdueAlert.new
+        new_overdue_alert.admin_id = current_user.id
+        result = new_overdue_alert.save_and_send_mail
+        flash[result[:value]] = result[:message]
+      end
+      format.html { redirect_to admin_borrowing_path }
+    end
+  end
   
   def current_list
     page = params[:page] || 1

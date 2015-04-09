@@ -1,13 +1,17 @@
 # encoding: utf-8
 <div class="row-fluid">
   <% search_path = params[:action] == 'admin_current' ? admin_borrowing_path : admin_undelivery_path %>
+  <% is_borrowing_page = params[:action] == 'admin_current' %>
   <%= render partial: 'helper/search_box', locals: { path: search_path}%>
   <div class="span3 offset2">
     <%= render partial: 'helper/sort_box', locals: {sort_types: Borrow.admin_management_sort_types, sort_model: 'borrow'}%>
+    <% if is_borrowing_page %>
+      <%= link_to '超期提醒', overdue_alert_borrows_path, class: "btn btn-danger", data: { confirm: '确定发送邮件提醒给所有超期用户?'}%>
+    <% end%>
   </div>
 </div>
 <%= will_paginate @borrows %>
-<% is_borrowing_page = params[:action] == 'admin_current' %>
+
 <div class="book container-fluid">
   <table class="table  table-hover">
     <caption>当前借阅</caption>

@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150129072830) do
+ActiveRecord::Schema.define(version: 20150408093159) do
+
+  create_table "blacklist_users", force: true do |t|
+    t.integer  "user_id"
+    t.string   "fine_book_name"
+    t.integer  "dismiss_handler_id"
+    t.datetime "dismiss_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "books", force: true do |t|
     t.string   "name"
@@ -66,6 +75,13 @@ ActiveRecord::Schema.define(version: 20150129072830) do
     t.integer  "user_id"
     t.integer  "book_id"
     t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "overdue_alerts", force: true do |t|
+    t.integer  "admin_id"
+    t.text     "borrow_ids"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
