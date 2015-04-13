@@ -25,20 +25,17 @@
 		  <li><%#= image_tag("libmobile_qrcode.png", alt: "app-qrcode", size: "100") %></li>
 	  	</ul>
 	</div> -->
-	<div class="span6">
-		<h4 class="offset3"><span class="btn btn-success">管理员</span></h4>
+	<div class="span4">
+		<h4 class="offset3"><span class="btn btn-info">管理员</span></h4>
 		<dl class="offset2">
-			<dt>Megan Wang</dt>
-			<dd>minyue.wang@sap.com</dd>
-			<dt>Michael Huang</dt>
-			<dd>michael.huang02@sap.com</dd>
-			<dt>Daniel Wei</dt>
-			<dd>daniel.wei@sap.com</dd>
-			<dt>Yaming Zhao</dt>
-			<dd>yaming.zhao@sap.com</dd>
+			<% @admins.each do |admin|%>
+				<dt><%= admin.name %></dt>
+				<dd><%= admin.email %></dd>
+			<% end%>
+			
 		</dl>
 	</div>
-	<div class="span6">
+	<div class="span4">
 		<h4 class="offset3"><a href="https://confluence.successfactors.com/display/QA/Minerva%27s+Book+Lib" class="btn btn-primary">关于</a></h4>
 		<ol class="offset2">
 			<li>本系统为SuccessFactors内部使用</li>
@@ -46,5 +43,10 @@
 			<li>若账号无法使用，请联系管理员</li>
 			<li>爱护书籍，让知识更好地传递</li>
 		</ol>
+		
+	</div>
+	<div class="span4">
+		<h4 class="offset3"><span class="btn btn-success">微信</span></h4>
+		<%= image_tag "wechat_code.jpg", size: "200", class: "offset1"%>
 	</div>
 </div>
