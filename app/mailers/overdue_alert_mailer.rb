@@ -9,7 +9,7 @@ class OverdueAlertMailer < ActionMailer::Base
   def send_overdue_report_to_admin user, borrow_id_array
     @borrows = Borrow.find borrow_id_array
     @subject = "#{user.display_name}执行了超期邮件提醒"
-    @receivers_mail = User.on_board.with_role(:super_admin).pluck(:email)
+    @receivers_mail = User.on_board.with_role(:super_admin, :admin).pluck(:email)
     @receivers_mail << user.email
     mail(to: @receivers_mail.uniq.join(";"), subject: @subject) 
   end
