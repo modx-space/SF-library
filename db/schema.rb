@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150408093159) do
+ActiveRecord::Schema.define(version: 20150413090534) do
 
   create_table "blacklist_users", force: true do |t|
     t.integer  "user_id"
@@ -20,6 +20,9 @@ ActiveRecord::Schema.define(version: 20150408093159) do
     t.datetime "dismiss_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "overdue_borrows"
+    t.string   "still_no_return"
+    t.string   "status"
   end
 
   create_table "books", force: true do |t|
