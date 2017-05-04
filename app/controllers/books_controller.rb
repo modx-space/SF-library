@@ -2,18 +2,18 @@
 require "open-uri"
 require "json"
 class BooksController < ApplicationController
-  
+
   before_action :signed_in_user, :profile_complete?, except: :show
   load_and_authorize_resource
-  
+
   #new_hot
   def library
     @books_new = Book.new_book_list
-    
+
     @books_hot = Book.hot_list
     @books_hot_recent = Book.recent_hot_list
   end
-  
+
   def index
     page = params[:page] || 1
     @books = Book.search(params[:tag]).sort(params[:sort]).paginate(per_page: BOOK_PER_PAGE, page: page)
@@ -21,7 +21,7 @@ class BooksController < ApplicationController
     respond_to do |format|
       format.html
     end
-    
+
   end
 
   def admin_index
@@ -44,7 +44,7 @@ class BooksController < ApplicationController
         format.html {render action: 'edit'}
       end
 
-      
+
     end
   end
 
@@ -54,7 +54,7 @@ class BooksController < ApplicationController
     @borrow_conditions = @book.borrow_conditions
     @order_conditions = @book.order_conditions
   end
-  
+
   def recommed_list
     sql = %Q| select id,picture,name,isbn,press,author,recommender,point,intro
                     from books
@@ -65,23 +65,23 @@ class BooksController < ApplicationController
     respond_to do |format|
       format.js { render 'reclist.js.erb' }
     end
-    
+
   end
-  
+
   def recbook
     respond_to do |format|
       format.html {render '_recbook.html.erb'}
       format.js
     end
   end
-  
+
   def fetch
     respond_to do |format|
       @book = {}
       if(Book.find_by(isbn: params[:isbn]))
         @book[:error] = "该ISBN号已存在"
       else
-        uri = URI('http://api.douban.com/v2/book/isbn/'+params[:isbn]);
+        uri = URI('https://api.douban.com/v2/book/isbn/'+params[:isbn])
         begin
           open(uri) do |http|
             response = JSON.parse(http.read)
@@ -105,7 +105,7 @@ class BooksController < ApplicationController
       format.js
     end
   end
-  
+
   def recommend
     if Book.find_by(isbn: params[:book][:isbn])
       flash.now[:warn] = "此书已被推荐!请搜索投票"
@@ -132,13 +132,13 @@ class BooksController < ApplicationController
         flash.now[:error] = "推荐失败! (⊙o⊙)"
       end
     end
-    recommed_list 
+    recommed_list
   end
-  
+
   def vote
     book = Book.find_by(id: params[:book_id])
     record = Vote.find_by(user_id: current_user.id)
-    
+
     if record
       # 有投票记录
       if record.book_ids.split(",").include?("#{book.id}")
@@ -188,15 +188,15 @@ class BooksController < ApplicationController
     # list between create and update. Also, you can specialize this method
     # with per-user checking of permissible attributes.
     def update_params
-      params.require(:book).permit(:name, :picture, :intro, :author, :isbn, :press, :publish_date, 
+      params.require(:book).permit(:name, :picture, :intro, :author, :isbn, :press, :publish_date,
         :language, :category, :price, :total, :provider)
     end
 
     ## !!!!ATTENTION!! if no create_params, cancancancan will get error.
-    ## Please refer to https://github.com/CanCanCommunity/cancancan #Strong parameters for detail 
+    ## Please refer to https://github.com/CanCanCommunity/cancancan #Strong parameters for detail
     def create_params
-      params.require(:book).permit(:name, :picture, :intro, :author, :isbn, :press, :publish_date, 
+      params.require(:book).permit(:name, :picture, :intro, :author, :isbn, :press, :publish_date,
         :language, :category, :price, :total, :tag, :provider)
     end
-  
+
 end
